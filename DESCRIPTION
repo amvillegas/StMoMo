@@ -1,0 +1,23 @@
+Package: StMoMo
+Title: Stochastic Mortality Modelling
+Version: 0.1
+Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
+    Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
+    Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
+Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
+Description: Functions to specify and fit stochastic mortality models including
+    the Lee-Carter models, the CBD model and the APC model. The package also
+    includes tools for analysing the goodness of fit of the models and
+    performing mortality projections and simulations.
+Imports:
+    reshape2,
+    fields (>= 7.1),
+    MASS
+Depends:
+    R (>= 3.1.0),
+    gnm,
+    forecast,
+    rootSolve,
+    fanplot
+License: GPL (>= 2)
+LazyData: true

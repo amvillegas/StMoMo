@@ -1,0 +1,178 @@
+#' Forecast mortality rates using a Stochastic Mortality Model
+#' 
+#' Forecast mortality rates using a Stochastic Mortality Model fit.
+#' The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are forecasted
+#' using a Multivariate Random Walk with Drift. The cohort index 
+#' \eqn{\gamma_{t-x}} is forecasted using an ARIMA(p,d,q). By default
+#' an ARIMA(1,1,0) with a constant is used.
+#' 
+#' @param object an object of class \code{"fitStMoMo"} with the fitted 
+#' parameters of a stochastic mortality model.
+#' @param h number of years ahead to forecast.
+#' @param level confidence level for prediction intervals of the 
+#' period and cohort indices.
+#' @param oxt optional matrix/vector or scalar of known offset to be 
+#' added in the forecasting. This can be used to specify any a priori 
+#' known component to be added to the forecasted predictor.
+#' @param gc.order a specification of the ARIMA model: the three components 
+#' (p, d, q) are the AR order, the degree of differencing, and the MA order.
+#' The default is an ARIMA(1,1,0).
+#' @param gc.include.constant a logical value indicating if the ARIMA model
+#' should include a constant value. The default is \code{TRUE}. 
+#' @param ... other arguments.
+#'  
+#' @return A list with class \code{"forStMoMo"} with components:
+#' 
+#' \item{rates}{ a matrix with the point forecast of the rates.}
+#' \item{ages}{ vector of ages corresponding to the rows of \code{rates}.}
+#' \item{years}{vector of years for which a forecast has been produced. This
+#'  corresponds to the columns of \code{rates}.}
+#'  
+#' \item{kt.f}{ forecasts of period indexes of the model. This is a list with the 
+#'  \code{model} fitted to \eqn{\kappa_t}; the \code{mean}(central) forecast,
+#'  the \code{lower} and \code{upper} limits of the prediction interval; 
+#'  the confidence \code{level} associated with the prediction interval; and the 
+#'  \code{years} for which a forecast was produced. If the model does 
+#'   not have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
+#'   
+#' \item{gc.f}{ forecasts of cohort index of the model. This is a list with the 
+#'  \code{model} fitted to \eqn{\gamma_c}; the \code{mean}(point) forecast,
+#'  the \code{lower} and \code{upper} limits of the prediction interval; 
+#'  the confidence \code{level} associated with the prediction interval; and the 
+#'  \code{cohorts} for which a forecast was produced. If the mortality model does 
+#'  not have a cohort effect this is set to \code{NULL}.} 
+#' 
+#' \item{oxt.f}{ the offset used in the forecast.}
+#' 
+#' \item{fitted}{ a matrix with the fitted in-sample rates of the model for 
+#' the years for which the mortality model was fitted.}
+#'  
+#'  \item{model}{the model fit from which the forecast was produced.}
+#' 
+#' @details
+#' Fitting and forecasting of the Multivariate Random Walk with Drift
+#' for the period indexes use the function \code{\link{mrwd}}.
+#' Fitting and forecasting of the ARIMA model for the cohort index
+#' is done with function \code{\link[forecast]{Arima}} from package 
+#' \pkg{forecast}. See the latter function for futher details on 
+#' input arguments \code{gc.order} and \code{gc.include.constant}. 
+#' 
+#' Note that in some cases forecast of the 
+#' cohort effects may be needed for a horizon longer than \code{h}.
+#' This is the case when in the fitted model the most recent cohorts 
+#' have been zero weighted. The forecasted cohorts can be seen in 
+#' \code{gc.f$cohorts}. 
+#' 
+#' @examples 
+#' #Lee-Carter
+#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'              ages = EWMaleData$ages, years = EWMaleData$years)
+#' LCfor <- forecast(LCfit)
+#' plot(LCfor)
+#' 
+#' #CBD
+#' CBDfit <- fit(cbd(),Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'               ages = EWMaleData$ages, years = EWMaleData$years,
+#'               ages.fit = 55:89)
+#' CBDfor <- forecast(CBDfit)
+#' plot(CBDfor, parametricbx = FALSE)
+#' 
+#' #APC: Compare forecast with different models for the cohort index
+#' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'               ages = EWMaleData$ages, years = EWMaleData$years, 
+#'               ages.fit = 55:89, wxt = wxt)
+#' APCfor1 <- forecast(APCfit)
+#' plot(APCfor1, parametricbx = FALSE, nCol = 3)
+#' APCfor2 <- forecast(APCfit, gc.order = c(0,2,2))
+#' plot(APCfor2, only.gc = TRUE)
+#' plot(c(APCfit$years, APCfor1$years) , (cbind(APCfor1$fitted, APCfor1$rates))["65", ], 
+#'      type = "l", xlab = "year", ylab = "Mortality rate at age 65", 
+#'      main = "Forecasts with different models for gc")
+#' lines(APCfor2$years, APCfor2$rates["65", ], col = "blue")
+#' points(APCfit$years, (APCfit$Dxt / APCfit$Ext)["65", ], pch = 19) 
+#' @export
+forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
+                              gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+                              ...){
+  
+  level <- level[1]
+  if (level > 0 & level < 1) 
+    level <- 100 * level
+  else if (level < 0 | level > 99.99) 
+    stop("Confidence limit out of range")
+  #forecast kt  
+  kt <- object$kt
+  years <- object$years
+  nYears <- length(years)
+  yearsFor <- (years[nYears] + 1):(years[nYears] + h)
+  agesFor <- object$ages
+  nAges <- length(object$ages)
+  kt.h <- kt
+  kt.f <- NULL
+  kt.model <- NULL
+  years.h <- years
+  years.f <- yearsFor
+  if(object$model$N > 0){
+    kt.nNA <- max(which(!is.na(kt[1, ])))
+    kt.hNA <- nYears - kt.nNA
+    kt.model <- mrwd(kt[, 1:kt.nNA]) 
+    kt.for <- forecast(kt.model, h = h + kt.hNA, level = level)
+    if(kt.hNA > 0) {
+      years.h <- years[-((kt.nNA+1):nYears)]
+      years.f <- c(years[(kt.nNA+1):nYears], years.f)
+      kt.h <-array(kt.h[,1:kt.nNA], c(nrow(kt),kt.nNA))
+      dimnames(kt.h)[[2]] <- years.h      
+    }
+    kt.lower <- kt.upper <- kt.for$mean
+    kt.lower[, ] <- kt.for$lower
+    kt.upper[, ] <- kt.for$upper
+    kt.f <- list(mean = kt.for$mean, lower = kt.lower, upper = kt.upper,
+                 level = level, model = kt.model, years = years.f)    
+  }  
+  #forecast gc
+  gc <- object$gc
+  cohorts <- object$cohorts
+  nCohorts <- length(cohorts)
+  gc.h <- gc
+  cohorts.h <- cohorts
+  gc.model <- NULL
+  gc.f <- NULL
+  cohorts.f <- (cohorts[nCohorts] + 1):(cohorts[nCohorts] + h)
+  if(!is.null(object$model$cohortAgeFun)){
+    gc.nNA <- max(which(!is.na(gc)))
+    gc.hNA <- nCohorts - gc.nNA
+    gc.model <- forecast::Arima(gc[1:gc.nNA], order = gc.order, 
+                                include.constant = gc.include.constant) 
+    gc.for <- forecast(gc.model, h = h + gc.hNA, level = level) 
+    
+    if(gc.hNA > 0){      
+      gc.h <- gc[-((gc.nNA+1):nCohorts)]
+      cohorts.h <- cohorts[-((gc.nNA+1):nCohorts)]
+      cohorts.f <- c(cohorts[(gc.nNA+1):nCohorts], cohorts.f)
+    }   
+    gc.f <- list(mean = as.vector(gc.for$mean), lower = as.vector(gc.for$lower), 
+                 upper = as.vector(gc.for$upper), level = level,
+                 model = gc.model, cohorts = cohorts.f)
+    
+    names(gc.f$mean) <- names(gc.f$upper) <- names(gc.f$lower) <- cohorts.f
+  }  
+  #Offset
+  if(is.null(oxt)) oxt <- 0
+  oxt.f <- matrix(oxt, nrow = nAges, ncol = h)
+  colnames(oxt.f) <- yearsFor
+  rownames(oxt.f) <- agesFor
+  #predict rates
+  rates <- predict(object, years = c(years.h, years.f), 
+                   kt = cbind(kt.h,kt.f$mean), gc = c(gc.h, gc.f$mean),
+                  oxt = cbind(object$oxt,oxt.f), type = "rates")
+  #prepare output
+  structure(list(rates = rates[,(nYears+1):(nYears+h)], ages = agesFor, 
+                 years = yearsFor, kt.f = kt.f, gc.f = gc.f, oxt.f = oxt.f, 
+                 fitted = rates[,1:nYears], model = object), 
+            class = "forStMoMo")
+}
+
+
+
+
