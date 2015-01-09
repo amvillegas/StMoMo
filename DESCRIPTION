@@ -9,6 +9,8 @@ Description: Functions to specify and fit stochastic mortality models including
     the Lee-Carter models, the CBD model and the APC model. The package also
     includes tools for analysing the goodness of fit of the models and
     performing mortality projections and simulations.
+URL: http://github.com/amvillegas/StMoMo
+BugReports: http://github.com/amvillegas/StMoMo/issues
 Imports:
     reshape2,
     fields (>= 7.1),
