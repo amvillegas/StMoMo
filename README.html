@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>StMoMo</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>StMoMo</h1>
+
+<p>StMoMo (Sthocastic Mortality Modelling) is an R package providing functions to specify 
+and fit stochastic mortality models including the Lee-Carter models, the CBD model 
+the APC model. The package also includes tools for analysing the goodness of fit 
+of the models and performing mortality projections and simulations</p>
+
+<p>The package is still under development, but the current version provides has
+many of the final functionalities. For instance you can you StMoMo to fit, 
+forecast, and simulate a Lee-Carte model with the code:</p>
+
+<pre><code class="R">  #Fit a Lee-Carter model 
+  library(StMoMo)
+  LC &lt;- lc()
+  LCfit&lt;-fit(LC, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
+            ages = EWMaleData$ages, years = EWMaleData$years)
+  plot(LCfit)
+  plot(forecast(LCfit))
+
+  #Simulate trajectories
+  LCsim &lt;- simulate(LCfit)
+  par(mfrow=c(1, 2))
+  plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
+       ylim = range(LCfit$kt, LCsim$kt.s$sim), type = &quot;l&quot;,
+       xlab = &quot;year&quot;, ylab = &quot;kt&quot;,
+       main = &quot;Lee-Carter: Simulated paths of the period index kt&quot;)
+  matlines(LCsim$kt.s$years, LCsim$kt.s$sim[1, , ], type = &quot;l&quot;, lty = 1)
+
+  plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)[&quot;65&quot;, ],
+       xlim = range(LCfit$years, LCsim$years),
+       ylim = range((LCfit$Dxt / LCfit$Ext)[&quot;65&quot;, ], LCsim$rates[&quot;65&quot;, , ]),
+       type = &quot;l&quot;, xlab = &quot;year&quot;, ylab = &quot;rate&quot;,
+       main = &quot;Lee-Carter: Simulated mortality rates at age 65&quot;)
+  matlines(LCsim$years, LCsim$rates[&quot;65&quot;, , ], type = &quot;l&quot;, lty = 1)
+
+</code></pre>
+
+<h1>Installing:</h1>
+
+<p>To instal the latest development version: </p>
+
+<pre><code class="R">    install.packages(&quot;devtools&quot;)
+    devtools::install_github(&quot;amvillegas/StMoMo&quot;)
+</code></pre>
+
+<h1>Main function:</h1>
+
+<h3>Definition and fitting of mortality models:</h3>
+
+<pre><code>* StMoMo: Creata a General Stochastic Mortality Model
+* lca: Create a Lee-Carter model
+* cbd: Create a CBD mortality model
+* apc: Create an Age-Period-Cohort model
+* fit.StMoMo: fit a stochastic mortality model
+</code></pre>
+
+<h3>Analysing and visualising parameters and goodness-of-fit:</h3>
+
+<pre><code>* plot.fitStMoMo: Plot the fitted parameter of a model
+* plot.resStMoMo: Plots of the residuals of mortality model
+</code></pre>
+
+<h3>Forecasting and simulation of mortality:</h3>
+
+<pre><code>* forecast.fitStMoMo: Forecast a mortality model
+* simulate.fitStMoMo: Simulate a mortality model
+* bootstrap.fitStMoMo: Bootstrap a mortality model
+</code></pre>
+
+<p>If you&#39;re interested in the package feel free to email <a href="mailto:andresmauriciovillegas@gmail.com">andresmauriciovillegas@gmail.com</a>
+or track development at <a href="http://github.com/amvillegas/StMoMo">http://github.com/amvillegas/StMoMo</a></p>
+
+</body>
+
+</html>
+
