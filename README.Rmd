@@ -1,13 +1,13 @@
 StMoMo
 ========================================================
 
-StMoMo (Sthocastic Mortality Modelling) is an R package providing functions to specify 
-and fit stochastic mortality models including the Lee-Carter models, the CBD model 
+StMoMo (Stochastic Mortality Modelling) is an R package providing functions to specify 
+and fit stochastic mortality models including the Lee-Carter models, the CBD model, and 
 the APC model. The package also includes tools for analysing the goodness of fit 
 of the models and performing mortality projections and simulations
 
-The package is still under development, but the current version provides has
-many of the final functionalities. For instance you can you StMoMo to fit, 
+The package is still under development, but the current version provides 
+many of the final functionalities. For instance, you can use StMoMo to fit, 
 forecast, and simulate a Lee-Carte model with the code:
 
  ```R
@@ -39,7 +39,7 @@ forecast, and simulate a Lee-Carte model with the code:
 
 # Installing:
 
-To instal the latest development version: 
+To install the latest development version: 
 
 ```R
     install.packages("devtools")
