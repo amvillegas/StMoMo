@@ -31,4 +31,4 @@ NULL
 # #' @references Human Mortality Database (2014). University of California, 
 # #' Berkeley (USA), and Max Planck Institute for Demographic Research (Germany). 
 # #' Available at \url{www.mortality.org}.
-"EWMaleData"
+#"EWMaleData"

@@ -162,3 +162,252 @@ apc <- function(link = c("log", "logit")){
                 cohortAgeFun = "1", constFun = constAPC)
 
 }
+
+
+
+#' Create a Renshaw and Haberman (Lee-Carter with cohorts) mortality model
+#' 
+#' Utility function to initialise a \code{StMoMo} object representing a 
+#' Renshaw and Haberman (Lee-Carter with cohorts) mortality model introduced
+#' in Renshaw and Haberman (2006).
+#' 
+#' The created model is either a log-Poisson or a 
+#' logit-Binomial version of the Renshaw and Haberman model which has 
+#' predictor structure   
+#' \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \beta^{(0)} \gamma_{t-x}.}
+#' or
+#' \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \gamma_{t-x}.}
+#' depending on the value of argument \code{cohortAgeFun}.
+#'   
+#' To ensure identifiability the  following constraints are imposed
+#' \deqn{\sum\kappa_t = 0, \sum\beta^{(1)}_x = 1, \sum\gamma_c = 0}
+#' plus
+#' \deqn{\sum\beta^{(0)}_x = 1}
+#' if \code{cohortAgeFun = "1"}
+#' 
+#' By default \eqn{\beta^{(0)} = 1} as this model has shown to be more
+#' stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014))
+#' 
+#' @inheritParams StMoMo
+#' @param cohortAgeFun defines the cohort age modulating parameter 
+#'   \eqn{\beta_x^{(0)}}. It can take values: \code{"NP"} for a non-parametric age
+#'   term or \code{"1"} for \eqn{\beta_x^{(0)}=1} (the default). 
+#' 
+#' @return An object of class "StMoMo".
+#' 
+#' @seealso \link{StMoMo}, \link{lc}, \link{apc}
+#'  
+#' @references
+#'
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
+#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' 
+#' Hunt, A., & Villegas, A. M. (2014). Robustness and convergence in the Lee-Carter model 
+#' with cohorts. Working Paper.
+#' 
+#' Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the Lee-Carter model 
+#' for mortality reduction factors.Insurance: Mathematics and Economics, 38(3), 556-570.
+#' 
+#' @export
+rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
+  link <- match.arg(link)
+  cohortAgeFun <- match.arg(cohortAgeFun)
+  constRHgeneral <- function(ax, bx, kt, b0x, gc, wxt, ages, cohortAgeFun){
+    #\sum k[t] = 0
+    c1 <- mean(kt[1, ], na.rm = TRUE) 
+    ax <- ax + c1 * bx[, 1]
+    kt[1, ] <- kt[1, ] - c1
+    #\sum b[x, 1] = 0
+    c2 <- sum(bx[, 1], na.rm = TRUE)
+    bx[, 1] <- bx[, 1] / c2
+    kt[1, ] <- kt[1, ] * c2
+    #\sum g[c] = 0
+    c3 <- mean(gc, na.rm = TRUE)
+    ax <- ax + c3 * b0x
+    gc <- gc - c3
+    #\sum b0[x] = 1
+    if (cohortAgeFun == "NP") {
+      c4 <- sum(b0x, na.rm = TRUE)
+      b0x <- b0x / c4
+      gc <- gc * c4
+    }
+    list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+  }
+  constRH <- function(ax, bx, kt, b0x, gc, wxt, ages){
+    constRHgeneral(ax, bx, kt, b0x, gc, wxt, ages, cohortAgeFun) 
+  }
+  StMoMo(link = link, staticAgeFun = TRUE, periodAgeFun = "NP",
+         cohortAgeFun = cohortAgeFun, constFun = constRH)  
+}
+
+
+#' Create an M6 type extension of the Cairns-Blake-Dowds mortality model
+#' 
+#' Utility function to initialise a \code{StMoMo} object representing the 
+#' M6 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' in Cairns et al (2009).
+#' 
+#' The created model is either a logit-Binomial or a log-Poisson version of the 
+#' M6 model which has predictor structure 
+#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + \gamma_{t-x}} 
+#' Identifiability of the model is acomplished by applying parameters constraints
+#' \deqn{\sum\gamma_c = 0, \sum c\gamma_c = 0}
+#' which ensure that the cohort effect fluctuates around zero and has no linear 
+#' trend. These constrains are applied using the strategy discussed  in Appendix A
+#' of Haberman and Renshaw (2011).
+#' 
+#' @inheritParams cbd
+#' @return An object of class "StMoMo".
+#' 
+#' @seealso \link{StMoMo}, \link{cbd}, \link{m7}, \link{m8}
+#' 
+#' @references
+#' 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
+#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
+#' data from England and Wales and the United States. 
+#' North American Actuarial Journal, 13(1), 1-35.
+#' 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
+#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' 
+#' @export
+m6 <- function(link = c("logit", "log")){
+  link <- match.arg(link)
+  f1 <- function(x,ages) x - mean(ages)
+  constM6 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+    #See Appendix A in Haberman and Renshaw (2011)
+    nYears <- dim(wxt)[2]
+    x <- ages
+    t <- 1:nYears
+    c <- (1 - tail(ages, 1)):(nYears - ages[1])
+    xbar <- mean(x)
+    #\sum g(c)=0  and  \sum cg(c)=0
+    indC <- !is.na(gc)
+    phiReg <- lm(gc ~ 1 + c, data.frame(gc = gc[indC], c = c[indC]))
+    phi <- coef(phiReg)
+    gc[indC] <- residuals(phiReg)
+    kt[2, ] <- kt[2, ] - phi[2]
+    kt[1, ] <- kt[1, ] + phi[1] + phi[2] * (t - xbar)
+    list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+  }
+  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1", f1),
+               cohortAgeFun = "1", constFun = constM6)
+  
+}
+
+
+
+#' Create an M7 type extension of the Cairns-Blake-Dowds mortality model
+#' 
+#' Utility function to initialise a \code{StMoMo} object representing the 
+#' M7 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' in Cairns et al (2009).
+#' 
+#' The created model is either a logit-Binomial or a log-Poisson version of the 
+#' M7 model which has predictor structure 
+#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + 
+#'                            ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x}} 
+#' Identifiability of the model is acomplished by applying parameters constraints
+#' \deqn{\sum\gamma_c = 0, \sum c\gamma_c = 0, \sum c^2\gamma_c = 0}
+#' which ensure that the cohort effect fluctuates around zero and has no linear
+#' or quadratic trend. These constrains are applied using the strategy discussed  
+#' in Appendix A of Haberman and Renshaw (2011).
+#' 
+#' @inheritParams cbd
+#' @return An object of class "StMoMo".
+#' 
+#' @seealso \link{StMoMo}, \link{cbd}, \link{m6}, \link{m8}
+#' 
+#' @references
+#' 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
+#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
+#' data from England and Wales and the United States. 
+#' North American Actuarial Journal, 13(1), 1-35.
+#' 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
+#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' 
+#' @export
+m7 <- function(link = c("logit", "log")){
+  link <- match.arg(link)
+  f1 <- function(x,ages) x - mean(ages)
+  f2 <- function(x,ages) {
+    xbar <- mean(ages)
+    s2<-mean((ages - xbar)^2)
+    (x-xbar)^2-s2
+  }
+  constM7 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+    #See Appendix A in Haberman and Renshaw (2011)
+    nYears <- dim(wxt)[2]
+    x <- ages
+    t <- 1:nYears
+    c <- (1 - tail(ages, 1)):(nYears - ages[1])
+    xbar <- mean(x)
+    s2 <- mean((x - xbar)^2)
+    #\sum g(c)=0, \sum cg(c)=0, \sum c^2g(c)=0
+    indC <- !is.na(gc)
+    phiReg <- lm(gc ~ 1 + c + I(c^2),data.frame(gc = gc[indC], c = c[indC]))
+    phi<-coef(phiReg)  
+    gc[indC]<- residuals(phiReg)
+    kt[3, ] <- kt[3, ] + phi[3]
+    kt[2, ] <- kt[2, ] - phi[2] - 2 * phi[3] * (t - xbar)  
+    kt[1, ] <- kt[1, ]+phi[1]+phi[2] * (t - xbar) + phi[3] * ((t - xbar)^2 + s2)
+    list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+  }
+  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1",f1,f2),cohortAgeFun = "1",
+               constFun = constM7)
+  
+}
+
+
+#' Create an M8 type extension of the Cairns-Blake-Dowds mortality model
+#' 
+#' Utility function to initialise a \code{StMoMo} object representing the 
+#' M8 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' in Cairns et al (2009).
+#' 
+#' The created model is either a logit-Binomial or a log-Poisson version of the 
+#' M6 model which has predictor structure 
+#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
+#' where \eqn{x_c} is a predefined constant. 
+#' Identifiability of the model is acomplished by applying parameters constraints
+#' \deqn{\sum\gamma_c = 0.}
+#' 
+#' @inheritParams cbd
+#' @param xc constant defining the cohort age-modulating parameter. 
+#' 
+#' @return An object of class "StMoMo".
+#' 
+#' @seealso \link{StMoMo}, \link{cbd}, \link{m6}, \link{m7}
+#' 
+#' @references
+#' 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
+#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
+#' data from England and Wales and the United States. 
+#' North American Actuarial Journal, 13(1), 1-35.
+#' 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
+#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' 
+#' @export
+m8 <- function(link = c("logit", "log"), xc){
+  link <- match.arg(link)
+  f1 <- function(x,ages) x - mean(ages)
+  f3 <- function(x,ages) xc - x
+  constM8 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+    #See Appenix A in Haberman and Renshaw (2011)
+    x <- ages
+    xbar <- mean(x)      
+    c <- mean(gc,na.rm = TRUE)  
+    gc <- gc - c
+    kt[1, ] <- kt[1, ] + c * (xc - xbar)
+    kt[2, ] <- kt[2, ] - c 
+    list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+  }
+  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1",f1),
+         cohortAgeFun = f3, constFun = constM8)
+  
+}
