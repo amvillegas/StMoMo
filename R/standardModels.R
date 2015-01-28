@@ -208,6 +208,18 @@ apc <- function(link = c("log", "logit")){
 #' Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the Lee-Carter model 
 #' for mortality reduction factors.Insurance: Mathematics and Economics, 38(3), 556-570.
 #' 
+#' @examples
+#' 
+#' LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'                ages = EWMaleData$ages, years = EWMaleData$years, 
+#'                ages.fit = 55:89)
+#' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+#' RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'               ages = EWMaleData$ages, years = EWMaleData$years, 
+#'               ages.fit = 55:89, wxt = wxt, start.ax = LCfit$ax, 
+#'               start.bx = LCfit$bx, start.kt = LCfit$kt)
+#' plot(RHfit)
+#' 
 #' @export
 rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
   link <- match.arg(link)
@@ -271,6 +283,15 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
 #' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
 #' 
+#' @examples
+#' 
+#' M6 <- m6()
+#' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+#' M6fit <- fit(M6, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'             ages = EWMaleData$ages, years = EWMaleData$years,
+#'             ages.fit = 55:89)
+#' plot(M6fit, parametricbx = FALSE)
+#' 
 #' @export
 m6 <- function(link = c("logit", "log")){
   link <- match.arg(link)
@@ -329,6 +350,15 @@ m6 <- function(link = c("logit", "log")){
 #' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
 #' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
 #' 
+#' @examples
+#' 
+#' M7 <- m7()
+#' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+#' M7fit <- fit(M7, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'             ages = EWMaleData$ages, years = EWMaleData$years,
+#'             ages.fit = 55:89)
+#' plot(M7fit, parametricbx = FALSE)
+#' 
 #' @export
 m7 <- function(link = c("logit", "log")){
   link <- match.arg(link)
@@ -369,7 +399,7 @@ m7 <- function(link = c("logit", "log")){
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' M6 model which has predictor structure 
+#' M8 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
 #' where \eqn{x_c} is a predefined constant. 
 #' Identifiability of the model is acomplished by applying parameters constraints
@@ -391,6 +421,15 @@ m7 <- function(link = c("logit", "log")){
 #' 
 #' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
 #' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' 
+#' @examples
+#' 
+#' M8 <- m8(xc = 89)
+#' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+#' M8fit <- fit(M8, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'             ages = EWMaleData$ages, years = EWMaleData$years,
+#'             ages.fit = 55:89)
+#' plot(M8fit, parametricbx = FALSE)
 #' 
 #' @export
 m8 <- function(link = c("logit", "log"), xc){

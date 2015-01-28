@@ -24,11 +24,19 @@ in Cairns et al (2009).
 }
 \details{
 The created model is either a logit-Binomial or a log-Poisson version of the
-M6 model which has predictor structure
+M8 model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
 where \eqn{x_c} is a predefined constant.
 Identifiability of the model is acomplished by applying parameters constraints
 \deqn{\sum\gamma_c = 0.}
+}
+\examples{
+M8 <- m8(xc = 89)
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+M8fit <- fit(M8, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+            ages = EWMaleData$ages, years = EWMaleData$years,
+            ages.fit = 55:89)
+plot(M8fit, parametricbx = FALSE)
 }
 \references{
 Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A.,

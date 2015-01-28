@@ -30,6 +30,14 @@ which ensure that the cohort effect fluctuates around zero and has no linear
 trend. These constrains are applied using the strategy discussed  in Appendix A
 of Haberman and Renshaw (2011).
 }
+\examples{
+M6 <- m6()
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+M6fit <- fit(M6, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+            ages = EWMaleData$ages, years = EWMaleData$years,
+            ages.fit = 55:89)
+plot(M6fit, parametricbx = FALSE)
+}
 \references{
 Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A.,
 & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using

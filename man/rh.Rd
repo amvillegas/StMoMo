@@ -41,6 +41,17 @@ if \code{cohortAgeFun = "1"}
 By default \eqn{\beta^{(0)} = 1} as this model has shown to be more
 stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014))
 }
+\examples{
+LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+               ages = EWMaleData$ages, years = EWMaleData$years,
+               ages.fit = 55:89)
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+              ages = EWMaleData$ages, years = EWMaleData$years,
+              ages.fit = 55:89, wxt = wxt, start.ax = LCfit$ax,
+              start.bx = LCfit$bx, start.kt = LCfit$kt)
+plot(RHfit)
+}
 \references{
 Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection
 models. Insurance: Mathematics and Economics, 48(1), 35-55.
