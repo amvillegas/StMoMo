@@ -5,7 +5,8 @@
 Mortality Model}
 \usage{
 \method{simulate}{bootStMoMo}(object, nsim = 1, seed = NULL, h = 50,
-  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE, ...)
+  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+  jumpchoice = c("fit", "actual"), ...)
 }
 \arguments{
 \item{object}{an object of class \code{"bootStMoMo"} with the bootstrapped
@@ -31,6 +32,11 @@ The default is an ARIMA(1,1,0).}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
+
+\item{jumpchoice}{option to select the jump-off rates, i.e. the rates
+from the final year of observation, to use in projections of mortality rates.
+\code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
+actual rates from the final year.}
 
 \item{...}{other arguments.}
 }

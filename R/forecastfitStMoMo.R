@@ -19,6 +19,10 @@
 #' The default is an ARIMA(1,1,0).
 #' @param gc.include.constant a logical value indicating if the ARIMA model
 #' should include a constant value. The default is \code{TRUE}. 
+#' @param jumpchoice option to select the jump-off rates, i.e. the rates 
+#' from the final year of observation, to use in projections of mortality rates. 
+#' \code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the 
+#' actual rates from the final year.
 #' @param ... other arguments.
 #'  
 #' @return A list with class \code{"forStMoMo"} with components:
@@ -94,8 +98,10 @@
 #' @export
 forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+                              jumpchoice = c("fit", "actual"),
                               ...){
   
+  jumpchoice <- match.arg(jumpchoice)
   level <- level[1]
   if (level > 0 & level < 1) 
     level <- 100 * level
@@ -166,10 +172,19 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   rates <- predict(object, years = c(years.h, years.f), 
                    kt = cbind(kt.h,kt.f$mean), gc = c(gc.h, gc.f$mean),
                   oxt = cbind(object$oxt,oxt.f), type = "rates")
+  
+  #Apply jump-off option
+  forcastRates <- rates[,(nYears+1):(nYears+h)]
+  fittedRates <- rates[,1:nYears]
+  if (jumpchoice == "actual") {
+    jumpoffRates <- (object$Dxt / object$Ext)[, nYears]
+    forcastRates <- forcastRates * jumpoffRates / fittedRates[ , nYears]
+  }
+  
   #prepare output
-  structure(list(rates = rates[,(nYears+1):(nYears+h)], ages = agesFor, 
+  structure(list(rates = forcastRates, ages = agesFor, 
                  years = yearsFor, kt.f = kt.f, gc.f = gc.f, oxt.f = oxt.f, 
-                 fitted = rates[,1:nYears], model = object), 
+                 fitted = fittedRates, model = object), 
             class = "forStMoMo")
 }
 

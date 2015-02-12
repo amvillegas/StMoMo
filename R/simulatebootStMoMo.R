@@ -73,7 +73,9 @@
 #' @export
 simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+                              jumpchoice = c("fit", "actual"),
                               ...){  
+  jumpchoice <- match.arg(jumpchoice)
   ages <- object$model$ages
   nAges <- length(ages)
   nBoot <- length(object$bootParameters)
@@ -134,7 +136,8 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
       tempSim <- simulate.fitStMoMo(object = object$bootParameters[[i]], 
                               nsim = nsim, seed = NULL, h = h, 
                               oxt = oxt.s[, , i], gc.order = gc.order, 
-                              gc.include.constant = gc.include.constant)
+                              gc.include.constant = gc.include.constant, 
+                              jumpchoice = jumpchoice)
     
     }    
   }  

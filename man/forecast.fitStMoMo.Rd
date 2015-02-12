@@ -4,7 +4,8 @@
 \title{Forecast mortality rates using a Stochastic Mortality Model}
 \usage{
 \method{forecast}{fitStMoMo}(object, h = 50, level = 95, oxt = NULL,
-  gc.order = c(1, 1, 0), gc.include.constant = TRUE, ...)
+  gc.order = c(1, 1, 0), gc.include.constant = TRUE, jumpchoice = c("fit",
+  "actual"), ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted
@@ -25,6 +26,11 @@ The default is an ARIMA(1,1,0).}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
+
+\item{jumpchoice}{option to select the jump-off rates, i.e. the rates
+from the final year of observation, to use in projections of mortality rates.
+\code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
+actual rates from the final year.}
 
 \item{...}{other arguments.}
 }

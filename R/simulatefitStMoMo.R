@@ -118,8 +118,10 @@
 #'@export
 simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+                              jumpchoice = c("fit", "actual"),
                               ...){
   
+  jumpchoice <- match.arg(jumpchoice)
   #Handle generato seed
   if (!exists(".Random.seed", envir = .GlobalEnv)) 
     runif(1)
@@ -184,9 +186,15 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   oxt.s <- matrix(oxt, nrow = nAges, ncol = h)
   colnames(oxt.s) <- yearsSim
   rownames(oxt.s) <- ages
-  #Do simulations
-  rates <- array(NA, c(nAges, nYears + h, nsim), 
-                 list(ages, c(years.h, years.s), 1:nsim))
+  #Do simulations  
+  forcastRates <- array(NA, c(nAges, h, nsim), 
+                        list(ages, yearsSim, 1:nsim))
+  fittedRates  <- array(NA, c(nAges, nYears, nsim), 
+                        list(ages, years, 1:nsim))
+  
+  if (jumpchoice == "actual") {
+    jumpoffRates <- (object$Dxt / object$Ext)[, nYears]   
+  }
   
   for (i in 1:nsim){
     if(!is.null(kt.model)) {
@@ -197,10 +205,15 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
       gc.path <- as.vector(simulate(gc.model, h + gc.hNA))
       gc.sim[, i] <- gc.path
     }    
-    rates[, , i] <- predict(object, years = c(years.h, years.s),
+    ratesi <- predict(object, years = c(years.h, years.s),
                      kt = cbind(kt.h,kt.path), gc = c(gc.h, gc.path),
                      oxt = cbind(object$oxt,oxt.s), type = "rates")
     
+    forcastRates[, , i]  <- ratesi[, (nYears+1):(nYears+h)]
+    fittedRates[, , i] <- ratesi[, 1:nYears]
+    if (jumpchoice == "actual") {     
+      forcastRates[, , i] <- forcastRates[, , i] * jumpoffRates / ratesi[ , nYears]
+    }    
   }
   
   if(is.null(kt.model)){
@@ -213,9 +226,9 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   } else {
     gc.s <- list(sim = gc.sim, model = gc.model, cohorts = cohorts.s)
   }
-    structure(list(rates = rates[,(nYears+1):(nYears+h), ], ages = ages, 
+    structure(list(rates = forcastRates, ages = ages, 
                  years = yearsSim, kt.s = kt.s, gc.s = gc.s, oxt.s = oxt.s, 
-                 fitted = rates[,1:nYears, ], model = object), 
+                 fitted = fittedRates, model = object), 
             class ="simStMoMo")  
   
 }
