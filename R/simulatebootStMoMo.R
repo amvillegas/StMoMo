@@ -101,10 +101,14 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
   ## Do simulations  
   
   #Initialse output variables
-  tempSim <- simulate.fitStMoMo(object = object$bootParameters[[1]], 
+  modelFit <- object$bootParameters[[1]]
+  modelFit$Dxt <- object$model$Dxt
+  modelFit$Ext <- object$model$Ext
+  tempSim <- simulate.fitStMoMo(object = modelFit, 
                             nsim = nsim, seed = NULL, h = h, 
                             oxt = oxt.s[, , 1], gc.order = gc.order, 
-                            gc.include.constant = gc.include.constant)
+                            gc.include.constant = gc.include.constant, 
+                            jumpchoice = jumpchoice)
   rates <- array(NA, c(dim(tempSim$rates)[1:2], nPath), 
                  list(dimnames(tempSim$rates)[[1]], dimnames(tempSim$rates)[[2]], 1:nPath))
   fitted <- array(NA, c(dim(tempSim$fitted)[1:2], nPath), 
@@ -133,7 +137,10 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
     if (!is.null(gc.s)) gc.s$sim[, ((i - 1) * nsim + 1):(i * nsim)] <- tempSim$gc.s$sim  
     i <- i + 1
     if ( i <= nBoot){
-      tempSim <- simulate.fitStMoMo(object = object$bootParameters[[i]], 
+      modelFit <- object$bootParameters[[i]]
+      modelFit$Dxt <- object$model$Dxt
+      modelFit$Ext <- object$model$Ext
+      tempSim <- simulate.fitStMoMo(object = modelFit, 
                               nsim = nsim, seed = NULL, h = h, 
                               oxt = oxt.s[, , i], gc.order = gc.order, 
                               gc.include.constant = gc.include.constant, 
