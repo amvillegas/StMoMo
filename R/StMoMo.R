@@ -203,7 +203,7 @@ StMoMo  <- function(link = c("log","logit"), staticAgeFun = TRUE,
     for (i in 1:N) {
       if (is.function(periodAgeFun[[i]])) {
         gnmFormula <- paste(gnmFormula, " + B", i, ":factor(t)", sep = "")
-        textFormula <- paste(textFormula, termSep, "b",i,"[x] k",i,"[t]", sep = "")
+        textFormula <- paste(textFormula, termSep, "f",i,"[x] k",i,"[t]", sep = "")
       } else if (periodAgeFun[[i]] == "1") {
         gnmFormula <- paste(gnmFormula, " + factor(t)", sep = "")      
         textFormula <- paste(textFormula, termSep, "k",i,"[t]", sep = "")
@@ -225,7 +225,7 @@ StMoMo  <- function(link = c("log","logit"), staticAgeFun = TRUE,
   if (!is.null(cohortAgeFun)) {
     if (is.function(cohortAgeFun)) {
       gnmFormula <- paste(gnmFormula, " + B0:factor(c)", sep = "")
-      textFormula <- paste(textFormula, termSep, "b0[x] g[t-x]", sep = "")
+      textFormula <- paste(textFormula, termSep, "f0[x] g[t-x]", sep = "")
     } else if (cohortAgeFun == "1") {
       gnmFormula <- paste(gnmFormula, " + factor(c)", sep = "")      
       textFormula <- paste(textFormula, termSep, "g[t-x]", sep = "")
@@ -273,7 +273,7 @@ print.StMoMo <- function(x,...) {
   if (x$link == "logit"){
     cat("Binomial model with predictor: ")
   } else {
-    cat("Poissons model with predictor: ")
+    cat("Poisson model with predictor: ")
   }  
   cat("")
   cat(x$textFormula)
