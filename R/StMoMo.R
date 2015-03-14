@@ -219,6 +219,9 @@ StMoMo  <- function(link = c("log","logit"), staticAgeFun = TRUE,
     }    
     totalP <- sum(sapply(periodAgeFun, is.function))
     totalNP <- sum(periodAgeFun == "NP")
+  } else {
+    totalP <- 0
+    totalNP <- 0    
   } 
   
   #age-cohort term
