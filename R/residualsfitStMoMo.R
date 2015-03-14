@@ -104,6 +104,7 @@ plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"),
                            plotAge = TRUE, plotYear = TRUE, 
                            plotCohort  = TRUE, pch = 20, ...){
   type <- match.arg(type)
+  oldpar <- par(no.readonly = TRUE)
   switch(type, 
          scatter = scatterplotAPC(x$residuals, x$ages, x$years, plotAge = plotAge, 
                                   plotYear = plotYear, plotCohort = plotCohort, 
@@ -113,7 +114,8 @@ plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"),
          signplot = image.default(x$year, x$age, t(x$residuals), zlim = reslim, 
                           ylab = "age", xlab = "calendar year", 
                           breaks = c(-10e10,0, 10e10), col = grey.colors(2), ...)
-         ) 
+         )
+  par(oldpar)
 }
 
 
@@ -158,7 +160,6 @@ scatterplotAPC <- function(mat, ages, years, plotAge = TRUE, plotYear = TRUE,
   data <- (reshape2::melt(mat, value.name = "y", varnames = c("x", "t")))
   data <- transform(data, c= t - x) 
   
-  oldpar <- par(no.readonly = TRUE)
   N <- plotAge+plotYear+plotCohort
   if (N > 0) par(mfrow=c(1,N))
   
@@ -177,6 +178,5 @@ scatterplotAPC <- function(mat, ages, years, plotAge = TRUE, plotYear = TRUE,
   if(plotCohort){
     plot(data$c, data$y, type = "p", xlab = "year of birth", ...)
     if(zeroLine) abline( h = 0)    
-  }  
-  par(oldpar)
+  }   
 }
