@@ -43,6 +43,8 @@
 #' \item{fitted}{ a three dimensional array with the in-sample rates of the model 
 #'  for the years for which the mortality model was fitted (and bootstrapped).}
 #'  
+#'  \item{jumpchoice}{Jump-off method used in the simulation.}
+#'  
 #'  \item{model}{the bootstrapped model from which the simulations were produced.}
 #'  
 #' @details
@@ -143,13 +145,15 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
       tempSim <- simulate.fitStMoMo(object = modelFit, 
                               nsim = nsim, seed = NULL, h = h, 
                               oxt = oxt.s[, , i], gc.order = gc.order, 
-                              gc.include.constant = gc.include.constant, 
+                              gc.include.constant = gc.include.constant,                               
                               jumpchoice = jumpchoice)
     
     }    
   }  
   structure(list(rates = rates, ages = tempSim$ages, 
                  years = tempSim$years, kt.s = kt.s, gc.s = gc.s, oxt.s = oxt.s, 
-                 fitted = fitted, model = object), 
+                 fitted = fitted, jumpchoice = jumpchoice,
+                 model = object, call = match.call()), 
             class ="simStMoMo")
 }
+

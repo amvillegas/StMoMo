@@ -36,6 +36,8 @@
 #' \item{fitted}{ a three dimensional array with the in-sample rates of the model 
 #'  for the years for which the mortality model was fitted.}
 #'  
+#'  \item{jumpchoice}{Jump-off method used in the simulation.}
+#'  
 #'  \item{model}{ the model fit from which the simulations were produced.}
 #' 
 #' @details
@@ -228,10 +230,30 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   }
     structure(list(rates = forcastRates, ages = ages, 
                  years = yearsSim, kt.s = kt.s, gc.s = gc.s, oxt.s = oxt.s, 
-                 fitted = fittedRates, model = object), 
+                 fitted = fittedRates, jumpchoice = jumpchoice,
+                 model = object, call = match.call()), 
             class ="simStMoMo")  
   
 }
+
+#' Print an object of class \code{"simStMoMo"}
+#' \code{print} method for class \code{"simStMoMo"}. 
+#' @usage 
+#' \method{print}{simStMoMo}(x, ...)
+#' @param x an object of class \code{"simStMoMo"}.
+#' @param ... arguments to be passed to or from other methods.
+#' @export 
+print.simStMoMo <- function(x,...) {
+  cat("Simulations of Stochastic Mortality Model")
+  cat(paste("\nCall:", deparse(x$call)))
+  cat("\n\nSimulation based on")
   
+  cat(paste("\nCall:", deparse(x$model$call)))  
+  cat(paste("\n\nJump-off method:", x$jumpchoice))
+  cat(paste("\nYears in simulation:", min(x$years), "-", max(x$years)))
+  cat(paste("\nAges in simulation:", min(x$ages), "-", max(x$ages), "\n"))  
+  cat(paste("\nNumber of paths:", dim(x$rates)[3], "\n"))  
+}
+
   
   
