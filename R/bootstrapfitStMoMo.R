@@ -131,6 +131,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("semiparametric", "r
                  deathType = deathType, call = match.call()), class = "bootStMoMo")  
 }
 
+<<<<<<< HEAD
 #' Print an object of class \code{"bootStMoMo"}
 #' \code{print} method for class \code{"bootStMoMo"}. 
 #' @usage 
@@ -138,6 +139,9 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("semiparametric", "r
 #' @param x an object of class \code{"bootStMoMo"}.
 #' @param ... arguments to be passed to or from other methods.
 #' @export 
+=======
+
+>>>>>>> b51a552f6231306cc05bb788a6793e6323b19cd9
  print.bootStMoMo <- function(x,...) {
   cat("Bootstrapped Stochastic Mortality Model")
   cat(paste("\nCall:", deparse(x$call)))
