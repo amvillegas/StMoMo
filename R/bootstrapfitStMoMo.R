@@ -27,10 +27,10 @@ bootstrap =  function(object, nBoot, ...)
 #' @param object an object of class \code{"fitStMoMo"} with the fitted 
 #' parameters of a stochastic mortality model.
 #' @inheritParams bootstrap
-#' @param type type of bootstrapping approach to be applied. \code{"residual"}(default) resamples the 
-#' deviance residuals of the model to generate bootstrap samples. \code{"semiparametric"} uses the 
-#' assummed distribution of the deaths to generate bootsrap samples.
-#' @param deathType type of deaths to sample in the semiparametric bootstrapp. \code{"observed"} (default) 
+#' @param type type of bootstrapping approach to be applied. \code{"semiparametric"}(default) 
+#' uses the assummed distribution of the deaths to generate bootsrap samples. 
+#' \code{"residual"} resamples the  deviance residuals of the model to generate bootstrap samples. 
+#' @param deathType type of deaths to sample in the semiparametric bootstrap. \code{"observed"} (default) 
 #' resamples the observed deaths. \code{"fitted"} resamples the fitted deaths. This parameter is only used
 #' if \code{type} is \code{"semiparametric"}.
 #' 
@@ -39,6 +39,8 @@ bootstrap =  function(object, nBoot, ...)
 #' \item{bootParameters}{ a list of of length \code{nBoot} with the fitted parameters for each bootstrap
 #' replication.} 
 #' \item{model}{ the model fit that has been bootstrapped.}
+#' \item{type}{ type of bootstrapping approach applied.}
+#' \item{deathType}{ type of deaths sampled in case of semiparametric bootstrap.}
 #' 
 #' @details
 #' When \code{"type"} is \code{"residual"} the residual bootstrapping approach described in 
@@ -79,7 +81,7 @@ bootstrap =  function(object, nBoot, ...)
 #' }
 #' 
 #' @export
-bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("residual", "semiparametric"),
+bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("semiparametric", "residual"),
                                 deathType = c("observed", "fitted"), ...){
   
   type <- match.arg(type)  
@@ -125,8 +127,24 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("residual", "semipar
     
   }
   bootParameters <- lapply(bootSamples, FUN = refit)      
-  structure(list(bootParameters = bootParameters, model = object), class = "bootStMoMo")  
+  structure(list(bootParameters = bootParameters, model = object, type = type, 
+                 deathType = deathType, call = match.call()), class = "bootStMoMo")  
 }
+
+
+ print.bootStMoMo <- function(x,...) {
+  cat("Bootstrapped Stochastic Mortality Model")
+  cat(paste("\nCall:", deparse(x$call)))
+  cat("\n\n")  
+  if (x$type == "residual"){
+    cat("Residual bootstrap based on\n")    
+  } else {
+    cat(paste("Semiparametric bootstrap using", x$deathType, "deaths and based on\n"))        
+  }
+  print(x$model$model)  
+  cat(paste("\n\nNumber of bootstrap samples:", length(x$bootParameters), "\n"))  
+}
+
 
 #' Map poisson deviance residuals into deaths
 #' 

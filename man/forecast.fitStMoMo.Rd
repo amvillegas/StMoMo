@@ -61,7 +61,9 @@ A list with class \code{"forStMoMo"} with components:
 \item{fitted}{ a matrix with the fitted in-sample rates of the model for
 the years for which the mortality model was fitted.}
 
- \item{model}{the model fit from which the forecast was produced.}
+\item{model}{the model fit from which the forecast was produced.}
+
+\item{jumpchoice}{Jump-off method used in the forecast.}
 }
 \description{
 Forecast mortality rates using a Stochastic Mortality Model fit.

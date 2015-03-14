@@ -65,6 +65,8 @@ A list with class \code{"simStMoMo"} with components
 \item{fitted}{ a three dimensional array with the in-sample rates of the model
  for the years for which the mortality model was fitted (and bootstrapped).}
 
+ \item{jumpchoice}{Jump-off method used in the simulation.}
+
  \item{model}{the bootstrapped model from which the simulations were produced.}
 }
 \description{

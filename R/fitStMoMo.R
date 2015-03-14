@@ -381,7 +381,7 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt), years = 1:ncol(Dxt)
               years = years, cohorts = cohorts, fittingModel = fittingModel, 
               loglik = loglik, deviance = deviance,   
               npar = fittingModel$rank, nobs = nobs(fittingModel), 
-              conv = conv, fail = fail)          
+              conv = conv, fail = fail, call  = match.call())          
   class(out) <- "fitStMoMo"
   out    
 }
@@ -671,5 +671,19 @@ processStartValues <- function(object, coefNames, ax, bx, kt, b0x, gc,
     }
   }
   startCoef
+}
+
+
+print.fitStMoMo <- function(x,...) {
+  cat("Stochastic Mortality Model fit")
+  cat(paste("\nCall:", deparse(x$call)))
+  cat("\n\n")
+  print(x$model)  
+  cat(paste("\n\nYears in fit:", min(x$years), "-", max(x$years)))
+  cat(paste("\nAges in fit:", min(x$ages), "-", max(x$ages), "\n"))
+  
+  cat(paste("\nLog-likelihood: ",round(x$loglik[1], 2)))
+  cat(paste("\nDeviance: ",round(x$deviance[1], 2)))
+  cat(paste("\nNumber of parameters: ", x$npar))  
 }
 

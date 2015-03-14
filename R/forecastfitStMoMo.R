@@ -51,7 +51,9 @@
 #' \item{fitted}{ a matrix with the fitted in-sample rates of the model for 
 #' the years for which the mortality model was fitted.}
 #'  
-#'  \item{model}{the model fit from which the forecast was produced.}
+#' \item{model}{the model fit from which the forecast was produced.}
+#'
+#' \item{jumpchoice}{Jump-off method used in the forecast.}
 #' 
 #' @details
 #' Fitting and forecasting of the Multivariate Random Walk with Drift
@@ -184,8 +186,21 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   #prepare output
   structure(list(rates = forcastRates, ages = agesFor, 
                  years = yearsFor, kt.f = kt.f, gc.f = gc.f, oxt.f = oxt.f, 
-                 fitted = fittedRates, model = object), 
+                 fitted = fittedRates, model = object,
+                 jumpchoice = jumpchoice,
+                 call = match.call()), 
             class = "forStMoMo")
+}
+
+
+print.forStMoMo <- function(x,...) {
+  cat("Stochastic Mortality Model forecast")
+  cat(paste("\nCall:", deparse(x$call)))
+  cat("\n\n")
+  print(x$model$model)  
+  cat(paste("\n\nJump-off method:", x$jumpchoice))
+  cat(paste("\nYears in forecast:", min(x$years), "-", max(x$years)))
+  cat(paste("\nAges in forecast:", min(x$ages), "-", max(x$ages), "\n"))  
 }
 
 

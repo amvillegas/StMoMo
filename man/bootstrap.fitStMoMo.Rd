@@ -3,8 +3,8 @@
 \alias{bootstrap.fitStMoMo}
 \title{Bootstrap a fitted Stochastic Mortality Model}
 \usage{
-\method{bootstrap}{fitStMoMo}(object, nBoot = 1, type = c("residual",
-  "semiparametric"), deathType = c("observed", "fitted"), ...)
+\method{bootstrap}{fitStMoMo}(object, nBoot = 1, type = c("semiparametric",
+  "residual"), deathType = c("observed", "fitted"), ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted
@@ -12,11 +12,11 @@ parameters of a stochastic mortality model.}
 
 \item{nBoot}{number of bootstrap samples to produce.}
 
-\item{type}{type of bootstrapping approach to be applied. \code{"residual"}(default) resamples the
-deviance residuals of the model to generate bootstrap samples. \code{"semiparametric"} uses the
-assummed distribution of the deaths to generate bootsrap samples.}
+\item{type}{type of bootstrapping approach to be applied. \code{"semiparametric"}(default)
+uses the assummed distribution of the deaths to generate bootsrap samples.
+\code{"residual"} resamples the  deviance residuals of the model to generate bootstrap samples.}
 
-\item{deathType}{type of deaths to sample in the semiparametric bootstrapp. \code{"observed"} (default)
+\item{deathType}{type of deaths to sample in the semiparametric bootstrap. \code{"observed"} (default)
 resamples the observed deaths. \code{"fitted"} resamples the fitted deaths. This parameter is only used
 if \code{type} is \code{"semiparametric"}.}
 
@@ -28,6 +28,8 @@ A list with class \code{"bootStMoMo"} with components:
 \item{bootParameters}{ a list of of length \code{nBoot} with the fitted parameters for each bootstrap
 replication.}
 \item{model}{ the model fit that has been bootstrapped.}
+\item{type}{ type of bootstrapping approach applied.}
+\item{deathType}{ type of deaths sampled in case of semiparametric bootstrap.}
 }
 \description{
 Produce bootstrap parameters of a Stochastic Mortality Model to account for parameter
