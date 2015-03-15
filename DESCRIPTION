@@ -14,12 +14,12 @@ BugReports: http://github.com/amvillegas/StMoMo/issues
 Imports:
     reshape2,
     fields (>= 7.1),
-    MASS
+    MASS,
+    rootSolve,
+    fanplot
 Depends:
     R (>= 3.1.0),
     gnm,
-    forecast,
-    rootSolve,
-    fanplot
+    forecast
 License: GPL (>= 2)
 LazyData: true
