@@ -145,11 +145,10 @@ apc <- function(link = c("log", "logit")){
     x <- ages  
     t <- 1:nYears
     c <- (1 - tail(ages, 1)):(nYears - ages[1])    
-    #\sum g(c)=0  and  \sum cg(c)=0   
-    indC <- !is.na(gc)
-    phiReg <- lm(gc ~ 1 + c, data.frame(gc = gc[indC], c = c[indC]))  
-    phi <- coef(phiReg)   
-    gc[indC] <- residuals(phiReg)  
+    #\sum g(c)=0  and  \sum cg(c)=0       
+    phiReg <- lm(gc ~ 1 + c, na.action = na.omit)
+    phi <- coef(phiReg)       
+    gc <- gc - phi[1] - phi[2] * c
     ax <- ax + phi[1] - phi[2] *x 
     kt <- kt + phi[2] * t   
     #\sum k(t)=0 
@@ -304,10 +303,9 @@ m6 <- function(link = c("logit", "log")){
     c <- (1 - tail(ages, 1)):(nYears - ages[1])
     xbar <- mean(x)
     #\sum g(c)=0  and  \sum cg(c)=0
-    indC <- !is.na(gc)
-    phiReg <- lm(gc ~ 1 + c, data.frame(gc = gc[indC], c = c[indC]))
+    phiReg <- lm(gc ~ 1 + c, na.action = na.omit)
     phi <- coef(phiReg)
-    gc[indC] <- residuals(phiReg)
+    gc <- gc - phi[1] - phi[2] * c    
     kt[2, ] <- kt[2, ] - phi[2]
     kt[1, ] <- kt[1, ] + phi[1] + phi[2] * (t - xbar)
     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
@@ -377,10 +375,9 @@ m7 <- function(link = c("logit", "log")){
     xbar <- mean(x)
     s2 <- mean((x - xbar)^2)
     #\sum g(c)=0, \sum cg(c)=0, \sum c^2g(c)=0
-    indC <- !is.na(gc)
-    phiReg <- lm(gc ~ 1 + c + I(c^2),data.frame(gc = gc[indC], c = c[indC]))
-    phi<-coef(phiReg)  
-    gc[indC]<- residuals(phiReg)
+    phiReg <- lm(gc ~ 1 + c + I(c^2), na.action = na.omit)
+    phi <- coef(phiReg)
+    gc <- gc - phi[1] - phi[2] * c - phi[3] * c^2    
     kt[3, ] <- kt[3, ] + phi[3]
     kt[2, ] <- kt[2, ] - phi[2] - 2 * phi[3] * (t - xbar)  
     kt[1, ] <- kt[1, ]+phi[1]+phi[2] * (t - xbar) + phi[3] * ((t - xbar)^2 + s2)
