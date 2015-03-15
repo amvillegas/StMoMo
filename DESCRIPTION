@@ -5,21 +5,23 @@ Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
     Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
     Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
 Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
-Description: Functions to specify and fit stochastic mortality models including
-    the Lee-Carter models, the CBD model and the APC model. The package also
-    includes tools for analysing the goodness of fit of the models and
-    performing mortality projections and simulations.
+Description:  R implementation of the family of Generalised Age-Period-Cohort 
+    stochastic mortality models.  This family of models encompasses many models 
+    proposed in the literature including the well-known Lee-Carter model, 
+    CBD model and APC model. It includes functions for fitting mortality models,
+    analysing their goodness-of-fit and performing mortality projections and 
+    simulations.
 URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
 Imports:
     reshape2,
     fields (>= 7.1),
-    MASS
+    MASS,
+    rootSolve,
+    fanplot
 Depends:
     R (>= 3.1.0),
     gnm,
-    forecast,
-    rootSolve,
-    fanplot
+    forecast
 License: GPL (>= 2)
 LazyData: true
