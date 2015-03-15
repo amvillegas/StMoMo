@@ -7,7 +7,7 @@
 rh(link = c("log", "logit"), cohortAgeFun = c("1", "NP"))
 }
 \arguments{
-\item{link}{defines the link function and error distibution associated with
+\item{link}{defines the link function and random component associated with
   the mortality model. \code{"log"} would assume that deaths follow a Poisson
   distribution and use a log link while \code{"logit"} would assume that
   deaths follow a Binomial distribution and a logit link.}

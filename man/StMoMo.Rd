@@ -11,7 +11,7 @@ StMoMo(link = c("log", "logit"), staticAgeFun = TRUE, periodAgeFun = "NP",
   list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc))
 }
 \arguments{
-\item{link}{defines the link function and error distibution associated with
+\item{link}{defines the link function and random component associated with
   the mortality model. \code{"log"} would assume that deaths follow a Poisson
   distribution and use a log link while \code{"logit"} would assume that
   deaths follow a Binomial distribution and a logit link.}
@@ -20,7 +20,7 @@ StMoMo(link = c("log", "logit"), staticAgeFun = TRUE, periodAgeFun = "NP",
   \eqn{\alpha_x} is to be included.}
 
 \item{periodAgeFun}{a list of length \eqn{N} with the definitions of the
-  period age modulating paramrters \eqn{\beta_x^{(i)}}. Each entry can take
+  period age modulating parameters \eqn{\beta_x^{(i)}}. Each entry can take
   values: \code{"NP"} for non-parametric age terms, \code{"1"} for
   \eqn{\beta_x^{(i)}=1} or a predefined parametric function of age (see details).
   Make this \code{NULL} if there are no period terms in the model.}
@@ -69,8 +69,8 @@ StMoMo.
 }
 \details{
 R implementation of the family of Generalised Age-Period-Cohort
-stochastic mortality models.  This family of models emcopasess
-many models proposed in the literature includeing the well-known
+stochastic mortality models.  This family of models encompass
+many models proposed in the literature including the well-known
 Lee-Carter model, CBD model and APC model.
 
 \code{StMoMo} defines an abstract representation of an Generalised Age-Period-Cohort
@@ -80,13 +80,13 @@ models defined as follows
 Binomial(E_{xt},q_{xt})}
 \deqn{\eta_{xt} = \log \mu_{xt}, \eta_{xt} = \mathrm{logit}\,
 q_{xt}} \deqn{\eta_{xt} = \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)}
-+ \beta_x^{(0)}\gamma_{t-x}} \deqn{v: \{\alpha_{xt}, \beta_x^{(1)},...,
++ \beta_x^{(0)}\gamma_{t-x}} \deqn{v: \{\alpha_{x}, \beta_x^{(1)},...,
 \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, \beta_x^{(0)}, \gamma_{t-x}\} \mapsto
-\{\alpha_{xt}, \beta_x^{(1)},..., \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)},
+\{\alpha_{x}, \beta_x^{(1)},..., \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)},
 \beta_x^{(0)}, \gamma_{t-x}\},} where  \eqn{\alpha_x} is a static age function,
 \eqn{\beta_x^{(i)}\kappa_t^{(i)}, i = 1,..N} are age/period terms,
 \eqn{\beta_x^{(0)}\gamma_{t-x}} is the age/cohort term, and \eqn{v} is a
-function defining the identifiablity constraints of the model. Most
+function defining the identifiability constraints of the model. Most
 Stochastic mortality models proposed in the literature can be cast to this
 representation (See Hunt and Blake (2014)).
 
@@ -100,72 +100,55 @@ models combining parametric and non-parametric age-modulating functions are not
 supported at the moment.
 }
 \examples{
-#Model M6 in Haberman and Renshaw (2011)
-f1 <- function(x, ages) x - mean(ages)
-constM6 <- function(ax, bx, kt, b0x, gc, wxt, ages){
-  #See Appendix A in Haberman and Renshaw (2011)
-  nYears <- dim(wxt)[2]
-  x <- ages
-  t <- 1:nYears
-  c <- (1 - tail(ages, 1)):(nYears - ages[1])
-  xbar <- mean(x)
-  #\\sum g(c)=0  and  \\sum cg(c)=0
-  indC <- !is.na(gc)
-  phiReg <- lm(gc ~ 1 + c, data.frame(gc = gc[indC], c = c[indC]))
-  phi <- coef(phiReg)
-  gc[indC] <- residuals(phiReg)
-  kt[2, ] <- kt[2, ] - phi[2]
-  kt[1, ] <- kt[1, ] + phi[1] + phi[2] * (t - xbar)
-  list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+#Lee-Carter model
+constLC <- function(ax, bx, kt, b0x, gc, wxt, ages){
+ c1 <- mean(kt[1, ], na.rm = TRUE)
+ c2 <- sum(bx[, 1], na.rm = TRUE)
+ list(ax = ax + c1 * bx, bx = bx / c2, kt = c2 * (kt - c1))
 }
-M6 <- StMoMo(link = "logit", staticAgeFun = FALSE, periodAgeFun = c("1", f1),
-             cohortAgeFun = "1", constFun = constM6)
-plot(fit(M6, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
+LC <- StMoMo(link = "log", staticAgeFun = TRUE, periodAgeFun = "NP",
+             constFun = constLC)
+
+plot(fit(LC, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
+         ages = EWMaleData$ages, years = EWMaleData$years))
+
+
+#CBD model
+f2 <- function(x, ages) x - mean(ages)
+CBD <- StMoMo(link = "logit", staticAgeFun = FALSE,
+              periodAgeFun = c("1", f2))
+plot(fit(CBD, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
          ages = EWMaleData$ages, years = EWMaleData$years, ages.fit = 55:89))
 
-#Model M7 in Haberman and Renshaw (2011)
-f2 <- function(x, ages) {
-  xbar <- mean(ages)
-  s2 <- mean((ages - xbar)^2)
-  (x - xbar)^2 - s2
+#Reduced Plat model (Plat, 2009)
+f2 <- function(x, ages) mean(ages) - x
+constPlat <- function(ax, bx, kt, b0x, gc, wxt, ages){
+ nYears <- dim(wxt)[2]
+ x <- ages
+ t <- 1:nYears
+ c <- (1 - tail(ages, 1)):(nYears - ages[1])
+ xbar <- mean(x)
+ #nsum g(c)=0, nsum cg(c)=0, nsum c^2g(c)=0
+ phiReg <- lm(gc ~ 1 + c + I(c^2), na.action = na.omit)
+ phi <- coef(phiReg)
+ gc <- gc - phi[1] - phi[2] * c - phi[3] * c^2
+ kt[2, ] <- kt[2, ] + 2 * phi[3] * t
+ kt[1, ] <- kt[1, ] + phi[2] * t + phi[3] * (t^2 - 2 * xbar * t)
+ ax <- ax + phi[1] - phi[2] * x + phi[3] * x^2
+ #nsum kt[i, ] = 0
+ ci <- rowMeans(kt, na.rm = TRUE)
+ ax <- ax + ci[1] + ci[2] * (xbar - x)
+ kt[1, ] <- kt[1, ] - ci[1]
+ kt[2, ] <- kt[2, ] - ci[2]
+ list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
 }
-constM7 <- function(ax, bx, kt, b0x, gc, wxt, ages){
-  #See Appendix A in Haberman and Renshaw (2011)
-  nYears <- dim(wxt)[2]
-  x <- ages
-  t <- 1:nYears
-  c <- (1 - tail(ages, 1)):(nYears - ages[1])
-  xbar <- mean(x)
-  s2 <- mean((x - xbar)^2)
-  #\\sum g(c)=0, \\sum cg(c)=0, \\sum c^2g(c)=0
-  indC <- !is.na(gc)
-  phiReg <- lm(gc ~ 1 + c + I(c^2),data.frame(gc = gc[indC], c = c[indC]))
-  phi<-coef(phiReg)
-  gc[indC]<- residuals(phiReg)
-  kt[3, ] <- kt[3, ] + phi[3]
-  kt[2, ] <- kt[2, ] - phi[2] - 2 * phi[3] * (t - xbar)
-  kt[1, ] <- kt[1, ]+phi[1]+phi[2] * (t - xbar) + phi[3] * ((t - xbar)^2 + s2)
-  list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
-}
-M7 <- StMoMo(link = "logit", staticAgeFun = FALSE, periodAgeFun = c("1", f1, f2),
-cohortAgeFun = "1", constFun = constM7)
+PLAT <- StMoMo(link = "log", staticAgeFun = TRUE,
+               periodAgeFun = c("1", f2), cohortAgeFun = "1",
+               constFun = constPlat)
 
-#Lee-Carter model with cohort (Model H1 in Haberman and Renshaw (2011))
-constH1 <- function(ax, bx, kt, b0x, gc, wxt, ages){
-  c1 <- kt[1,1]
-  ax <- ax + c1 * bx
-  kt <- kt - c1
-  c2 <- sum(bx, na.rm = TRUE)
-  bx <- bx / c2
-  kt <- kt * c2
-  c3 <- mean(gc, na.rm = TRUE)
-  ax <- ax + c3
-  gc <- gc - c3
-  list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
-}
-
-H1 <- StMoMo(link = "logit", staticAgeFun = TRUE, periodAgeFun = "NP",
-             cohortAgeFun = "1", constFun = constH1)
+plot(fit(PLAT, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
+         ages = EWMaleData$ages, years = EWMaleData$years,
+         ages.fit = 55:89))
 
 #Models not supported
 \dontrun{
@@ -174,13 +157,14 @@ MnotSup1 <- StMoMo(periodAgeFun = f1, cohortAgeFun = "NP")
 }
 }
 \references{
-Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection
-models. Insurance: Mathematics and Economics, 48(1), 35-55.
+Plat, R. (2009). On stochastic mortality modeling. Insurance: Mathematics
+  and Economics, 45(3), 393-404.
 
 Hunt, A., & Blake, D. (2014). On the Structure and Classification
   of Mortality Models. Working Paper.
 }
 \seealso{
-\code{\link{lc}}, \code{\link{cbd}}, \code{\link{apc}}
+\code{\link{lc}}, \code{\link{cbd}}, \code{\link{apc}},
+\code{\link{rh}}, \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
 }
 
