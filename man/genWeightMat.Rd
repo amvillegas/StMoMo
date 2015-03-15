@@ -2,7 +2,7 @@
 % Please edit documentation in R/exportUtils.R
 \name{genWeightMat}
 \alias{genWeightMat}
-\title{Generate weigth matrix}
+\title{Generate weight matrix}
 \usage{
 genWeightMat(ages, years, clip = 0, zeroCohorts = NULL)
 }
@@ -12,7 +12,7 @@ genWeightMat(ages, years, clip = 0, zeroCohorts = NULL)
 \item{years}{vector of years.}
 
 \item{clip}{number of cohorts in the boundary to assign a zero
-weight. This can be be used to zero weigth some of the first and
+weight. This can be be used to zero weigh some of the first and
 last cohorts in the data.}
 
 \item{zeroCohorts}{other cohort for which a zero weight is to be assigned.}
@@ -21,9 +21,9 @@ last cohorts in the data.}
 A 0-1 matrix with 0 for the zero-weighed cohorts.
 }
 \description{
-Generate weight matrix given group of ages and years
+Generates a weight matrix given a group of ages and years
 and a set of cohorts which are to be given zero weight. This
-is useful for excluding some datapoints when fitting a
+is useful for excluding some data points when fitting a
 Stochastic Mortality Model (see \code{\link{fit.StMoMo}}).
 }
 \examples{

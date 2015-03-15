@@ -1,15 +1,15 @@
 
-#'Generate weigth matrix
+#'Generate weight matrix
 #'
-#'Generate weight matrix given group of ages and years
+#'Generates a weight matrix given a group of ages and years
 #'and a set of cohorts which are to be given zero weight. This
-#'is useful for excluding some datapoints when fitting a 
+#'is useful for excluding some data points when fitting a 
 #'Stochastic Mortality Model (see \code{\link{fit.StMoMo}}).
 #'
 #'@param ages vector of ages.
 #'@param years vector of years.
 #'@param clip number of cohorts in the boundary to assign a zero 
-#'weight. This can be be used to zero weigth some of the first and 
+#'weight. This can be be used to zero weigh some of the first and 
 #'last cohorts in the data.
 #'@param zeroCohorts other cohort for which a zero weight is to be assigned.
 #'   
