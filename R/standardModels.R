@@ -106,15 +106,15 @@ cbd <- function(link = c("logit", "log")){
 
 #' Create an Age-Period-Cohort mortality model
 #' 
-#' Utility function to initialise a \code{StMoMo} object representing a 
+#' Utility function to initialise a \code{StMoMo} object representing an 
 #' Age-Period-Cohort mortality model.
 #' 
-#' The created model is eithera log-Poisson or a logit-Binomial version of the 
+#' The created model is either a log-Poisson or a logit-Binomial version of the 
 #' classical age-period-cohort mortality model which has predictor structure 
 #' \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 #' 
-#' To ensure identifiability we follow Cairns et al (2009) and impose constraints 
-#' \deqn{\sum \gamma_c = 0}  and  \deqn{\sum c\gamma_c = 0}.
+#' To ensure identifiability we follow Cairns et al. (2009) and impose constraints 
+#' \deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
 #' 
 #' @inheritParams StMoMo
 #' @return An object of class "StMoMo".

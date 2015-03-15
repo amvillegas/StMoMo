@@ -16,16 +16,16 @@ apc(link = c("log", "logit"))
 An object of class "StMoMo".
 }
 \description{
-Utility function to initialise a \code{StMoMo} object representing a
+Utility function to initialise a \code{StMoMo} object representing an
 Age-Period-Cohort mortality model.
 }
 \details{
-The created model is eithera log-Poisson or a logit-Binomial version of the
+The created model is either a log-Poisson or a logit-Binomial version of the
 classical age-period-cohort mortality model which has predictor structure
 \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 
-To ensure identifiability we follow Cairns et al (2009) and impose constraints
-\deqn{\sum \gamma_c = 0}  and  \deqn{\sum c\gamma_c = 0}.
+To ensure identifiability we follow Cairns et al. (2009) and impose constraints
+\deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
 }
 \examples{
 APC <- apc()
