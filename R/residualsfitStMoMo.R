@@ -158,6 +158,7 @@ scatterplotAPC <- function(mat, ages, years, plotAge = TRUE, plotYear = TRUE,
   rownames(mat) <- ages
   colnames(mat) <- years
   data <- (reshape2::melt(mat, value.name = "y", varnames = c("x", "t")))
+  x <- NULL #hack to remove note in CRAN check
   data <- transform(data, c= t - x) 
   
   N <- plotAge+plotYear+plotCohort

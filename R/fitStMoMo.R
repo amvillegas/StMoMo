@@ -149,7 +149,9 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt), years = 1:ncol(Dxt)
                        start.b0x = NULL,
                        start.gc = NULL,
                        verbose = TRUE, ...){
-  
+  #Hack to remove notes in CRAN check
+  x <- NULL
+  w <- NULL
   
   # Construct fitting data
   
