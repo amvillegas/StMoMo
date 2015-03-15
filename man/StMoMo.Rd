@@ -62,25 +62,30 @@ A list with class \code{"StMoMo"} with components:
   package \pkg{gnm}.}
 }
 \description{
-Initialises a StMoMo object which represents a Stochastic
-Mortality Model.
+Initialises a StMoMo object which represents a Generalised Age-Period-Cohort
+Stochastic Mortality Model.
 
 StMoMo.
 }
 \details{
-Defines an abstract representation of an Age-Period-Cohort (APC) Stochastic
-Mortality Model that fits within the general class of generalised non-linear
+R implementation of the family of Generalised Age-Period-Cohort
+stochastic mortality models.  This family of models emcopasess
+many models proposed in the literature includeing the well-known
+Lee-Carter model, CBD model and APC model.
+
+\code{StMoMo} defines an abstract representation of an Generalised Age-Period-Cohort
+(GAPC) Stochastic model that fits within the general class of generalised non-linear
 models defined as follows
 \deqn{D_{xt} \sim Poisson(E_{xt}\mu_{xt}), D_{xt} \sim
 Binomial(E_{xt},q_{xt})}
 \deqn{\eta_{xt} = \log \mu_{xt}, \eta_{xt} = \mathrm{logit}\,
 q_{xt}} \deqn{\eta_{xt} = \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)}
-+ \beta_x^{(0)}\gamma_{t-x}} \deqn{g: \{\alpha_{xt}, \beta_x^{(1)},...,
++ \beta_x^{(0)}\gamma_{t-x}} \deqn{v: \{\alpha_{xt}, \beta_x^{(1)},...,
 \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, \beta_x^{(0)}, \gamma_{t-x}\} \mapsto
 \{\alpha_{xt}, \beta_x^{(1)},..., \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)},
 \beta_x^{(0)}, \gamma_{t-x}\},} where  \eqn{\alpha_x} is a static age function,
 \eqn{\beta_x^{(i)}\kappa_t^{(i)}, i = 1,..N} are age/period terms,
-\eqn{\beta_x^{(0)}\gamma_{t-x}} is the age/cohort term, and \eqn{g} is a
+\eqn{\beta_x^{(0)}\gamma_{t-x}} is the age/cohort term, and \eqn{v} is a
 function defining the identifiablity constraints of the model. Most
 Stochastic mortality models proposed in the literature can be cast to this
 representation (See Hunt and Blake (2014)).
