@@ -8,11 +8,11 @@
   ...)
 }
 \arguments{
-\item{object}{sn object of class "mrwd".}
+\item{object}{an object of class "mrwd".}
 
 \item{h}{Number of periods for forecasting.}
 
-\item{level}{vonfidence level for prediction intervals.}
+\item{level}{confidence level for prediction intervals.}
 
 \item{fan}{if \code{TRUE}, level is set to \code{seq(50, 99, by = 1)}.
 This is suitable for fan plots.}
@@ -23,9 +23,9 @@ This is suitable for fan plots.}
 An object of class \code{"mrwdForecast"} with components:
 \item{model}{a list containing information about the fitted model.}
 \item{mean}{ array with the central forecast.}
-\item{lower}{ three dimensional array with lower limits for predicion
+\item{lower}{ three dimensional array with lower limits for prediction
  intervals.}
-\item{upper}{ three dimensional array with upper limits for predicion
+\item{upper}{ three dimensional array with upper limits for prediction
  intervals.}
  \item{level}{ the confidence values associated with the prediction
  intervals.}

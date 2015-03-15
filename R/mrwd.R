@@ -42,9 +42,9 @@ mrwd <- function(x){
 #' Returns forecasts and other information for a Multivariate 
 #' Random Walk with Drift model.
 #' 
-#' @param object sn object of class "mrwd".
+#' @param object an object of class "mrwd".
 #' @param h Number of periods for forecasting.
-#' @param level vonfidence level for prediction intervals.
+#' @param level confidence level for prediction intervals.
 #' @param fan if \code{TRUE}, level is set to \code{seq(50, 99, by = 1)}. 
 #' This is suitable for fan plots.
 #' @param ... other arguments.
@@ -52,9 +52,9 @@ mrwd <- function(x){
 #' @return An object of class \code{"mrwdForecast"} with components:
 #' \item{model}{a list containing information about the fitted model.}
 #' \item{mean}{ array with the central forecast.}
-#' \item{lower}{ three dimensional array with lower limits for predicion 
+#' \item{lower}{ three dimensional array with lower limits for prediction 
 #'  intervals.}
-#' \item{upper}{ three dimensional array with upper limits for predicion 
+#' \item{upper}{ three dimensional array with upper limits for prediction 
 #'  intervals.}
 #'  \item{level}{ the confidence values associated with the prediction 
 #'  intervals.}

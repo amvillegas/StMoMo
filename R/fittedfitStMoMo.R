@@ -5,7 +5,7 @@
 #' 
 #' @param object an object of class \code{"fitStMoMo"} with the fitted 
 #' parameters of a stochastic mortality model.
-#' @param type the type of the fited values that should be returned. The 
+#' @param type the type of the fitted values that should be returned. The 
 #' alternatives are \code{"link"}(default), \code{"rates"}, and 
 #' \code{"deaths"}.
 #' @param ... other arguments.

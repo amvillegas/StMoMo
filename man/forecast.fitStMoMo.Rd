@@ -22,8 +22,8 @@ added in the forecasting. This can be used to specify any a priori
 known component to be added to the forecasted predictor.}
 
 \item{gc.order}{a specification of the ARIMA model: the three components
-(p, d, q) are the AR order, the degree of differencing, and the MA order.
-The default is an ARIMA(1,1,0).}
+\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA order.
+The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
@@ -36,7 +36,7 @@ actual rates from the final year.}
 \item{...}{other arguments.}
 }
 \value{
-A list with class \code{"forStMoMo"} with components:
+A list of class \code{"forStMoMo"} with components:
 
 \item{rates}{ a matrix with the point forecast of the rates.}
 \item{ages}{ vector of ages corresponding to the rows of \code{rates}.}
@@ -70,15 +70,15 @@ the years for which the mortality model was fitted.}
 Forecast mortality rates using a Stochastic Mortality Model fit.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are forecasted
 using a Multivariate Random Walk with Drift. The cohort index
-\eqn{\gamma_{t-x}} is forecasted using an ARIMA(p,d,q). By default
-an ARIMA(1,1,0) with a constant is used.
+\eqn{\gamma_{t-x}} is forecasted using an ARIMA\eqn{(p, d, q)}. By default
+an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
 \details{
 Fitting and forecasting of the Multivariate Random Walk with Drift
 for the period indexes use the function \code{\link{mrwd}}.
 Fitting and forecasting of the ARIMA model for the cohort index
 is done with function \code{\link[forecast]{Arima}} from package
-\pkg{forecast}. See the latter function for futher details on
+\pkg{forecast}. See the latter function for further details on
 input arguments \code{gc.order} and \code{gc.include.constant}.
 
 Note that in some cases forecast of the

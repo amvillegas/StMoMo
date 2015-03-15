@@ -25,8 +25,8 @@ added in the simulations. This can be used to specify any a priori
 known component to be added to the simulated predictor.}
 
 \item{gc.order}{a specification of the ARIMA model: the three components
-(p, d, q) are the AR order, the degree of differencing, and the MA order.
-The default is an ARIMA(1,1,0).}
+\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA order.
+The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
