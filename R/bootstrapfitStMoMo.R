@@ -4,7 +4,7 @@
 #' \code{bootstrap} is a generic function for bootstrapping Stochastic Mortality Models. 
 #' The function invokes particular methods which depend on the class of the first argument. 
 #'
-#' \code{bootstrap} is a generic function wich means that new fitting strategies can be added
+#' \code{bootstrap} is a generic function which means that new fitting strategies can be added
 #' for particular stochastic mortality models. See for instance \code{\link{bootstrap.fitStMoMo}}
 #'
 #' @param object an object used to select a method. Typically of class \code{fitStMoMo} or 
@@ -28,7 +28,7 @@ bootstrap =  function(object, nBoot, ...)
 #' parameters of a stochastic mortality model.
 #' @inheritParams bootstrap
 #' @param type type of bootstrapping approach to be applied. \code{"semiparametric"}(default) 
-#' uses the assummed distribution of the deaths to generate bootsrap samples. 
+#' uses the assumed distribution of the deaths to generate bootstrap samples. 
 #' \code{"residual"} resamples the  deviance residuals of the model to generate bootstrap samples. 
 #' @param deathType type of deaths to sample in the semiparametric bootstrap. \code{"observed"} (default) 
 #' resamples the observed deaths. \code{"fitted"} resamples the fitted deaths. This parameter is only used
@@ -43,16 +43,18 @@ bootstrap =  function(object, nBoot, ...)
 #' \item{deathType}{ type of deaths sampled in case of semiparametric bootstrap.}
 #' 
 #' @details
-#' When \code{"type"} is \code{"residual"} the residual bootstrapping approach described in 
+#' When \code{type} is \code{"residual"} the residual bootstrapping approach described in 
 #' Renshaw and Haberman (2008) is applied, which is an adaptation of the approach of 
 #' Koissi et al (2006). In the case of a \code{"logit"} link with Binomial responses the adaptation 
 #' described in Debon et al, (2010, section 3) is used.
 #' 
-#' When \code{"type"} is \code{"semiparametric"} the semiparametric approach described in 
+#' When \code{type} is \code{"semiparametric"} the semiparametric approach described in 
 #' Brouhns et al.(2005) is used. In the case of a \code{"logit"} link with Binomial responses a
-#' suitable adaption is applied. If \code{deathType} is \code{"observed"} then the observed deaths are 
-#' used in the sampling as in Brouhns et al.(2005) while if \code{deathType} is \code{"fitted"} the fitted 
+#' suitable adaptation is applied. If \code{deathType} is \code{"observed"} then the observed deaths are 
+#' used in the sampling as in Brouhns et al. (2005) while if \code{deathType} is \code{"fitted"} the fitted 
 #' deaths are used in the sampling as in Renshaw and Haberman (2008).
+#' 
+#' @seealso \code{\link{simulate.bootStMoMo}}, \code{\link{plot.bootStMoMo}}
 #' 
 #' @references 
 #' Brouhns, N., Denuit M., & Van Keilegom, I. (2005). Bootstrapping the Poisson log-bilinear model 
@@ -71,7 +73,7 @@ bootstrap =  function(object, nBoot, ...)
 #' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'              ages = EWMaleData$ages, years = EWMaleData$years)
 #' 
-#' LCResBoot <- bootstrap(LCfit, nBoot = 500)
+#' LCResBoot <- bootstrap(LCfit, nBoot = 500, type = "residual")
 #' plot(LCResBoot)
 #' LCSemiObsBoot <- bootstrap(LCfit, nBoot = 500, type = "semiparametric")
 #' plot(LCSemiObsBoot)

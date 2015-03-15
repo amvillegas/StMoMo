@@ -18,7 +18,7 @@
 #' 
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}
+#' @seealso \code{\link{StMoMo}}
 #'  
 #' @references
 #' Brouhns, N., Denuit, M., & Vermunt, J. K. (2002). A Poisson log-bilinear regression 
@@ -81,7 +81,7 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #'   is the logit link.
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}
+#' @seealso \code{\link{StMoMo}}
 #'  
 #' @references
 #' Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for Stochastic 
@@ -119,7 +119,7 @@ cbd <- function(link = c("logit", "log")){
 #' @inheritParams StMoMo
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}
+#' @seealso \code{\link{StMoMo}}
 #' 
 #' @references
 #' 
@@ -194,7 +194,7 @@ apc <- function(link = c("log", "logit")){
 #' 
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}, \link{lc}, \link{apc}
+#' @seealso \code{\link{StMoMo}}, \link{lc}, \link{apc}
 #'  
 #' @references
 #'
@@ -270,7 +270,7 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' @inheritParams cbd
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}, \link{cbd}, \link{m7}, \link{m8}
+#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m7}, \link{m8}
 #' 
 #' @references
 #' 
@@ -336,7 +336,7 @@ m6 <- function(link = c("logit", "log")){
 #' @inheritParams cbd
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}, \link{cbd}, \link{m6}, \link{m8}
+#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m8}
 #' 
 #' @references
 #' 
@@ -407,7 +407,7 @@ m7 <- function(link = c("logit", "log")){
 #' 
 #' @return An object of class "StMoMo".
 #' 
-#' @seealso \link{StMoMo}, \link{cbd}, \link{m6}, \link{m7}
+#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m7}
 #' 
 #' @references
 #' 

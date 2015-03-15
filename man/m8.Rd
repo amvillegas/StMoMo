@@ -49,6 +49,6 @@ Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality 
 models. Insurance: Mathematics and Economics, 48(1), 35-55.
 }
 \seealso{
-\link{StMoMo}, \link{cbd}, \link{m6}, \link{m7}
+\code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m7}
 }
 

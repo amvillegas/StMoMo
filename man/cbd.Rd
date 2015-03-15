@@ -38,6 +38,6 @@ Mortality with Parameter Uncertainty: Theory and Calibration.
 Journal of Risk and Insurance, 73(4), 687-718.
 }
 \seealso{
-\link{StMoMo}
+\code{\link{StMoMo}}
 }
 

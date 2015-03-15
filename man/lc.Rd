@@ -60,6 +60,6 @@ Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting U.S. mortality.
 Journal of the American Statistical Association, 87(419), 659-671.
 }
 \seealso{
-\link{StMoMo}
+\code{\link{StMoMo}}
 }
 

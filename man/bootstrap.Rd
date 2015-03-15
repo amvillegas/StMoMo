@@ -19,7 +19,7 @@ an extension of this class.}
 The function invokes particular methods which depend on the class of the first argument.
 }
 \details{
-\code{bootstrap} is a generic function wich means that new fitting strategies can be added
+\code{bootstrap} is a generic function which means that new fitting strategies can be added
 for particular stochastic mortality models. See for instance \code{\link{bootstrap.fitStMoMo}}
 }
 

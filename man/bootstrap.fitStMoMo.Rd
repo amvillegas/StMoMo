@@ -14,7 +14,7 @@ parameters of a stochastic mortality model.}
 \item{nBoot}{number of bootstrap samples to produce.}
 
 \item{type}{type of bootstrapping approach to be applied. \code{"semiparametric"}(default)
-uses the assummed distribution of the deaths to generate bootsrap samples.
+uses the assumed distribution of the deaths to generate bootstrap samples.
 \code{"residual"} resamples the  deviance residuals of the model to generate bootstrap samples.}
 
 \item{deathType}{type of deaths to sample in the semiparametric bootstrap. \code{"observed"} (default)
@@ -37,15 +37,15 @@ Produce bootstrap parameters of a Stochastic Mortality Model to account for para
 uncertainty.
 }
 \details{
-When \code{"type"} is \code{"residual"} the residual bootstrapping approach described in
+When \code{type} is \code{"residual"} the residual bootstrapping approach described in
 Renshaw and Haberman (2008) is applied, which is an adaptation of the approach of
 Koissi et al (2006). In the case of a \code{"logit"} link with Binomial responses the adaptation
 described in Debon et al, (2010, section 3) is used.
 
-When \code{"type"} is \code{"semiparametric"} the semiparametric approach described in
+When \code{type} is \code{"semiparametric"} the semiparametric approach described in
 Brouhns et al.(2005) is used. In the case of a \code{"logit"} link with Binomial responses a
-suitable adaption is applied. If \code{deathType} is \code{"observed"} then the observed deaths are
-used in the sampling as in Brouhns et al.(2005) while if \code{deathType} is \code{"fitted"} the fitted
+suitable adaptation is applied. If \code{deathType} is \code{"observed"} then the observed deaths are
+used in the sampling as in Brouhns et al. (2005) while if \code{deathType} is \code{"fitted"} the fitted
 deaths are used in the sampling as in Renshaw and Haberman (2008).
 }
 \examples{
@@ -53,7 +53,7 @@ deaths are used in the sampling as in Renshaw and Haberman (2008).
 LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
              ages = EWMaleData$ages, years = EWMaleData$years)
 
-LCResBoot <- bootstrap(LCfit, nBoot = 500)
+LCResBoot <- bootstrap(LCfit, nBoot = 500, type = "residual")
 plot(LCResBoot)
 LCSemiObsBoot <- bootstrap(LCfit, nBoot = 500, type = "semiparametric")
 plot(LCSemiObsBoot)
@@ -73,5 +73,8 @@ Insurance: Mathematics and Economics, 47(3), 327-336.
 Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to risk measurement in
 mortality with specific reference to Poisson Lee-Carter modelling.
 Insurance: Mathematics and Economics, 42(2), 797-816.
+}
+\seealso{
+\code{\link{simulate.bootStMoMo}}, \code{\link{plot.bootStMoMo}}
 }
 

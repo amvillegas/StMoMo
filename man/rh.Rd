@@ -64,6 +64,6 @@ Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the Lee-Carte
 for mortality reduction factors.Insurance: Mathematics and Economics, 38(3), 556-570.
 }
 \seealso{
-\link{StMoMo}, \link{lc}, \link{apc}
+\code{\link{StMoMo}}, \link{lc}, \link{apc}
 }
 
