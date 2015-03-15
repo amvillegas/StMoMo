@@ -32,7 +32,9 @@ the model. This can be used to specify any a priori known component to be added 
 the predictor during fitting.}
 
 \item{wxt}{optional matrix of 0-1 weights to be used in the fitting process.
-This can be used, for instance, to zero weight some cohorts in the data.}
+This can be used, for instance, to zero weight some cohorts in the data. See
+\code{\link{genWeightMat}} which is a helper function for defining weighting
+matrices.}
 
 \item{start.ax}{optional vector with starting values for \eqn{\alpha_x}.}
 
@@ -47,12 +49,12 @@ This can be used, for instance, to zero weight some cohorts in the data.}
 \item{verbose}{a logical value. If \code{TRUE} progress indicators are printed.}
 
 \item{...}{arguments to be passed to or from other methods. This can be used
-to control the fitting paratemers of \code{gnm}.  See \code{\link[gnm]{gnm}}.}
+to control the fitting parameters of \code{gnm}.  See \code{\link[gnm]{gnm}}.}
 }
 \value{
 A list with class \code{"fitStMoMo"} with components:
 
-  \item{model}{ the \code{StMoMo} defining the fitted stochastic mortality model.}
+  \item{model}{ the object of class \code{"StMoMo"} defining the fitted stochastic mortality model.}
 
   \item{ax}{ vector with the fitted values of the static age function \eqn{\alpha_x}.
    If the model does not have a static age function or failed to fit this is set to \code{NULL}.}
@@ -114,7 +116,7 @@ Fitting is done using function \code{\link[gnm]{gnm}} within package \code{gnm}.
 This is equivalent to minimising (maximising) the deviance (log-likelihood) of the
 model. Ages and years in the data should be of type numeric. Data points with zero
 exposure are assigned a zero weight and are ignored in the fitting process.
-Similarly, NA are assigned a zero weight and ignored in the fitting process.
+Similarly, \code{NA} are assigned a zero weight and ignored in the fitting process.
 Parameter estimates can be plotted using function \code{\link{plot.fitStMoMo}}.
 }
 \examples{
@@ -150,5 +152,8 @@ LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                    ages = EWMaleData$ages, years = EWMaleData$years,
                    oxt = rowMeans(log(EWMaleData$Dxt/EWMaleData$Ext)))
 plot(LCfix_axfit)
+}
+\seealso{
+\code{\link{genWeightMat}}, \code{\link{plot.fitStMoMo}}
 }
 
