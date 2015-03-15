@@ -2,23 +2,23 @@
 % Please edit documentation in R/standardModels.R
 \name{m6}
 \alias{m6}
-\title{Create an M6 type extension of the Cairns-Blake-Dowds mortality model}
+\title{Create an M6 type extension of the Cairns-Blake-Dowd mortality model}
 \usage{
 m6(link = c("logit", "log"))
 }
 \arguments{
-\item{link}{defines the link function and error distibution associated with
+\item{link}{defines the link function and random component associated with
 the mortality model. \code{"log"} would assume that deaths follow a Poisson
 distribution and use a log link while \code{"logit"} would assume that
 deaths follow a Binomial distribution and a logit link. Note that the default
 is the logit link.}
 }
 \value{
-An object of class "StMoMo".
+An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing the
-M6 type extension of the Cairns-Blake-Dowds mortality model introduced
+M6 type extension of the Cairns-Blake-Dowd mortality model introduced
 in Cairns et al (2009).
 }
 \details{

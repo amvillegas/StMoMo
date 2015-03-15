@@ -13,7 +13,7 @@ parameters of a stochastic mortality model.}
 \item{...}{other arguments.}
 }
 \value{
-A list with of model parameters with components:
+A list of model parameters with components:
 
   \item{ax}{ Vector with the fitted values of the static age function \eqn{\alpha_x}.
    If the model does not have a static age function or failed to fit this is set to \code{NULL}.}

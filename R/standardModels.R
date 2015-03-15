@@ -16,7 +16,7 @@
 #' and \code{"first"} which apply constraints \eqn{\sum\kappa_t = 0}, \eqn{\kappa_n = 0}
 #' and \eqn{\kappa_1 = 0}, respectively.
 #' 
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}
 #'  
@@ -65,21 +65,21 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
   StMoMo(link = link, staticAgeFun = TRUE, periodAgeFun = "NP", constFun = constLC)    
 }
 
-#' Create a Cairns-Blake-Dowds mortality model
+#' Create a Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing a 
-#' Cairns-Blake-Dowds mortality model.
+#' Cairns-Blake-Dowd mortality model.
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' Cairns-Blake-Dowd mortality moddel which has predictor structure 
+#' Cairns-Blake-Dowd mortality model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)}}
 #' 
-#' @param link defines the link function and error distibution associated with 
+#' @param link defines the link function and random component associated with 
 #'   the mortality model. \code{"log"} would assume that deaths follow a Poisson
 #'   distribution and use a log link while \code{"logit"} would assume that 
 #'   deaths follow a Binomial distribution and a logit link. Note that the default 
 #'   is the logit link.
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}
 #'  
@@ -91,7 +91,9 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #' @examples
 #' 
 #' CBD <- cbd()
-#' CBDfit <- fit(CBD, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#' Dxt <- EWMaleData$Dxt
+#' Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
+#' CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext, 
 #'             ages = EWMaleData$ages, years = EWMaleData$years,
 #'             ages.fit = 55:89)
 #' plot(CBDfit, parametricbx = FALSE)
@@ -117,7 +119,7 @@ cbd <- function(link = c("logit", "log")){
 #' \deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
 #' 
 #' @inheritParams StMoMo
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}
 #' 
@@ -192,7 +194,7 @@ apc <- function(link = c("log", "logit")){
 #'   \eqn{\beta_x^{(0)}}. It can take values: \code{"NP"} for a non-parametric age
 #'   term or \code{"1"} for \eqn{\beta_x^{(0)}=1} (the default). 
 #' 
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}, \link{lc}, \link{apc}
 #'  
@@ -252,10 +254,10 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 }
 
 
-#' Create an M6 type extension of the Cairns-Blake-Dowds mortality model
+#' Create an M6 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M6 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' M6 type extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
@@ -268,7 +270,7 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' of Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m7}, \link{m8}
 #' 
@@ -317,10 +319,10 @@ m6 <- function(link = c("logit", "log")){
 
 
 
-#' Create an M7 type extension of the Cairns-Blake-Dowds mortality model
+#' Create an M7 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M7 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' M7 type extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
@@ -334,7 +336,7 @@ m6 <- function(link = c("logit", "log")){
 #' in Appendix A of Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m8}
 #' 
@@ -389,10 +391,10 @@ m7 <- function(link = c("logit", "log")){
 }
 
 
-#' Create an M8 type extension of the Cairns-Blake-Dowds mortality model
+#' Create an M8 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M8 type extension of the Cairns-Blake-Dowds mortality model introduced
+#' M8 type extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
@@ -405,7 +407,7 @@ m7 <- function(link = c("logit", "log")){
 #' @inheritParams cbd
 #' @param xc constant defining the cohort age-modulating parameter. 
 #' 
-#' @return An object of class "StMoMo".
+#' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m7}
 #' 

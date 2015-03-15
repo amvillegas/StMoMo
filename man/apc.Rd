@@ -13,7 +13,7 @@ apc(link = c("log", "logit"))
   deaths follow a Binomial distribution and a logit link.}
 }
 \value{
-An object of class "StMoMo".
+An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing an

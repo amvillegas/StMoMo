@@ -2,32 +2,34 @@
 % Please edit documentation in R/standardModels.R
 \name{cbd}
 \alias{cbd}
-\title{Create a Cairns-Blake-Dowds mortality model}
+\title{Create a Cairns-Blake-Dowd mortality model}
 \usage{
 cbd(link = c("logit", "log"))
 }
 \arguments{
-\item{link}{defines the link function and error distibution associated with
+\item{link}{defines the link function and random component associated with
 the mortality model. \code{"log"} would assume that deaths follow a Poisson
 distribution and use a log link while \code{"logit"} would assume that
 deaths follow a Binomial distribution and a logit link. Note that the default
 is the logit link.}
 }
 \value{
-An object of class "StMoMo".
+An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing a
-Cairns-Blake-Dowds mortality model.
+Cairns-Blake-Dowd mortality model.
 }
 \details{
 The created model is either a logit-Binomial or a log-Poisson version of the
-Cairns-Blake-Dowd mortality moddel which has predictor structure
+Cairns-Blake-Dowd mortality model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)}}
 }
 \examples{
 CBD <- cbd()
-CBDfit <- fit(CBD, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+Dxt <- EWMaleData$Dxt
+Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
+CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext,
             ages = EWMaleData$ages, years = EWMaleData$years,
             ages.fit = 55:89)
 plot(CBDfit, parametricbx = FALSE)

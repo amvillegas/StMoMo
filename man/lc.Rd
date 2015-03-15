@@ -18,7 +18,7 @@ and \code{"first"} which apply constraints \eqn{\sum\kappa_t = 0}, \eqn{\kappa_n
 and \eqn{\kappa_1 = 0}, respectively.}
 }
 \value{
-An object of class "StMoMo".
+An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing a Lee-Carter model.

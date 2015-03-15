@@ -17,7 +17,7 @@ rh(link = c("log", "logit"), cohortAgeFun = c("1", "NP"))
   term or \code{"1"} for \eqn{\beta_x^{(0)}=1} (the default).}
 }
 \value{
-An object of class "StMoMo".
+An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing a
