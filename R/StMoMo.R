@@ -6,11 +6,11 @@
 #' @details
 #' 
 #' R implementation of the family of Generalised Age-Period-Cohort 
-#' stochastic mortality models.  This family of models encompass
+#' stochastic mortality models.  This family of models encompasses
 #' many models proposed in the literature including the well-known
 #' Lee-Carter model, CBD model and APC model. 
 #' 
-#' \code{StMoMo} defines an abstract representation of an Generalised Age-Period-Cohort
+#' \code{StMoMo} defines an abstract representation of a Generalised Age-Period-Cohort
 #' (GAPC) Stochastic model that fits within the general class of generalised non-linear 
 #' models defined as follows 
 #' \deqn{D_{xt} \sim Poisson(E_{xt}\mu_{xt}), D_{xt} \sim 
@@ -20,23 +20,26 @@
 #' + \beta_x^{(0)}\gamma_{t-x}} \deqn{v: \{\alpha_{x}, \beta_x^{(1)},..., 
 #' \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, \beta_x^{(0)}, \gamma_{t-x}\} \mapsto 
 #' \{\alpha_{x}, \beta_x^{(1)},..., \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, 
-#' \beta_x^{(0)}, \gamma_{t-x}\},} where  \eqn{\alpha_x} is a static age function, 
-#' \eqn{\beta_x^{(i)}\kappa_t^{(i)}, i = 1,..N} are age/period terms, 
-#' \eqn{\beta_x^{(0)}\gamma_{t-x}} is the age/cohort term, and \eqn{v} is a 
-#' function defining the identifiability constraints of the model. Most 
-#' Stochastic mortality models proposed in the literature can be cast to this 
+#' \beta_x^{(0)}, \gamma_{t-x}\},} where  
+#' \itemize{
+#'  \item \eqn{\alpha_x} is a static age function; 
+#'  \item \eqn{\beta_x^{(i)}\kappa_t^{(i)}, i = 1,..N}, are age/period terms; 
+#'  \item \eqn{\beta_x^{(0)}\gamma_{t-x}} is the age/cohort term; and 
+#'  \item \eqn{v} is a  function defining the identifiability constraints of the model. 
+#' }
+#' Most Stochastic mortality models proposed in the literature can be cast to this 
 #' representation (See Hunt and Blake (2014)).
 #' 
 #' Parametric age functions should be scalar functions of the form 
-#' \code{f <- function(x, ages)} taking a scalar age \code{x} and vector 
+#' \code{f <- function(x, ages)} taking a scalar age \code{x} and a vector 
 #' of model fitting \code{ages} (see examples below).
 #' 
-#' Do to limitation of function \code{\link[gnm]{gnm}} within package \pkg{gnm},
-#' which is used for fitting \code{StMoMO} objects to data (see \code{\link{fit.StMoMo}}),
+#' Do to limitation of functions \code{\link[gnm]{gnm}} within package \pkg{gnm},
+#' which is used for fitting \code{"StMoMo"} objects to data (see \code{\link{fit.StMoMo}}),
 #' models combining parametric and non-parametric age-modulating functions are not 
 #' supported at the moment.
 #' 
-#' @seealso \code{\link{lc}}, \code{\link{cbd}}, \code{\link{apc}}, 
+#' @seealso \code{\link{fit.StMoMo}}, \code{\link{lc}}, \code{\link{cbd}}, \code{\link{apc}}, 
 #' \code{\link{rh}}, \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
 #' 
 #' @param link defines the link function and random component associated with 

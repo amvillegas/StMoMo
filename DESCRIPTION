@@ -13,15 +13,15 @@ Description:  R implementation of the family of Generalised Age-Period-Cohort
     simulations.
 URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
-Imports:
-    reshape2,
-    fields (>= 7.1),
+Imports:    
     MASS,
-    rootSolve,
-    fanplot
+    rootSolve (>= 1.6.5),
+    fanplot (>= 3.3),
+    reshape2,
+    fields (>= 7.1)
 Depends:
     R (>= 3.1.0),
-    gnm,
-    forecast
+    gnm (>= 1.0), 
+    forecast(>= 5.6)
 License: GPL (>= 2)
 LazyData: true
