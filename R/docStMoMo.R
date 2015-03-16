@@ -8,6 +8,7 @@
 #' @importFrom stats simulate
 #' @importFrom rootSolve multiroot
 #' @importFrom fanplot fan
+#' @importFrom image image.plot
 NULL
 
 
