@@ -18,8 +18,8 @@ after_failure:
 
 env:
   - WARNINGS_ARE_ERRORS=1
-  global:
-      - R_CHECK_ARGS="--no-manual --timings"
+  - R_CHECK_ARGS="--no-manual --timings"
+  - R_BUILD_ARGS="--no-manual"
 
 notifications:
   email:
