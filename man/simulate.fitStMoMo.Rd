@@ -39,7 +39,7 @@ actual rates from the final year.}
 \item{...}{other arguments.}
 }
 \value{
-A list with class \code{"simStMoMo"} with components:
+A list of class \code{"simStMoMo"} with components:
 
 \item{rates}{ a three dimensional array with the future simulated rates.}
 \item{ages}{ vector of ages corresponding to the rows of \code{rates}.}
@@ -68,21 +68,21 @@ A list with class \code{"simStMoMo"} with components:
 Simulate future sample paths from a Stochastic Mortality Model.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
 using a Multivariate Random Walk with Drift. The cohort index
-\eqn{\gamma_{t-x}} is modelled using an ARIMA(p,d,q). By default
-an ARIMA(1,1,0) with a constant is used.
+\eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
+an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
 \details{
 Fitting and simulation of the Multivariate Random Walk with Drift
-for the period indexes use the function \code{\link{mrwd}}.
+for the period indexes is done using the function \code{\link{mrwd}}.
 Fitting and simulation of the ARIMA model for the cohort index
 is done with function \code{\link[forecast]{Arima}} from package
-\pkg{forecast}. See the latter function for futher details on
+\pkg{forecast}. See the latter function for further details on
 input arguments \code{gc.order} and \code{gc.include.constant}.
 
-Note that in some cases simulationos of the
+Note that in some cases simulations of the
 cohort effects may be needed for a horizon longer than \code{h}.
 This is the case when in the fitted model the most recent cohorts
-have been zero weighted. The simulated d cohorts can be seen in
+have been zero weighted. The simulated cohorts can be seen in
 \code{gc.s$cohorts}.
 }
 \examples{
@@ -147,5 +147,8 @@ fan(t(APCsim$rates["65", 1:(length(APCsim$years) - 3), ]),
     start = APCsim$years[1], probs = c(2.5, 10, 25, 50, 75, 90, 97.5),
     n.fan = 4, fan.col = colorRampPalette(c(rgb(0, 0, 1), rgb(1, 1, 1))),
     ln = NULL)
+}
+\seealso{
+\code{\link{forecast.fitStMoMo}}
 }
 

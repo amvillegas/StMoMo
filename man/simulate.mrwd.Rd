@@ -7,7 +7,7 @@
 \method{simulate}{mrwd}(object, nsim = 10, seed = NULL, ...)
 }
 \arguments{
-\item{object}{An object of class "mrwd".}
+\item{object}{An object of class \code{"mrwd"}.}
 
 \item{nsim}{number of periods for the simulated series.}
 
@@ -18,7 +18,7 @@ The default, \code{NULL} will not change the random generator state.}
 \item{...}{other arguments.}
 }
 \description{
-Returns a  simulated multivariate time series based on the Multivariate
+Returns one simulated path of the Multivariate
 Random Walk with Drift model in \code{object}.
 }
 

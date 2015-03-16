@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulatebootStMoMo.R
 \name{simulate.bootStMoMo}
 \alias{simulate.bootStMoMo}
-\title{Simulate future sample path from a Bootstrapped Stochastic
+\title{Simulate future sample paths from a Bootstrapped Stochastic
 Mortality Model}
 \usage{
 \method{simulate}{bootStMoMo}(object, nsim = 1, seed = NULL, h = 50,
@@ -42,7 +42,7 @@ actual rates from the final year.}
 \item{...}{other arguments.}
 }
 \value{
-A list with class \code{"simStMoMo"} with components
+A list of class \code{"simStMoMo"} with components
 
 \item{rates}{ a three dimensional array with the future simulated rates.}
 
@@ -74,8 +74,8 @@ A list with class \code{"simStMoMo"} with components
 Simulate future sample paths from a Bootstrapped Stochastic Mortality Model.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
 using a Multivariate Random Walk with Drift. The cohort index
-\eqn{\gamma_{t-x}} is modelled using an ARIMA(p,d,q). By default
-an ARIMA(1,1,0) with a constant is used.
+\eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
+an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
 \details{
 For further details see \code{\link{simulate.fitStMoMo}}.
@@ -101,5 +101,8 @@ fan(t(log(LCsim$rates["10", 1:(length(LCsim$years) - 3), ])),start = LCsim$years
     probs = c(2.5, 10, 25, 50, 75, 90, 97.5), n.fan = 4,
     fan.col = colorRampPalette(c(rgb(1, 0, 0), rgb(1, 1, 1))), ln = NULL)
 }
+}
+\seealso{
+\code{\link{bootstrap.fitStMoMo}}, \code{\link{simulate.fitStMoMo}}
 }
 

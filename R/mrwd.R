@@ -96,10 +96,10 @@ forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...){
 
 #' Simulate a Multivariate Random Walk with Drift
 #' 
-#' Returns a  simulated multivariate time series based on the Multivariate 
+#' Returns one simulated path of the Multivariate 
 #' Random Walk with Drift model in \code{object}.
 #' 
-#' @param object An object of class "mrwd".
+#' @param object An object of class \code{"mrwd"}.
 #' @param nsim number of periods for the simulated series.
 #' @param seed either \code{NULL} or an integer that will be used in a call to 
 #' \code{\link{set.seed}} before simulating the time series. 

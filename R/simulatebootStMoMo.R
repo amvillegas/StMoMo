@@ -1,12 +1,12 @@
 
-#' Simulate future sample path from a Bootstrapped Stochastic 
+#' Simulate future sample paths from a Bootstrapped Stochastic 
 #' Mortality Model
 #'
 #' Simulate future sample paths from a Bootstrapped Stochastic Mortality Model.
 #' The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
 #' using a Multivariate Random Walk with Drift. The cohort index 
-#' \eqn{\gamma_{t-x}} is modelled using an ARIMA(p,d,q). By default
-#' an ARIMA(1,1,0) with a constant is used.
+#' \eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
+#' an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 #' 
 #' @param object an object of class \code{"bootStMoMo"} with the bootstrapped 
 #' parameters of a stochastic mortality model.
@@ -19,7 +19,7 @@
 #' known component to be added to the simulated predictor.  
 #' @inheritParams forecast.fitStMoMo
 #' 
-#' @return A list with class \code{"simStMoMo"} with components
+#' @return A list of class \code{"simStMoMo"} with components
 #' 
 #' \item{rates}{ a three dimensional array with the future simulated rates.}
 #' 
@@ -49,6 +49,8 @@
 #'  
 #' @details
 #' For further details see \code{\link{simulate.fitStMoMo}}. 
+#' 
+#' @seealso \code{\link{bootstrap.fitStMoMo}}, \code{\link{simulate.fitStMoMo}}
 #' 
 #' @examples
 #' \donttest{
