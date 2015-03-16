@@ -6,14 +6,14 @@
 #' logit-Binomial version of the Lee-Carter model which has predictor structure   
 #' \deqn{\eta_{xt} = \alpha_x + \beta_x\kappa_t.}
 #' To ensure identifiability one of the  following constraints is imposed
-#' \deqn{\sum\kappa_t = 0,\,\kappa_1 = 0,\, \kappa_n = 0}
+#' \deqn{\sum_t\kappa_t = 0,\,\kappa_1 = 0,\, \kappa_n = 0}
 #' depending on the value of \code{const}, and
-#' \deqn{\sum\beta_x = 1.}
+#' \deqn{\sum_x\beta_x = 1.}
 #' 
 #' @inheritParams StMoMo
 #' @param const defines the constraint to impose to the period index of the model
-#' to ensure identifiablity. The alternatives are \code{"sum"}(default),  \code{"last"}
-#' and \code{"first"} which apply constraints \eqn{\sum\kappa_t = 0}, \eqn{\kappa_n = 0}
+#' to ensure identifiability. The alternatives are \code{"sum"}(default),  \code{"last"}
+#' and \code{"first"} which apply constraints \eqn{\sum_t\kappa_t = 0}, \eqn{\kappa_n = 0}
 #' and \eqn{\kappa_1 = 0}, respectively.
 #' 
 #' @return An object of class \code{"StMoMo"}.
