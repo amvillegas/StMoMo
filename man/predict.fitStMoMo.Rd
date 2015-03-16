@@ -40,7 +40,7 @@ alternatives are \code{"link"}(default) and \code{"rates"}.}
 A matrix with the predicted values.
 }
 \description{
-Predict mortality rates using a Stochastic Mortality Model
+Obtain predictions from a Stochastic Mortality Model
 fit.
 }
 \details{
@@ -72,7 +72,7 @@ plot(1961:2041 , (cbind(mxthatLC, mxtForLC))["80", ], type = "l",
      main = "Fitted vs. Observed rates at age 80")
 points(1961:2011, mxt["80", ])
 
-#Add Age-Period-Cohort forecast using auto.arima
+#Age-Period-Cohort forecast using auto.arima
 APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages = EWMaleData$ages, years = EWMaleData$years)
 ktForAPC <- forecast(auto.arima(as.vector(APCfit$kt)), h = 30)
@@ -81,5 +81,8 @@ mxtForAPC <- predict(APCfit, years = 2012:2041, kt = ktForAPC$mean,
                      gc = c(tail(APCfit$gc, 100), gcForAPC$mean), type = "rates")
 mxthatAPC <- fitted(APCfit, type = "rates")
 lines(1961:2041 , (cbind(mxthatAPC, mxtForAPC))["80", ], type = "l", col = "blue")
+}
+\seealso{
+\code{\link{forecast.fitStMoMo}}
 }
 

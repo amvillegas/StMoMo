@@ -1,6 +1,6 @@
 #' Predict method for Stochastic Mortality Models fits
 #' 
-#' Predict mortality rates using a Stochastic Mortality Model
+#' Obtain predictions from a Stochastic Mortality Model
 #' fit. 
 #' 
 #' This function evaluates 
@@ -44,6 +44,8 @@
 #'   
 #' @return A matrix with the predicted values.
 #'   
+#' @seealso \code{\link{forecast.fitStMoMo}}   
+#'   
 #' @examples
 #' library(forecast)
 #' #Lee-Carter forecast using auto.arima
@@ -59,7 +61,7 @@
 #'      main = "Fitted vs. Observed rates at age 80")
 #' points(1961:2011, mxt["80", ])
 #' 
-#' #Add Age-Period-Cohort forecast using auto.arima
+#' #Age-Period-Cohort forecast using auto.arima
 #' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'               ages = EWMaleData$ages, years = EWMaleData$years)
 #' ktForAPC <- forecast(auto.arima(as.vector(APCfit$kt)), h = 30)
