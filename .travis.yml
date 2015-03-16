@@ -20,5 +20,5 @@ env:
 
 notifications:
   email:
-    on_success: andresmauriciovillegas@gmail.com
-    on_failure: andresmauriciovillegas@gmail.com
+    on_success: change
+    on_failure: change
