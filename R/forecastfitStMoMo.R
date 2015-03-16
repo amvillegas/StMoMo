@@ -193,6 +193,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
 }
 
 #' Print an object of class \code{"forStMoMo"}
+#' 
 #' \code{print} method for class \code{"forStMoMo"}. 
 #' @usage 
 #' \method{print}{forStMoMo}(x, ...)

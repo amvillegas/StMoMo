@@ -2,8 +2,7 @@
 % Please edit documentation in R/forecastfitStMoMo.R
 \name{print.forStMoMo}
 \alias{print.forStMoMo}
-\title{Print an object of class \code{"forStMoMo"}
-\code{print} method for class \code{"forStMoMo"}.}
+\title{Print an object of class \code{"forStMoMo"}}
 \usage{
 \method{print}{forStMoMo}(x, ...)
 }
@@ -13,7 +12,6 @@
 \item{...}{arguments to be passed to or from other methods.}
 }
 \description{
-Print an object of class \code{"forStMoMo"}
 \code{print} method for class \code{"forStMoMo"}.
 }
 

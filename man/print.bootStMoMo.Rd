@@ -2,8 +2,7 @@
 % Please edit documentation in R/bootstrapfitStMoMo.R
 \name{print.bootStMoMo}
 \alias{print.bootStMoMo}
-\title{Print an object of class \code{"bootStMoMo"}
-\code{print} method for class \code{"bootStMoMo"}.}
+\title{Print an object of class \code{"bootStMoMo"}}
 \usage{
 \method{print}{bootStMoMo}(x, ...)
 }
@@ -13,7 +12,6 @@
 \item{...}{arguments to be passed to or from other methods.}
 }
 \description{
-Print an object of class \code{"bootStMoMo"}
 \code{print} method for class \code{"bootStMoMo"}.
 }
 

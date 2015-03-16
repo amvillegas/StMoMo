@@ -2,8 +2,7 @@
 % Please edit documentation in R/fitStMoMo.R
 \name{print.fitStMoMo}
 \alias{print.fitStMoMo}
-\title{Print an object of class \code{"fitStMoMo"}
-\code{print} method for class \code{"fitStMoMo"}.}
+\title{Print an object of class \code{"fitStMoMo"}}
 \usage{
 \method{print}{fitStMoMo}(x, ...)
 }
@@ -13,7 +12,6 @@
 \item{...}{arguments to be passed to or from other methods.}
 }
 \description{
-Print an object of class \code{"fitStMoMo"}
 \code{print} method for class \code{"fitStMoMo"}.
 }
 

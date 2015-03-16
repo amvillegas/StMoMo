@@ -135,6 +135,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1, type = c("semiparametric", "r
 
 
 #' Print an object of class \code{"bootStMoMo"}
+#' 
 #' \code{print} method for class \code{"bootStMoMo"}. 
 #' @usage 
 #' \method{print}{bootStMoMo}(x, ...)

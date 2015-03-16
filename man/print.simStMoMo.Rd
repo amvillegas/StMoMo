@@ -2,8 +2,7 @@
 % Please edit documentation in R/simulatefitStMoMo.R
 \name{print.simStMoMo}
 \alias{print.simStMoMo}
-\title{Print an object of class \code{"simStMoMo"}
-\code{print} method for class \code{"simStMoMo"}.}
+\title{Print an object of class \code{"simStMoMo"}}
 \usage{
 \method{print}{simStMoMo}(x, ...)
 }
@@ -13,7 +12,6 @@
 \item{...}{arguments to be passed to or from other methods.}
 }
 \description{
-Print an object of class \code{"simStMoMo"}
 \code{print} method for class \code{"simStMoMo"}.
 }
 

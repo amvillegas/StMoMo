@@ -238,6 +238,7 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
 
 
 #' Print an object of class \code{"simStMoMo"}
+#' 
 #' \code{print} method for class \code{"simStMoMo"}. 
 #' @usage 
 #' \method{print}{simStMoMo}(x, ...)

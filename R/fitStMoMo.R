@@ -681,6 +681,7 @@ processStartValues <- function(object, coefNames, ax, bx, kt, b0x, gc,
 
 
 #' Print an object of class \code{"fitStMoMo"}
+#' 
 #' \code{print} method for class \code{"fitStMoMo"}. 
 #' @usage 
 #' \method{print}{fitStMoMo}(x, ...)
