@@ -72,7 +72,8 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
 #' Cairns-Blake-Dowd mortality model which has predictor structure 
-#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)}}
+#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
+#' where \eqn{\bar{x}} is the average age in the data.
 #' 
 #' @param link defines the link function and random component associated with 
 #'   the mortality model. \code{"log"} would assume that deaths follow a Poisson
@@ -121,7 +122,7 @@ cbd <- function(link = c("logit", "log")){
 #' @inheritParams StMoMo
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}
+#' @seealso \code{\link{StMoMo}}, \code{\link{rh}}
 #' 
 #' @references
 #' 
@@ -181,13 +182,13 @@ apc <- function(link = c("log", "logit")){
 #' depending on the value of argument \code{cohortAgeFun}.
 #'   
 #' To ensure identifiability the  following constraints are imposed
-#' \deqn{\sum\kappa_t = 0, \sum\beta^{(1)}_x = 1, \sum\gamma_c = 0}
+#' \deqn{\sum_t\kappa_t = 0, \sum_x\beta^{(1)}_x = 1, \sum_c\gamma_c = 0}
 #' plus
-#' \deqn{\sum\beta^{(0)}_x = 1}
-#' if \code{cohortAgeFun = "1"}
+#' \deqn{\sum_x\beta^{(0)}_x = 1}
+#' if \code{cohortAgeFun = "NP"}
 #' 
-#' By default \eqn{\beta^{(0)} = 1} as this model has shown to be more
-#' stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014))
+#' By default \eqn{\beta^{(0)}_x = 1} as this model has shown to be more
+#' stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014)).
 #' 
 #' @inheritParams StMoMo
 #' @param cohortAgeFun defines the cohort age modulating parameter 
@@ -257,22 +258,25 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' Create an M6 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M6 type extension of the Cairns-Blake-Dowd mortality model introduced
-#' in Cairns et al (2009).
+#' M6 (CBD with cohorts) extension of the Cairns-Blake-Dowd mortality model 
+#' introduced in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
 #' M6 model which has predictor structure 
-#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + \gamma_{t-x}} 
-#' Identifiability of the model is acomplished by applying parameters constraints
-#' \deqn{\sum\gamma_c = 0, \sum c\gamma_c = 0}
+#' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + \gamma_{t-x},} 
+#' where \eqn{\bar{x}} is the average age in the data.
+#' 
+#' Identifiability of the model is accomplished by applying parameters constraints
+#' \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0}
 #' which ensure that the cohort effect fluctuates around zero and has no linear 
-#' trend. These constrains are applied using the strategy discussed  in Appendix A
+#' trend. These constraints are applied using the strategy discussed  in Appendix A
 #' of Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m7}, \link{m8}
+#' @seealso \code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m7}}, 
+#' \code{\link{m8}}
 #' 
 #' @references
 #' 
@@ -287,10 +291,11 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' @examples
 #' 
 #' M6 <- m6()
+#' Dxt <- EWMaleData$Dxt
+#' Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-#' M6fit <- fit(M6, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'             ages = EWMaleData$ages, years = EWMaleData$years,
-#'             ages.fit = 55:89)
+#' M6fit <- fit(M6, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages, 
+#'            years = EWMaleData$years, ages.fit = 55:89)
 #' plot(M6fit, parametricbx = FALSE)
 #' 
 #' @export
@@ -322,23 +327,27 @@ m6 <- function(link = c("logit", "log")){
 #' Create an M7 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M7 type extension of the Cairns-Blake-Dowd mortality model introduced
+#' M7 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
 #' M7 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + 
-#'                            ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x}} 
-#' Identifiability of the model is acomplished by applying parameters constraints
-#' \deqn{\sum\gamma_c = 0, \sum c\gamma_c = 0, \sum c^2\gamma_c = 0}
+#'                            ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x},} 
+#' where \eqn{\bar{x}} is the average age in the data and \eqn{\hat{\sigma}^2_x} 
+#' is the average value of \eqn{(x-\bar{x})^2}.
+#'                            
+#' Identifiability of the model is accomplished by applying parameters constraints
+#' \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0, \sum_c c^2\gamma_c = 0}
 #' which ensure that the cohort effect fluctuates around zero and has no linear
-#' or quadratic trend. These constrains are applied using the strategy discussed  
+#' or quadratic trend. These constraints are applied using the strategy discussed  
 #' in Appendix A of Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m8}
+#' @seealso \code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}}, 
+#' \code{\link{m8}}
 #' 
 #' @references
 #' 
@@ -353,10 +362,11 @@ m6 <- function(link = c("logit", "log")){
 #' @examples
 #' 
 #' M7 <- m7()
+#' Dxt <- EWMaleData$Dxt
+#' Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-#' M7fit <- fit(M7, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'             ages = EWMaleData$ages, years = EWMaleData$years,
-#'             ages.fit = 55:89)
+#' M7fit <- fit(M7, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages, 
+#'              years = EWMaleData$years, ages.fit = 55:89)
 #' plot(M7fit, parametricbx = FALSE)
 #' 
 #' @export
@@ -394,22 +404,24 @@ m7 <- function(link = c("logit", "log")){
 #' Create an M8 type extension of the Cairns-Blake-Dowd mortality model
 #' 
 #' Utility function to initialise a \code{StMoMo} object representing the 
-#' M8 type extension of the Cairns-Blake-Dowd mortality model introduced
+#' M8 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
 #' The created model is either a logit-Binomial or a log-Poisson version of the 
 #' M8 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
-#' where \eqn{x_c} is a predefined constant. 
-#' Identifiability of the model is acomplished by applying parameters constraints
-#' \deqn{\sum\gamma_c = 0.}
+#' where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a predefined
+#' constant. 
+#' Identifiability of the model is accomplished by applying parameters constraint
+#' \deqn{\sum_c\gamma_c = 0.}
 #' 
 #' @inheritParams cbd
 #' @param xc constant defining the cohort age-modulating parameter. 
 #' 
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m7}
+#' @seealso \code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}}, 
+#' \code{\link{m7}}
 #' 
 #' @references
 #' 
@@ -418,16 +430,14 @@ m7 <- function(link = c("logit", "log")){
 #' data from England and Wales and the United States. 
 #' North American Actuarial Journal, 13(1), 1-35.
 #' 
-#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
-#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
-#' 
 #' @examples
 #' 
 #' M8 <- m8(xc = 89)
+#' Dxt <- EWMaleData$Dxt
+#' Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-#' M8fit <- fit(M8, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'             ages = EWMaleData$ages, years = EWMaleData$years,
-#'             ages.fit = 55:89)
+#' M8fit <- fit(M8, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages, 
+#'              years = EWMaleData$years, ages.fit = 55:89)
 #' plot(M8fit, parametricbx = FALSE)
 #' 
 #' @export

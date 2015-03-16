@@ -34,13 +34,13 @@ or
 depending on the value of argument \code{cohortAgeFun}.
 
 To ensure identifiability the  following constraints are imposed
-\deqn{\sum\kappa_t = 0, \sum\beta^{(1)}_x = 1, \sum\gamma_c = 0}
+\deqn{\sum_t\kappa_t = 0, \sum_x\beta^{(1)}_x = 1, \sum_c\gamma_c = 0}
 plus
-\deqn{\sum\beta^{(0)}_x = 1}
-if \code{cohortAgeFun = "1"}
+\deqn{\sum_x\beta^{(0)}_x = 1}
+if \code{cohortAgeFun = "NP"}
 
-By default \eqn{\beta^{(0)} = 1} as this model has shown to be more
-stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014))
+By default \eqn{\beta^{(0)}_x = 1} as this model has shown to be more
+stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014)).
 }
 \examples{
 LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,

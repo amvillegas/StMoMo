@@ -42,6 +42,6 @@ data from England and Wales and the United States.
 North American Actuarial Journal, 13(1), 1-35.
 }
 \seealso{
-\code{\link{StMoMo}}
+\code{\link{StMoMo}}, \code{\link{rh}}
 }
 

@@ -18,26 +18,30 @@ An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing the
-M7 type extension of the Cairns-Blake-Dowd mortality model introduced
+M7 extension of the Cairns-Blake-Dowd mortality model introduced
 in Cairns et al (2009).
 }
 \details{
 The created model is either a logit-Binomial or a log-Poisson version of the
 M7 model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} +
-                           ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x}}
-Identifiability of the model is acomplished by applying parameters constraints
-\deqn{\sum\gamma_c = 0, \sum c\gamma_c = 0, \sum c^2\gamma_c = 0}
+                           ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x},}
+where \eqn{\bar{x}} is the average age in the data and \eqn{\hat{\sigma}^2_x}
+is the average value of \eqn{(x-\bar{x})^2}.
+
+Identifiability of the model is accomplished by applying parameters constraints
+\deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0, \sum_c c^2\gamma_c = 0}
 which ensure that the cohort effect fluctuates around zero and has no linear
-or quadratic trend. These constrains are applied using the strategy discussed
+or quadratic trend. These constraints are applied using the strategy discussed
 in Appendix A of Haberman and Renshaw (2011).
 }
 \examples{
 M7 <- m7()
+Dxt <- EWMaleData$Dxt
+Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-M7fit <- fit(M7, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years,
-            ages.fit = 55:89)
+M7fit <- fit(M7, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages,
+             years = EWMaleData$years, ages.fit = 55:89)
 plot(M7fit, parametricbx = FALSE)
 }
 \references{
@@ -50,6 +54,7 @@ Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality 
 models. Insurance: Mathematics and Economics, 48(1), 35-55.
 }
 \seealso{
-\code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m8}
+\code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}},
+\code{\link{m8}}
 }
 

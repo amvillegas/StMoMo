@@ -23,7 +23,8 @@ Cairns-Blake-Dowd mortality model.
 \details{
 The created model is either a logit-Binomial or a log-Poisson version of the
 Cairns-Blake-Dowd mortality model which has predictor structure
-\deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)}}
+\deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
+where \eqn{\bar{x}} is the average age in the data.
 }
 \examples{
 CBD <- cbd()

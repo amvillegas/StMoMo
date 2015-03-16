@@ -20,23 +20,25 @@ An object of class \code{"StMoMo"}.
 }
 \description{
 Utility function to initialise a \code{StMoMo} object representing the
-M8 type extension of the Cairns-Blake-Dowd mortality model introduced
+M8 extension of the Cairns-Blake-Dowd mortality model introduced
 in Cairns et al (2009).
 }
 \details{
 The created model is either a logit-Binomial or a log-Poisson version of the
 M8 model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
-where \eqn{x_c} is a predefined constant.
-Identifiability of the model is acomplished by applying parameters constraints
-\deqn{\sum\gamma_c = 0.}
+where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a predefined
+constant.
+Identifiability of the model is accomplished by applying parameters constraint
+\deqn{\sum_c\gamma_c = 0.}
 }
 \examples{
 M8 <- m8(xc = 89)
+Dxt <- EWMaleData$Dxt
+Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-M8fit <- fit(M8, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years,
-            ages.fit = 55:89)
+M8fit <- fit(M8, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages,
+             years = EWMaleData$years, ages.fit = 55:89)
 plot(M8fit, parametricbx = FALSE)
 }
 \references{
@@ -44,11 +46,9 @@ Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A.,
 & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using
 data from England and Wales and the United States.
 North American Actuarial Journal, 13(1), 1-35.
-
-Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection
-models. Insurance: Mathematics and Economics, 48(1), 35-55.
 }
 \seealso{
-\code{\link{StMoMo}}, \link{cbd}, \link{m6}, \link{m7}
+\code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}},
+\code{\link{m7}}
 }
 
