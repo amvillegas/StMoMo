@@ -1,8 +1,8 @@
 
 
-#' Plot fit from a stochastic mortality model
+#' Plot fitted parameters from a stochastic mortality model
 #' 
-#' Plot a fitted stochastic mortality model of class \code{"fitStMoMo"}.
+#' Plot fitted parameters of a stochastic mortality model of class \code{"fitStMoMo"}.
 #' 
 #' @usage 
 #' \method{plot}{fitStMoMo}(x, nCol = 2, parametricbx = TRUE, type = "l", ...)

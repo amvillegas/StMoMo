@@ -16,6 +16,8 @@
 #' @param only.gc If \code{TRUE} only the cohort index of the model is 
 #' plotted. This argument is ignored if \code{only.kt} is \code{TRUE}.
 #'
+#' @seealso \code{\link{plot.fitStMoMo}}
+#'
 #' @examples
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
 #' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 

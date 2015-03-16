@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotfitStMoMo.R
 \name{plot.fitStMoMo}
 \alias{plot.fitStMoMo}
-\title{Plot fit from a stochastic mortality model}
+\title{Plot fitted parameters from a stochastic mortality model}
 \usage{
 \method{plot}{fitStMoMo}(x, nCol = 2, parametricbx = TRUE, type = "l", ...)
 }
@@ -22,7 +22,7 @@ which don't need to be estimated, are not plotted.}
 See \code{\link[graphics]{plot}}.}
 }
 \description{
-Plot a fitted stochastic mortality model of class \code{"fitStMoMo"}.
+Plot fitted parameters of a stochastic mortality model of class \code{"fitStMoMo"}.
 }
 \examples{
 #Fit and plot a Lee-Carter model

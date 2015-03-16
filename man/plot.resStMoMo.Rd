@@ -2,7 +2,7 @@
 % Please edit documentation in R/residualsfitStMoMo.R
 \name{plot.resStMoMo}
 \alias{plot.resStMoMo}
-\title{Plot the residuals of Stochastic Mortality Model}
+\title{Plot the residuals of a Stochastic Mortality Model}
 \usage{
 \method{plot}{resStMoMo}(x, type = c("scatter", "colourmap", "signplot"),
 reslim = range(x$residuals, na.rm = TRUE), plotAge = TRUE, plotYear = TRUE,
@@ -29,11 +29,12 @@ should be produced. This is only used when \code{type = "scatter"}.}
 \item{pch}{optional symbol to use for the points in a scatterplot.
 This is only used when \code{type = "scatter"}. See \code{\link[graphics]{plot}}.}
 
-\item{...}{other plotting parameters to be passed to the ploting functions. This can
-be used to control the apperance of the plots.}
+\item{...}{other plotting parameters to be passed to the plotting functions. This can
+be used to control the appearance of the plots.}
 }
 \description{
-Plots the deviance residuals of a Stochastic Mortality Model. Three types of plots
+Plots the deviance residuals of a Stochastic Mortality Model which are
+of class \code{"resStMoMo"}. Three types of plots
 are available: scatter plot of residuals by age, period and cohort,
 colour map (heatmap) of the residuals, and a black and white signplot
 of the residuals.
@@ -59,5 +60,8 @@ CBDres <- residuals(CBDfit)
 plot(CBDres)
 plot(CBDres, type = "signplot")
 plot(CBDres, type = "colourmap", reslim = c(-4,4))
+}
+\seealso{
+\code{\link{residuals.fitStMoMo}}
 }
 

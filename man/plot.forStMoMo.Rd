@@ -39,4 +39,7 @@ plot(APCfor, parametricbx = FALSE, nCol = 3)
 plot(APCfor, only.kt = TRUE)
 plot(APCfor, only.gc = TRUE, lwd = 2)
 }
+\seealso{
+\code{\link{plot.fitStMoMo}}
+}
 

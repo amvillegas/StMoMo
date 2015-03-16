@@ -20,7 +20,7 @@ which don't need to be estimated, are not plotted.}
 
 \item{probs}{probabilities related to percentiles to plot in the fan chart.
 The  default \code{c(2.5,10,25,50,75,90,97.5)} plots the 50\%, 80\% and 95\%
-confidence interval of the parameters.}
+confidence intervals of the parameters.}
 
 \item{...}{other arguments.}
 }
@@ -37,5 +37,8 @@ CBDResBoot <- bootstrap(CBDfit, nBoot = 500)
 plot(CBDResBoot)
 plot(CBDResBoot, parametricbx = FALSE, probs = seq(2.5, 97.5, 2.5))
 }
+}
+\seealso{
+\code{\link{plot.fitStMoMo}}
 }
 

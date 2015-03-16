@@ -13,8 +13,10 @@
 #' @param colour colour to use in the fans.
 #' @param probs probabilities related to percentiles to plot in the fan chart.
 #' The  default \code{c(2.5,10,25,50,75,90,97.5)} plots the 50\%, 80\% and 95\% 
-#' confidence interval of the parameters.
+#' confidence intervals of the parameters.
 #' @param ... other arguments.
+#' 
+#' @seealso \code{\link{plot.fitStMoMo}}
 #' 
 #' @examples 
 #' \donttest{

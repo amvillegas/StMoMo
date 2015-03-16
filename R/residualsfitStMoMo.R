@@ -49,9 +49,10 @@ residuals.fitStMoMo<-function(object, scale = TRUE, ...){
 }
 
 
-#' Plot the residuals of Stochastic Mortality Model
+#' Plot the residuals of a Stochastic Mortality Model
 #' 
-#' Plots the deviance residuals of a Stochastic Mortality Model. Three types of plots
+#' Plots the deviance residuals of a Stochastic Mortality Model which are 
+#' of class \code{"resStMoMo"}. Three types of plots
 #' are available: scatter plot of residuals by age, period and cohort,
 #' colour map (heatmap) of the residuals, and a black and white signplot 
 #' of the residuals.
@@ -73,8 +74,8 @@ residuals.fitStMoMo<-function(object, scale = TRUE, ...){
 #' should be produced. This is only used when \code{type = "scatter"}.
 #' @param pch optional symbol to use for the points in a scatterplot. 
 #' This is only used when \code{type = "scatter"}. See \code{\link[graphics]{plot}}.
-#' @param ... other plotting parameters to be passed to the ploting functions. This can
-#' be used to control the apperance of the plots.
+#' @param ... other plotting parameters to be passed to the plotting functions. This can
+#' be used to control the appearance of the plots.
 #'
 #' @details
 #' When \code{type = "scatter"} scatter plots of the residuals against age, calendar
@@ -88,6 +89,8 @@ residuals.fitStMoMo<-function(object, scale = TRUE, ...){
 #' When \code{type = "signplot"} a two dimensional black and white map of the residuals is 
 #' plotted with dark grey representing negative residuals and light grey representing 
 #' positive residuals. This is produced using function \code{\link[graphics]{image.default}}. 
+#'   
+#'  @seealso \code{\link{residuals.fitStMoMo}}
 #'   
 #' @examples
 #' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
