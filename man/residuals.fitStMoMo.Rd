@@ -11,8 +11,9 @@ Mortality Model}
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted
 parameters of a stochastic mortality model.}
 
-\item{scale}{logical indicating scaling or not the residual by dividing the deviance by the
-overdispersion of the model.  Default is \code{TRUE}.}
+\item{scale}{logical indicating whether the residuals should be scaled
+or not by dividing the deviance by the  overdispersion of the model.
+Default is \code{TRUE}.}
 
 \item{...}{other arguments.}
 }
@@ -25,6 +26,7 @@ has components:
 }
 \description{
 Compute deviance residuals of a fitted Stochastic Mortality Model.
+These residuals can be plotted using \code{\link{plot.resStMoMo}}.
 }
 \examples{
 CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
@@ -32,5 +34,8 @@ CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages.fit = 55:89)
 CBDres <- residuals(CBDfit)
 plot(CBDres)
+}
+\seealso{
+\code{\link{plot.resStMoMo}}
 }
 

@@ -1,12 +1,14 @@
 #' Extract deviance residuals of a Stochastic
 #' Mortality Model
 #' 
-#' Compute deviance residuals of a fitted Stochastic Mortality Model.   
+#' Compute deviance residuals of a fitted Stochastic Mortality Model. 
+#' These residuals can be plotted using \code{\link{plot.resStMoMo}}.
 #' 
 #' @param object an object of class \code{"fitStMoMo"} with the fitted 
 #' parameters of a stochastic mortality model.
-#' @param scale logical indicating scaling or not the residual by dividing the deviance by the 
-#' overdispersion of the model.  Default is \code{TRUE}.
+#' @param scale logical indicating whether the residuals should be scaled 
+#' or not by dividing the deviance by the  overdispersion of the model.  
+#' Default is \code{TRUE}.
 #' @param ... other arguments.
 #' 
 #' @return An object of class \code{"resStMoMo"} with the residuals. This object
@@ -14,6 +16,8 @@
 #'   \item{residuals}{ a matrix with the residuals.}
 #'   \item{ages}{ ages corresponding to the rows in \code{residuals}.}
 #'   \item{years}{ years corresponding to the columns in \code{residuals}.}
+#' 
+#' @seealso \code{\link{plot.resStMoMo}}
 #' 
 #' @examples
 #' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
