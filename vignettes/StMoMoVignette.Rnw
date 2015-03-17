@@ -21,7 +21,7 @@
 \usepackage{amsmath,latexsym,amsfonts,epsfig, color, graphics, url}
 \usepackage[breaklinks=true]{hyperref}
 %\usepackage{algorithm, algorithmic, lineno, lscape, ctable}
-\usepackage{algorithm, algorithmic, ctable}
+\usepackage{ctable}
 \usepackage{array}
 \usepackage{rotating}
 \usepackage{amsthm}
