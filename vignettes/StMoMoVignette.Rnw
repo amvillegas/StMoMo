@@ -1398,7 +1398,7 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 \caption{Bootstrapped parameters for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Shades in the fan represent confidence intervals at the 50\%, 80\% and 95\% level.}\label{fig:LCboot}  
 \end{figure}
 
-% Once a stochastic mortality model has been bootstrapped we can simulate it forward to obtain simulated trajectories which account for both the forecast error in the period and cohort indexes and the error in the model fitting. In \rpkg{StMoMo} we can accomplish this using \vlad{the} function \rcode{simulate} applied to an object of class \rcode{"bootStMoMo"}. Thus, to obtain 5000 simulated trajectories of the Lee-Carter model \revI{for the next 24 years taking} into account parameter uncertainty we use the instruction:
+ Once a stochastic mortality model has been bootstrapped we can simulate it forward to obtain simulated trajectories which account for both the forecast error in the period and cohort indexes and the error in the model fitting. In \rpkg{StMoMo} we can accomplish this using \vlad{the} function \rcode{simulate} applied to an object of class \rcode{"bootStMoMo"}. Thus, to obtain 5000 simulated trajectories of the Lee-Carter model \revI{for the next 24 years taking} into account parameter uncertainty we use the instruction:
 % %Reinstate if re-running New Zeland example
 % % <<simPULCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
 % % LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
@@ -1408,7 +1408,7 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
 @ 
 \noindent 
-% To highlight the impact of parameter risk on mortality rate projections it is instructive to compare  prediction intervals with and without the allowance of parameter uncertainty. \revI{24-year ahead} central forecast together with 5000 trajectories of the Lee-Carter model allowing only for forecast error in the random walk with drift and ignoring the model fitting error can be obtained with the code:
+To highlight the impact of parameter risk on mortality rate projections it is instructive to compare  prediction intervals with and without the allowance of parameter uncertainty. \revI{24-year ahead} central forecast together with 5000 trajectories of the Lee-Carter model allowing only for forecast error in the random walk with drift and ignoring the model fitting error can be obtained with the code:
 % %Reinstate if re-running New Zeland example
 % % <<simLCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
 % % LCfor_NZ <- forecast(LCfit_NZ, h = 24)
