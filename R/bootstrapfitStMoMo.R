@@ -1,5 +1,5 @@
 
-#' Generic for bootstrapping a fitted Stochastic Mortality Model
+#' Generic method for bootstrapping a fitted Stochastic Mortality Model
 #'
 #' \code{bootstrap} is a generic function for bootstrapping Stochastic Mortality Models. 
 #' The function invokes particular methods which depend on the class of the first argument. 

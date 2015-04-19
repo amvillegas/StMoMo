@@ -23,7 +23,7 @@ StMoMo(link = c("log", "logit"), staticAgeFun = TRUE, periodAgeFun = "NP",
   period age modulating parameters \eqn{\beta_x^{(i)}}. Each entry can take
   values: \code{"NP"} for non-parametric age terms, \code{"1"} for
   \eqn{\beta_x^{(i)}=1} or a predefined parametric function of age (see details).
-  Make this \code{NULL} if there are no period terms in the model.}
+  Set this to \code{NULL} if there are no period terms in the model.}
 
 \item{cohortAgeFun}{defines the cohort age modulating parameter
   \eqn{\beta_x^{(0)}}. It can take values: \code{"NP"} for non-parametric age

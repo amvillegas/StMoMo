@@ -150,7 +150,7 @@ LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE, periodAgeFun = "NP",
                    constFun =  constLCfix_ax)
 LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                    ages = EWMaleData$ages, years = EWMaleData$years,
-                   oxt = rowMeans(log(EWMaleData$Dxt/EWMaleData$Ext)))
+                   oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
 plot(LCfix_axfit)
 }
 \seealso{

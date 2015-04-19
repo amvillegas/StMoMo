@@ -2,7 +2,7 @@
 % Please edit documentation in R/bootstrapfitStMoMo.R
 \name{bootstrap}
 \alias{bootstrap}
-\title{Generic for bootstrapping a fitted Stochastic Mortality Model}
+\title{Generic method for bootstrapping a fitted Stochastic Mortality Model}
 \usage{
 bootstrap(object, nBoot, ...)
 }

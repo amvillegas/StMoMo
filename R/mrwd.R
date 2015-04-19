@@ -42,7 +42,7 @@ mrwd <- function(x){
 #' Returns forecasts and other information for a Multivariate 
 #' Random Walk with Drift model.
 #' 
-#' @param object an object of class "mrwd".
+#' @param object an object of class \code{"mrwd"}.
 #' @param h Number of periods for forecasting.
 #' @param level confidence level for prediction intervals.
 #' @param fan if \code{TRUE}, level is set to \code{seq(50, 99, by = 1)}. 

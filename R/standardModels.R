@@ -82,7 +82,7 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #'   is the logit link.
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}
+#' @seealso \code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
 #'  
 #' @references
 #' Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for Stochastic 

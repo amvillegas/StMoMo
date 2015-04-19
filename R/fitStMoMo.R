@@ -142,7 +142,7 @@ fit =  function(object,...)
 #'                    constFun =  constLCfix_ax)
 #' LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'                    ages = EWMaleData$ages, years = EWMaleData$years, 
-#'                    oxt = rowMeans(log(EWMaleData$Dxt/EWMaleData$Ext)))
+#'                    oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
 #' plot(LCfix_axfit)
 #' 
 #' @export 

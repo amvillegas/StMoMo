@@ -42,9 +42,9 @@ actual rates from the final year.}
 A list of class \code{"simStMoMo"} with components:
 
 \item{rates}{ a three dimensional array with the future simulated rates.}
-\item{ages}{ vector of ages corresponding to the rows of \code{rates}.}
+\item{ages}{ vector of ages corresponding to the first dimension of \code{rates}.}
 \item{years}{vector of years for which a simulations has been produced. This
- corresponds to the columns of \code{rates}.}
+ corresponds to the second dimension of \code{rates}.}
 \item{kt.s}{ information on the simulated paths of the period indexes of the model.
  This is a list with the  \code{model} fitted to \eqn{\kappa_t}; the simulated paths
  (\code{sim}); and the \code{years} for which simulations were produced. If the

@@ -8,7 +8,7 @@
   ...)
 }
 \arguments{
-\item{object}{an object of class "mrwd".}
+\item{object}{an object of class \code{"mrwd"}.}
 
 \item{h}{Number of periods for forecasting.}
 
