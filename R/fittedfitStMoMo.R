@@ -24,7 +24,7 @@
 #' plot(LCfit$years, qxt["65", ], xlab = "year", ylab = "death rate",
 #'      main = "fitted vs. observed rates at age 65")
 #' lines(LCfit$years, qxthat["65", ])
-#' @export fitted.fitStMoMo 
+#' @export 
 fitted.fitStMoMo<-function(object, type = c("link", "rates", "deaths"), ...){
   
   type <- match.arg(type)

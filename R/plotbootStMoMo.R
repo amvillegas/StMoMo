@@ -29,6 +29,7 @@
 #' }
 #' 
 #' @export
+#' @method plot bootStMoMo
 plot.bootStMoMo <- function(x, nCol = 2, parametricbx = TRUE, colour = rgb(0,0,0), probs = c(2.5,10,25,50,75,90,97.5), ... ) {
   years <- x$model$years
   ages <- x$model$ages

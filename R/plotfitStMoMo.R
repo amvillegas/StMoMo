@@ -34,6 +34,7 @@
 #' plot(CBDfit, nCol = 1, parametricbx = FALSE, lwd = 2)
 #' 
 #' @export 
+#' @method plot fitStMoMo
 plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ... ) {
   
   years <- x$years

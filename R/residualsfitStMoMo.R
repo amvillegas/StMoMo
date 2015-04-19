@@ -106,6 +106,7 @@ residuals.fitStMoMo<-function(object, scale = TRUE, ...){
 #' plot(CBDres, type = "colourmap", reslim = c(-4,4))
 #'   
 #' @export 
+#' @method plot resStMoMo
 plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"), 
                            reslim = range(x$residuals, na.rm = TRUE),
                            plotAge = TRUE, plotYear = TRUE, 

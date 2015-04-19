@@ -931,7 +931,7 @@ When evaluating the goodness-of-fit of different models, it is generally anticip
 AIC(CBDfit)
 BIC(CBDfit)
 @ 
-<<BICtable, echo=FALSE, cache=TRUE, dependson="fit1", results='asis'>>=
+<<BICtable, echo=FALSE, cache=TRUE, dependson="fit1", results='asis', message=FALSE, warning=FALSE>>=
 library(xtable)
 BICdf <-data.frame(list(LC = c(LCfit$npar[1], AIC(LCfit), BIC(LCfit)), 
                         CBD = c(CBDfit$npar[1], AIC(CBDfit), BIC(CBDfit)), 

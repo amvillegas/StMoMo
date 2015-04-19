@@ -200,6 +200,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
 #' @param x an object of class \code{"forStMoMo"}.
 #' @param ... arguments to be passed to or from other methods.
 #' @export 
+#' @method print forStMoMo
 print.forStMoMo <- function(x,...) {
   cat("Stochastic Mortality Model forecast")
   cat(paste("\nCall:", deparse(x$call)))
@@ -209,18 +210,6 @@ print.forStMoMo <- function(x,...) {
   cat(paste("\nYears in forecast:", min(x$years), "-", max(x$years)))
   cat(paste("\nAges in forecast:", min(x$ages), "-", max(x$ages), "\n"))  
 }
-
-
-print.forStMoMo <- function(x,...) {
-  cat("Stochastic Mortality Model forecast")
-  cat(paste("\nCall:", deparse(x$call)))
-  cat("\n\n")
-  print(x$model$model)  
-  cat(paste("\n\nJump-off method:", x$jumpchoice))
-  cat(paste("\nYears in forecast:", min(x$years), "-", max(x$years)))
-  cat(paste("\nAges in forecast:", min(x$ages), "-", max(x$ages), "\n"))  
-}
-
 
 
 

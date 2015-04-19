@@ -71,7 +71,7 @@
 #' mxthatAPC <- fitted(APCfit, type = "rates")
 #' lines(1961:2041 , (cbind(mxthatAPC, mxtForAPC))["80", ], type = "l", col = "blue")
 #'
-#' @export predict.fitStMoMo
+#' @export 
 predict.fitStMoMo <- function(object, years, kt = NULL, gc = NULL, oxt = NULL, 
                               type = c("link", "rates"), ...){
   type <- match.arg(type)

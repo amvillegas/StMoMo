@@ -8,7 +8,7 @@
 #'@param ... other arguments.
 #'
 #'@return The log-likelihood of the fitted model.
-#'@export logLik.fitStMoMo
+#'@export
 logLik.fitStMoMo <- function (object, ...) 
 {
   structure(object$loglik, df = object$npar, nobs=object$nobs, class = "logLik")

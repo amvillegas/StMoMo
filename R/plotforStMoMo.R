@@ -29,6 +29,7 @@
 #' plot(APCfor, only.kt = TRUE)
 #' plot(APCfor, only.gc = TRUE, lwd = 2)
 #' @export 
+#' @method plot forStMoMo
 plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE, 
                            only.kt = FALSE, only.gc = FALSE, ... ) {
   
