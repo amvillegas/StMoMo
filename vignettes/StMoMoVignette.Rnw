@@ -1394,7 +1394,7 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 % <<plotLCNZboot, fig.width=8, fig.height = 2.8, out.width="16cm", echo=FALSE, cache=TRUE, dependson="loadLCNZboot">>=
 % plot(LCboot_NZ, nCol = 3)
 % @
-\includegraphics[width=16cm]{plotLCNZboot-1}  
+\includegraphics[width=16cm]{plotLCNZboot.pdf}  
 \caption{Bootstrapped parameters for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Shades in the fan represent confidence intervals at the 50\%, 80\% and 95\% level.}\label{fig:LCboot}  
 \end{figure}
 
@@ -1486,7 +1486,7 @@ text(1986, mxtHatPU2.5[x, "1995"], labels = c("x=40", "x=60", "x=80"))
 %      labels = c("x = 40",  "x = 60", "x = 80"))
 % @
 
-\includegraphics[width=7.5cm]{plotLCPred-1}    
+\includegraphics[width=7.5cm]{plotLCPred.pdf}    
 
 \caption{95\% Prediction intervals for mortality rates $q_{xt}$ at ages $x=40$ (bottom lines), $x=60$ (middle lines) and $x=80$ (top lines) for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Dots show historical mortality rates for 1985-2008 and solid black lines show the corresponding fitted rates.  Dashed lines represent central forecast, black dotted lines represent 95\% prediction intervals excluding parameter uncertainty and dot-dashed red lines depict 95\% confidence and prediction intervals including parameter uncertainty.}\label{fig:LCNZmxtPred}  
 \end{figure}
