@@ -1398,101 +1398,100 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 \caption{Bootstrapped parameters for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Shades in the fan represent confidence intervals at the 50\%, 80\% and 95\% level.}\label{fig:LCboot}  
 \end{figure}
 
-% Once a stochastic mortality model has been bootstrapped we can simulate it forward to obtain simulated trajectories which account for both the forecast error in the period and cohort indexes and the error in the model fitting. In \rpkg{StMoMo} we can accomplish this using \vlad{the} function \rcode{simulate} applied to an object of class \rcode{"bootStMoMo"}. Thus, to obtain 5000 simulated trajectories of the Lee-Carter model \revI{for the next 24 years taking} into account parameter uncertainty we use the instruction:
-% %Reinstate if re-running New Zeland example
-% % <<simPULCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
-% % LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
-% % @ 
-% 
-% <<simPULCNZ, eval=FALSE>>=
+Once a stochastic mortality model has been bootstrapped we can simulate it forward to obtain simulated trajectories which account for both the forecast error in the period and cohort indexes and the error in the model fitting. In \rpkg{StMoMo} we can accomplish this using \vlad{the} function \rcode{simulate} applied to an object of class \rcode{"bootStMoMo"}. Thus, to obtain 5000 simulated trajectories of the Lee-Carter model \revI{for the next 24 years taking} into account parameter uncertainty we use the instruction:
+%Reinstate if re-running New Zeland example
+% <<simPULCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
 % LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
 % @ 
-% \noindent 
-% To highlight the impact of parameter risk on mortality rate projections it is instructive to compare  prediction intervals with and without the allowance of parameter uncertainty. \revI{24-year ahead} central forecast together with 5000 trajectories of the Lee-Carter model allowing only for forecast error in the random walk with drift and ignoring the model fitting error can be obtained with the code:
-% %Reinstate if re-running New Zeland example
-% % <<simLCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
-% % LCfor_NZ <- forecast(LCfit_NZ, h = 24)
-% % LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
-% % @ 
-% 
-% <<simLCNZ, eval=FALSE>>=
+
+<<simPULCNZ, eval=FALSE>>=
+LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
+@ 
+\noindent 
+To highlight the impact of parameter risk on mortality rate projections it is instructive to compare  prediction intervals with and without the allowance of parameter uncertainty. \revI{24-year ahead} central forecast together with 5000 trajectories of the Lee-Carter model allowing only for forecast error in the random walk with drift and ignoring the model fitting error can be obtained with the code:
+%Reinstate if re-running New Zeland example
+% <<simLCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
 % LCfor_NZ <- forecast(LCfit_NZ, h = 24)
 % LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
 % @ 
-% \noindent
-% Figure \ref{fig:LCNZmxtPred} depicts 95\% prediction intervals for mortality rates at age 40, 60 and 80 with and without allowance for parameter uncertainty. This graph was produced with the code:
-% <<plotLCPredshow, eval=FALSE>>=  
-% #Observed, fitted and central forecasts
+
+<<simLCNZ, eval=FALSE>>=
+LCfor_NZ <- forecast(LCfit_NZ, h = 24)
+LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
+@ 
+\noindent
+Figure \ref{fig:LCNZmxtPred} depicts 95\% prediction intervals for mortality rates at age 40, 60 and 80 with and without allowance for parameter uncertainty. This graph was produced with the code:
+<<plotLCPredshow, eval=FALSE>>=  
+#Observed, fitted and central forecasts
+mxt <- LCfit_NZ$Dxt / LCfit_NZ$Ext
+mxtHat <- fitted(LCfit_NZ, type = "rates")           
+mxtCentral <- LCfor_NZ$rates
+#95% Prediction intervals without parameter uncertainty
+mxtPred2.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.025)
+mxtPred97.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.975)
+#95% intervals with parameter uncertainty (in sample, and predictions)
+mxtHatPU2.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.025)  
+mxtHatPU97.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.975)  
+mxtPredPU2.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.025)
+mxtPredPU97.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.975)
+#Plot
+x <- c("40", "60", "80")
+matplot(LCfit_NZ$years, t(mxt[x, ]), 
+        xlim = range(LCfit_NZ$years, LCfor_NZ$years),
+        ylim = range(mxtHatPU97.5[x, ], mxtPredPU2.5[x, ], mxt[x, ]),
+        type = "p", xlab = "years", ylab = "mortality rates (log scale)",
+        log = "y", pch = 20, col = "black")
+matlines(LCfit_NZ$years, t(mxtHat[x, ]), lty = 1, col = "black")
+matlines(LCfit_NZ$years, t(mxtHatPU2.5[x, ]), lty = 5, col = "red")
+matlines(LCfit_NZ$years, t(mxtHatPU97.5[x, ]), lty = 5, col = "red")
+matlines(LCfor_NZ$years, t(mxtCentral[x, ]), lty = 4, col = "black")
+matlines(LCsim_NZ$years, t(mxtPred2.5[x, ]), lty = 3, col = "black")
+matlines(LCsim_NZ$years, t(mxtPred97.5[x, ]), lty = 3, col = "black")
+matlines(LCsimPU_NZ$years, t(mxtPredPU2.5[x, ]), lty = 5, col = "red")
+matlines(LCsimPU_NZ$years, t(mxtPredPU97.5[x, ]), lty = 5, col = "red")
+text(1986, mxtHatPU2.5[x, "1995"], labels = c("x=40", "x=60", "x=80"))
+@
+
+\begin{figure}[!tb]  
+\centering
+%Reinstate if re-running New Zeland example
+% <<plotLCPred, eval=TRUE,  fig.width=5, fig.height=5,out.width="7.5cm", results='hide', warning=FALSE, message=FALSE, cache=TRUE, echo=FALSE, dependson=c("simLCNZ", "simPULCNZ", "fitNZ")>>=
+% par(mar=c(4.5,4,1,1))
 % mxt <- LCfit_NZ$Dxt / LCfit_NZ$Ext
 % mxtHat <- fitted(LCfit_NZ, type = "rates")           
 % mxtCentral <- LCfor_NZ$rates
-% #95% Prediction intervals without parameter uncertainty
+% # 95% Prediction intervals without PU
 % mxtPred2.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.025)
 % mxtPred97.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.975)
-% #95% intervals with parameter uncertainty (in sample, and predictions)
+% # 95% intervals with PU (in sample, and predictions)
 % mxtHatPU2.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.025)  
 % mxtHatPU97.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.975)  
 % mxtPredPU2.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.025)
 % mxtPredPU97.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.975)
+% 
 % #Plot
 % x <- c("40", "60", "80")
-% matplot(LCfit_NZ$years, t(mxt[x, ]), 
-%         xlim = range(LCfit_NZ$years, LCfor_NZ$years),
-%         ylim = range(mxtHatPU97.5[x, ], mxtPredPU2.5[x, ], mxt[x, ]),
-%         type = "p", xlab = "years", ylab = "mortality rates (log scale)",
-%         log = "y", pch = 20, col = "black")
+% matplot(LCfit_NZ$years, t(mxt[x, ]), xlim = range(LCfit_NZ$years, LCfor_NZ$years),
+%      ylim = range(mxtHatPU97.5[x, ], mxtPredPU2.5[x, ], mxt[x, ]),
+%      type = "p", xlab = "years", ylab = "mortality rates (log scale)", 
+%      log = "y", pch = 20, col = "black", cex = 0.75)
 % matlines(LCfit_NZ$years, t(mxtHat[x, ]), lty = 1, col = "black")
-% matlines(LCfit_NZ$years, t(mxtHatPU2.5[x, ]), lty = 5, col = "red")
-% matlines(LCfit_NZ$years, t(mxtHatPU97.5[x, ]), lty = 5, col = "red")
+% matlines(LCfit_NZ$years, t(mxtHatPU2.5[x, ]), lty = 5, col ="red")
+% matlines(LCfit_NZ$years, t(mxtHatPU97.5[x, ]), lty = 5, col ="red")
 % matlines(LCfor_NZ$years, t(mxtCentral[x, ]), lty = 4, col = "black")
-% matlines(LCsim_NZ$years, t(mxtPred2.5[x, ]), lty = 3, col = "black")
-% matlines(LCsim_NZ$years, t(mxtPred97.5[x, ]), lty = 3, col = "black")
+% matlines(LCsim_NZ$years, t(mxtPred2.5[x, ]), lty = 3, col = "black", lwd = 2)
+% matlines(LCsim_NZ$years, t(mxtPred97.5[x, ]), lty = 3, col = "black", lwd = 2)
 % matlines(LCsimPU_NZ$years, t(mxtPredPU2.5[x, ]), lty = 5, col = "red")
 % matlines(LCsimPU_NZ$years, t(mxtPredPU97.5[x, ]), lty = 5, col = "red")
-% text(1986, mxtHatPU2.5[x, "1995"], labels = c("x=40", "x=60", "x=80"))
-% @
-% \begin{figure}[!tb]  
-% \centering
-% %Reinstate if re-running New Zeland example
-% % <<plotLCPred, eval=TRUE,  fig.width=5, fig.height=5,out.width="7.5cm", results='hide', warning=FALSE, message=FALSE, cache=TRUE, echo=FALSE, dependson=c("simLCNZ", "simPULCNZ", "fitNZ")>>=
-% % par(mar=c(4.5,4,1,1))
-% % mxt <- LCfit_NZ$Dxt / LCfit_NZ$Ext
-% % mxtHat <- fitted(LCfit_NZ, type = "rates")           
-% % mxtCentral <- LCfor_NZ$rates
-% % # 95% Prediction intervals without PU
-% % mxtPred2.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.025)
-% % mxtPred97.5 <- apply(LCsim_NZ$rates, c(1, 2), quantile, probs = 0.975)
-% % # 95% intervals with PU (in sample, and predictions)
-% % mxtHatPU2.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.025)  
-% % mxtHatPU97.5 <- apply(LCsimPU_NZ$fitted, c(1, 2), quantile, probs = 0.975)  
-% % mxtPredPU2.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.025)
-% % mxtPredPU97.5 <- apply(LCsimPU_NZ$rates, c(1, 2), quantile, probs = 0.975)
-% % 
-% % #Plot
-% % x <- c("40", "60", "80")
-% % matplot(LCfit_NZ$years, t(mxt[x, ]), xlim = range(LCfit_NZ$years, LCfor_NZ$years),
-% %      ylim = range(mxtHatPU97.5[x, ], mxtPredPU2.5[x, ], mxt[x, ]),
-% %      type = "p", xlab = "years", ylab = "mortality rates (log scale)", 
-% %      log = "y", pch = 20, col = "black", cex = 0.75)
-% % matlines(LCfit_NZ$years, t(mxtHat[x, ]), lty = 1, col = "black")
-% % matlines(LCfit_NZ$years, t(mxtHatPU2.5[x, ]), lty = 5, col ="red")
-% % matlines(LCfit_NZ$years, t(mxtHatPU97.5[x, ]), lty = 5, col ="red")
-% % matlines(LCfor_NZ$years, t(mxtCentral[x, ]), lty = 4, col = "black")
-% % matlines(LCsim_NZ$years, t(mxtPred2.5[x, ]), lty = 3, col = "black", lwd = 2)
-% % matlines(LCsim_NZ$years, t(mxtPred97.5[x, ]), lty = 3, col = "black", lwd = 2)
-% % matlines(LCsimPU_NZ$years, t(mxtPredPU2.5[x, ]), lty = 5, col = "red")
-% % matlines(LCsimPU_NZ$years, t(mxtPredPU97.5[x, ]), lty = 5, col = "red")
-% % text(1986, mxtHatPU2.5[x, "1995"],
-% %      labels = c("x = 40",  "x = 60", "x = 80"))
-% % @
-% 
-% \includegraphics[width=7.5cm]{plotLCPred.pdf}    
-% 
-% \caption{95\% Prediction intervals for mortality rates $q_{xt}$ at ages $x=40$ (bottom lines), $x=60$ (middle lines) and $x=80$ (top lines) for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Dots show historical mortality rates for 1985-2008 and solid black lines show the corresponding fitted rates.  Dashed lines represent central forecast, black dotted lines represent 95\% prediction intervals excluding parameter uncertainty and dot-dashed red lines depict 95\% confidence and prediction intervals including parameter uncertainty.}\label{fig:LCNZmxtPred}  
-% \end{figure}
-% 
-% \noindent
-% In Figure \ref{fig:LCNZmxtPred} we can clearly see that parameter uncertainty has an important impact on the prediction intervals. This is particularly notable at age 40 where in year 2030, for instance, the width of the prediction interval with parameter uncertainty is around 3 times bigger than that without parameter uncertainty. These results are in line with the results obtained by \citet{Li2014} using the same dataset.\footnote{We note that our prediction intervals \pietro{without and with} parameter uncertainty correspond to  methods (I) and (IVa) in \citet{Li2014}, respectively.}
+% text(1986, mxtHatPU2.5[x, "1995"],
+%      labels = c("x = 40",  "x = 60", "x = 80"))
+% @ 
+\includegraphics[width=7.5cm]{plotLCPred.pdf}    
+\caption{95\% Prediction intervals for mortality rates $q_{xt}$ at ages $x=40$ (bottom lines), $x=60$ (middle lines) and $x=80$ (top lines) for the Poisson Lee-Carter model fitted to the New Zealand male population for ages 0-89 and the period 1985-2008. Dots show historical mortality rates for 1985-2008 and solid black lines show the corresponding fitted rates.  Dashed lines represent central forecast, black dotted lines represent 95\% prediction intervals excluding parameter uncertainty and dot-dashed red lines depict 95\% confidence and prediction intervals including parameter uncertainty.}\label{fig:LCNZmxtPred}  
+\end{figure}
+
+\noindent
+In Figure \ref{fig:LCNZmxtPred} we can clearly see that parameter uncertainty has an important impact on the prediction intervals. This is particularly notable at age 40 where in year 2030, for instance, the width of the prediction interval with parameter uncertainty is around 3 times bigger than that without parameter uncertainty. These results are in line with the results obtained by \citet{Li2014} using the same dataset.\footnote{We note that our prediction intervals \pietro{without and with} parameter uncertainty correspond to  methods (I) and (IVa) in \citet{Li2014}, respectively.}
 
 
 
