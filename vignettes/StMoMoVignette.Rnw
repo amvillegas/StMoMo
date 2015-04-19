@@ -652,7 +652,7 @@ M7 <- m7()
 
 \noindent
 \textbf{PLAT model.} Package \rpkg{StMoMo} does not include a predefined function for the Plat model. Nevertheless, recalling Section \ref{ex:Plat}, we can define the reduced Plat model using the code:
-<<definePlat, eval=TRUE, cache=TRUE, dependson="loadStMoMo">>=
+<<definePlat, eval=TRUE, cache=TRUE>>=
 f2 <- function(x, ages) mean(ages) - x
 constPlat <- function(ax, bx, kt, b0x, gc, wxt, ages){
   nYears <- dim(wxt)[2]
