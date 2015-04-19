@@ -1404,10 +1404,10 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 % % LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
 % % @ 
 % 
-% <<simPULCNZ, eval=FALSE>>=
-% LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
-% @ 
-% \noindent 
+<<simPULCNZ, eval=FALSE>>=
+LCsimPU_NZ <- simulate(LCboot_NZ,  h = 24)
+@ 
+\noindent 
 % To highlight the impact of parameter risk on mortality rate projections it is instructive to compare  prediction intervals with and without the allowance of parameter uncertainty. \revI{24-year ahead} central forecast together with 5000 trajectories of the Lee-Carter model allowing only for forecast error in the random walk with drift and ignoring the model fitting error can be obtained with the code:
 % %Reinstate if re-running New Zeland example
 % % <<simLCNZ, cache=TRUE, dependson=c("fitNZ, loadLCNZboot")>>=
@@ -1415,11 +1415,12 @@ From Figure \ref{fig:LCboot} we note that whilst the parameter uncertainty in th
 % % LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
 % % @ 
 % 
-% <<simLCNZ, eval=FALSE>>=
-% LCfor_NZ <- forecast(LCfit_NZ, h = 24)
-% LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
-% @ 
-% % \noindent
+<<simLCNZ, eval=FALSE>>=
+LCfor_NZ <- forecast(LCfit_NZ, h = 24)
+LCsim_NZ <- simulate(LCfit_NZ, nsim = 5000, h = 24)
+@ 
+\noindent
+
 Figure \ref{fig:LCNZmxtPred} depicts 95\% prediction intervals for mortality rates at age 40, 60 and 80 with and without allowance for parameter uncertainty. This graph was produced with the code:
 <<plotLCPredshow, eval=FALSE>>=  
 #Observed, fitted and central forecasts
