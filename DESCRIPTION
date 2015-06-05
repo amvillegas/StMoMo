@@ -15,14 +15,14 @@ URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
 Imports: 
     MASS,
-    rootSolve (>= 1.6.5),
-    fanplot (>= 3.3),
-    reshape2,
-    fields (>= 7.1)
+    rootSolve (>= 1.6.5.1),
+    fanplot (>= 3.4),
+    reshape2 (>= 1.4.1),
+    fields (>= 8.2)
 Depends: 
-    R (>= 3.1.0),
+    R (>= 3.2.0),
     gnm (>= 1.0), 
-    forecast(>= 5.6)
+    forecast(>= 6.1)
 License: GPL (>= 2)
 LazyData: true
 Suggests: knitr, xtable
