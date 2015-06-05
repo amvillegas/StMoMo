@@ -25,4 +25,4 @@ License:
 
 This package is free and open source software, licensed under GPL (\>= 2)
 
-If you're interested in the package feel free to email <andresmauriciovillegas@gmail.com> or track development at <http://github.com/amvillegas/StMoMo>
+If you are interested in the package feel free to email <andresmauriciovillegas@gmail.com> or track development at <http://github.com/amvillegas/StMoMo>
