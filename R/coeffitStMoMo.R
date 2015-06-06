@@ -25,9 +25,9 @@
 #'   If the model does not have a cohort effect or failed to fit this is set to \code{NULL}.}
 #'   
 #' @examples
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'              ages = EWMaleData$ages, years = EWMaleData$years)
-#' coef(LCfit) 
+#' coef(APCfit) 
 #' @export
 coef.fitStMoMo <- function(object, ...){
   list(ax = object$ax, bx = object$bx, kt = object$kt, b0x = object$b0x, gc = object$gc)

@@ -37,8 +37,8 @@ A list of model parameters with components:
 Extract coefficients from a fitted Stochastic Mortality Model
 }
 \examples{
-LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
              ages = EWMaleData$ages, years = EWMaleData$years)
-coef(LCfit)
+coef(APCfit)
 }
 
