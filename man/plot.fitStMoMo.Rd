@@ -27,7 +27,8 @@ Plot fitted parameters of a stochastic mortality model of class \code{"fitStMoMo
 \examples{
 #Fit and plot a Lee-Carter model
 LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-             ages = EWMaleData$ages, years = EWMaleData$years)
+             ages = EWMaleData$ages, years = EWMaleData$years,
+             ages.fit = 55:89)
 plot(LCfit)
 plot(LCfit, type = "p", pch = 19)
 
