@@ -112,10 +112,6 @@ fit =  function(object,...)
 #'  @seealso \code{\link{genWeightMat}}, \code{\link{plot.fitStMoMo}}
 #'     
 #' @examples    
-#' # Poisson Lee-Carter model
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years)
-#' plot(LCfit)
 #' 
 #' # CBD model only to older ages
 #' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
@@ -130,6 +126,7 @@ fit =  function(object,...)
 #'               wxt = wxt)
 #' plot(APCfit, parametricbx = FALSE, nCol = 3)
 #' 
+#' \dontrun{
 #' # Poisson Lee-Carter model with the static age function set to  
 #' # the mean over time of the log-death rates
 #' constLCfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){  
@@ -144,7 +141,7 @@ fit =  function(object,...)
 #'                    ages = EWMaleData$ages, years = EWMaleData$years, 
 #'                    oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
 #' plot(LCfix_axfit)
-#' 
+#' }
 #' @export 
 fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt), years = 1:ncol(Dxt), 
                        ages.fit = ages, years.fit = years, oxt = NULL,  

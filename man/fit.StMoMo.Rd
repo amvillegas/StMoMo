@@ -120,11 +120,6 @@ Similarly, \code{NA} are assigned a zero weight and ignored in the fitting proce
 Parameter estimates can be plotted using function \code{\link{plot.fitStMoMo}}.
 }
 \examples{
-# Poisson Lee-Carter model
-LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-             ages = EWMaleData$ages, years = EWMaleData$years)
-plot(LCfit)
-
 # CBD model only to older ages
 CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages = EWMaleData$ages, years = EWMaleData$years,
@@ -138,6 +133,7 @@ APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               wxt = wxt)
 plot(APCfit, parametricbx = FALSE, nCol = 3)
 
+\dontrun{
 # Poisson Lee-Carter model with the static age function set to
 # the mean over time of the log-death rates
 constLCfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){
@@ -152,6 +148,7 @@ LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                    ages = EWMaleData$ages, years = EWMaleData$years,
                    oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
 plot(LCfix_axfit)
+}
 }
 \seealso{
 \code{\link{genWeightMat}}, \code{\link{plot.fitStMoMo}}
