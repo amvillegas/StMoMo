@@ -53,7 +53,8 @@
 #' @seealso \code{\link{bootstrap.fitStMoMo}}, \code{\link{simulate.fitStMoMo}}
 #' 
 #' @examples
-#' \donttest{
+#' #Long computing times
+#' \dontrun{
 #' #Lee-Carter: Compare projection with and without parameter uncertainty
 #' library(fanplot)
 #' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 

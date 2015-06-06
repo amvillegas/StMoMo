@@ -81,7 +81,8 @@ an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 For further details see \code{\link{simulate.fitStMoMo}}.
 }
 \examples{
-\donttest{
+#Long computing times
+\dontrun{
 #Lee-Carter: Compare projection with and without parameter uncertainty
 library(fanplot)
 LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,

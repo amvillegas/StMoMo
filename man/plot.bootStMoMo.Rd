@@ -29,7 +29,8 @@ Plot fancharts of bootstrapped parameters of a Stochastic Mortality Model
 stored in an object of class \code{"bootStMoMo"}.
 }
 \examples{
-\donttest{
+#Long computing times
+\dontrun{
 CBDfit <- fit(cbd(),Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages = EWMaleData$ages, years = EWMaleData$years,
               ages.fit = 55:89)

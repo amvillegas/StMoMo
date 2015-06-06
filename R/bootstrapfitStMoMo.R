@@ -69,7 +69,8 @@ bootstrap =  function(object, nBoot, ...)
 #' Insurance: Mathematics and Economics, 42(2), 797-816. 
 #' 
 #' @examples 
-#' \donttest{
+#' #Long computing times
+#' \dontrun{
 #' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'              ages = EWMaleData$ages, years = EWMaleData$years)
 #' 

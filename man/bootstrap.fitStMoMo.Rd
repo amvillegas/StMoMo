@@ -49,7 +49,8 @@ used in the sampling as in Brouhns et al. (2005) while if \code{deathType} is \c
 deaths are used in the sampling as in Renshaw and Haberman (2008).
 }
 \examples{
-\donttest{
+#Long computing times
+\dontrun{
 LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
              ages = EWMaleData$ages, years = EWMaleData$years)
 
