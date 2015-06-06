@@ -4,8 +4,6 @@ This is a resubmissin. In this section I have:
 * The description field has been updated to capitalises only proper 
   nouns and avoid the use of abbreviations
   
-* I have updadted the R versions use in testing to 3.2.0
-
 * I have reduced the size of StMoMoVigentte.pdf in inst/doc from 804KB to 406KB
 
 ## Test environments

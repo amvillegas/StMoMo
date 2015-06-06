@@ -36,19 +36,22 @@ depending on the value of \code{const}, and
 #sum(kt) = 0 and log link
 LC1 <- lc()
 LCfit1<-fit(LC1, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years)
+            ages = EWMaleData$ages, years = EWMaleData$years,
+            ages.fit = 55:89)
 plot(LCfit1)
 
 #kt[1]= 0 and log link
 LC2 <- lc(const = "first")
 LCfit2<-fit(LC2, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years)
+            ages = EWMaleData$ages, years = EWMaleData$years,
+            ages.fit = 55:89)
 plot(LCfit2)
 
 #kt[n]= 0 and logit link
 LC3 <- lc("logit", "last")
 LCfit3<-fit(LC3, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years)
+            ages = EWMaleData$ages, years = EWMaleData$years,
+            ages.fit = 55:89)
 plot(LCfit3)
 }
 \references{
