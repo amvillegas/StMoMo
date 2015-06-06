@@ -5,8 +5,8 @@ language: c
 env:
    global:
      - WARNINGS_ARE_ERRORS=1
-     - R_BUILD_ARGS=" "
-     - R_CHECK_ARGS="--as-cran --timings"
+     - R_BUILD_ARGS="--no-build-vignettes --no-manual rpack"
+     - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran rpack"
      - BOOTSTRAP_LATEX="1"
 
 before_install:
