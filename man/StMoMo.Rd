@@ -113,7 +113,8 @@ LC <- StMoMo(link = "log", staticAgeFun = TRUE, periodAgeFun = "NP",
              constFun = constLC)
 
 plot(fit(LC, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
-         ages = EWMaleData$ages, years = EWMaleData$years))
+         ages = EWMaleData$ages, years = EWMaleData$years,
+         ages.fit = 55:89))
 
 
 #CBD model
