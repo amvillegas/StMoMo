@@ -72,7 +72,8 @@
 #' @examples 
 #' #Lee-Carter
 #' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years)
+#'              ages = EWMaleData$ages, years = EWMaleData$years,
+#'              ages.fit = 55:89)
 #' LCfor <- forecast(LCfit)
 #' plot(LCfor)
 #' 
