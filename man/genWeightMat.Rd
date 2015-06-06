@@ -28,18 +28,18 @@ Stochastic Mortality Model (see \code{\link{fit.StMoMo}}).
 }
 \examples{
 #Zero-weight the first three and last three cohorts
-wxt1 <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3)
+wxt1 <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
 APCfit1 <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                ages = EWMaleData$ages, years = EWMaleData$years,
-               wxt = wxt1)
+               ages.fit = 55:89, wxt = wxt1)
 plot(APCfit1, parametricbx = FALSE, nCol = 3)
 
 #Also Zero-weight the 1886 cohort
-wxt2 <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3,
+wxt2 <- genWeightMat(55:89,  EWMaleData$years, clip = 3,
                      zeroCohorts = 1886)
 APCfit2 <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                ages = EWMaleData$ages, years = EWMaleData$years,
-               wxt = wxt2)
+               ages.fit = 55:89, wxt = wxt2)
 plot(APCfit2, parametricbx = FALSE, nCol = 3)
 }
 \seealso{
