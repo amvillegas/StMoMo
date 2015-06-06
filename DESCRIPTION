@@ -5,10 +5,10 @@ Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
     Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
     Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
 Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
-Description: R implementation of the family of Generalised Age-Period-Cohort 
+Description: R implementation of the family of generalised age-period-cohort 
     stochastic mortality models.  This family of models encompasses many models 
-    proposed in the literature including the well-known Lee-Carter model, 
-    CBD model and APC model. It includes functions for fitting mortality models,
+    proposed in the actuarial and demographic literature including the Lee-Carter model 
+    and the Cairns-Blake-Dowd model. It includes functions for fitting mortality models,
     analysing their goodness-of-fit and performing mortality projections and 
     simulations.
 URL: http://github.com/amvillegas/StMoMo
