@@ -61,7 +61,7 @@
 #' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'              ages = EWMaleData$ages, years = EWMaleData$years,
 #'              ages.fit = 55:89)
-#' LCsim <- simulate(LCfit)
+#' LCsim <- simulate(LCfit, nsim = 100)
 #' 
 #' par(mfrow=c(1, 2))
 #' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
@@ -83,7 +83,7 @@
 #' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #'               ages = EWMaleData$ages, years = EWMaleData$years, 
 #'               ages.fit = 55:89, wxt = wxt)
-#' APCsim <- simulate(APCfit, gc.order = c(1, 1, 0))
+#' APCsim <- simulate(APCfit, nsim = 100, gc.order = c(1, 1, 0))
 #' 
 #' plot(APCfit$years, APCfit$kt[1, ], xlim = range(APCfit$years, APCsim$kt.s$years),
 #'      ylim = range(APCfit$kt, APCsim$kt.s$sim), type = "l",
