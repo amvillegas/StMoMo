@@ -2,14 +2,13 @@
 This is a resubmission.  Following CRAN's feedback in this 
 version I have:
 
-* updated the package DESCRIPTION field to capitalises only proper 
-  nouns and avoid the use of abbreviations.
+* updated the package DESCRIPTION omitting the obvious fact that this is an 
+  R package.
   
-* reduced the size of StMoMoVigentte.pdf in inst/doc from 804KB to 406KB.
-
-* updated the examples to reduce the computing time. 
-
-* removed all \donttest occurrences in the examples.
+* updated the examples in the vignette to reduce the building time. 
+  I have also removed unnecessary TeX packages in the preamble of
+  the vignette which seemed to be taking much of the vignette building
+  time.
 
 ## Test environments
 * local Windows 7 install, R 3.2.0
