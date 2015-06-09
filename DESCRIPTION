@@ -5,7 +5,7 @@ Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
     Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
     Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
 Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
-Description: R implementation of the family of generalised age-period-cohort 
+Description: Implementation of the family of generalised age-period-cohort 
     stochastic mortality models.  This family of models encompasses many models 
     proposed in the actuarial and demographic literature including the Lee-Carter model 
     and the Cairns-Blake-Dowd model. It includes functions for fitting mortality models,
