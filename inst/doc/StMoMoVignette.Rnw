@@ -10,20 +10,26 @@
 %\VignetteEngine{knitr::knitr}
 %!\VignetteEncoding{UTF-8}
 
-\usepackage[usenames,dvipsnames]{xcolor}
-\usepackage{amssymb}
+%\usepackage[usenames,dvipsnames]{xcolor}
+%\usepackage{amssymb}
 %\usepackage{subfigure}
-\usepackage{float}
+%\usepackage{float}
 \usepackage[caption = false]{subfig}
 
 %\usepackage{authblk}
-\usepackage{graphicx,epstopdf}
-\usepackage{amsmath,latexsym,amsfonts,epsfig, color, graphics, url}
+%\usepackage{graphicx,epstopdf}
+\usepackage{amsmath}
+%\usepackage{latexsym}
+\usepackage{amsfonts}
+%\usepackage{epsfig}
+%\usepackage{color}
+\usepackage{graphics}
+\usepackage{url}
 \usepackage[breaklinks=true]{hyperref}
 %\usepackage{algorithm, algorithmic, lineno, lscape, ctable}
 \usepackage{ctable}
-\usepackage{array}
-\usepackage{rotating}
+%\usepackage{array}
+%\usepackage{rotating}
 \usepackage{amsthm}
 \usepackage{pdflscape}
 \usepackage[margin=1in]{geometry}  %%take this out before submission
@@ -133,6 +139,7 @@
 
 %%%%%%%%%%%%%%%%
 \begin{document}
+%\SweaveOpts{concordance=TRUE}
 %%%%%%%%%%%%%%%%
 
 %Hook to control the line width in ouputs
@@ -1023,10 +1030,10 @@ plot(M7for, only.gc = TRUE)
 plot(PLATfor, only.gc = TRUE)
 @
 
-Package \rpkg{StMoMo} also provides the function \rcode{simulate} for simulating trajectories from GAPC stochastic mortality models. To simulate the period index, $\boldsymbol{\kappa}_t$, \rpkg{StMoMo} implements a multivariate adaptation of Algorithm 2 in \citet{Haberman2009} without provision for parameter error\footnote{We note that Algorithm 2 in \citet{Haberman2009} is itself an adaptation of the prediction interval approach of \citet{Cairns2006a}.}, while to simulate the cohort index, $\gamma_{t-x}$, function \rcode{simulate} uses the equivalent \rcode{S3} method for objects of class \rcode{"Arima"} provided by \vlad{the} package \rpkg{forecast}. For example, the code below produces 5000 simulated trajectories \revI{for the next 50 years} of the six stochastic mortality models fitted previously to the England and Wales male mortality experience:
+Package \rpkg{StMoMo} also provides the function \rcode{simulate} for simulating trajectories from GAPC stochastic mortality models. To simulate the period index, $\boldsymbol{\kappa}_t$, \rpkg{StMoMo} implements a multivariate adaptation of Algorithm 2 in \citet{Haberman2009} without provision for parameter error\footnote{We note that Algorithm 2 in \citet{Haberman2009} is itself an adaptation of the prediction interval approach of \citet{Cairns2006a}.}, while to simulate the cohort index, $\gamma_{t-x}$, function \rcode{simulate} uses the equivalent \rcode{S3} method for objects of class \rcode{"Arima"} provided by \vlad{the} package \rpkg{forecast}. For example, the code below produces 500 simulated trajectories \revI{for the next 50 years} of the six stochastic mortality models fitted previously to the England and Wales male mortality experience:
 <<simAll, cache=TRUE, dependson=c("fit1","fitRH")>>=
 set.seed(1234)
-nsim <- 5000
+nsim <- 500
 LCsim <- simulate(LCfit, nsim = nsim, h = 50)
 CBDsim <- simulate(CBDfit, nsim = nsim, h = 50)
 APCsim <- simulate(APCfit, nsim = nsim, h = 50, gc.order= c(1, 1, 0))
