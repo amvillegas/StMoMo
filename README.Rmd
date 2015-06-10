@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 StMoMo
 ========================================================
 
+[![Build Status](https://travis-ci.org/amvillegas/StMoMo.svg?branch=master)](https://travis-ci.org/amvillegas/StMoMo)
+
 StMoMo (Stochastic Mortality Modelling) is an R package providing functions to specify 
 and fit stochastic mortality models including the Lee-Carter models, the CBD model, 
 the APC model and many other (possibly new) models. The package also includes tools for 
