@@ -9,6 +9,11 @@
 #' @importFrom rootSolve multiroot
 #' @importFrom fanplot fan
 #' @importFrom fields image.plot
+#' @importFrom graphics abline frame image.default lines par plot
+#' @importFrom grDevices colorRampPalette grey.colors rgb
+#' @importFrom stats aggregate as.formula binomial coef cov fitted lm na.omit 
+#' @importFrom stats nobs poisson predict qnorm quantile rbinom residuals rpois runif start
+#' @importFrom utils head tail
 NULL
 
 
