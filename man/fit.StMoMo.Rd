@@ -46,7 +46,9 @@ matrices.}
 
 \item{start.gc}{optional vector with starting values for \eqn{\gamma_c}.}
 
-\item{verbose}{a logical value. If \code{TRUE} progress indicators are printed.}
+\item{verbose}{a logical value. If \code{TRUE} progress indicators are printed
+as the model is fitted. Set \code{verbose = FALSE} to silent the
+fitting and avoid progress messages.}
 
 \item{...}{arguments to be passed to or from other methods. This can be used
 to control the fitting parameters of \code{gnm}.  See \code{\link[gnm]{gnm}}.}
@@ -133,6 +135,10 @@ APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               wxt = wxt)
 plot(APCfit, parametricbx = FALSE, nCol = 3)
 
+# Set verbose = FALSE for silent fitting
+APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+              ages = EWMaleData$ages, years = EWMaleData$years,
+              wxt = wxt, verbose = FALSE)
 \dontrun{
 # Poisson Lee-Carter model with the static age function set to
 # the mean over time of the log-death rates
