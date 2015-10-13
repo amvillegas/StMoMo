@@ -140,6 +140,7 @@
 %%%%%%%%%%%%%%%%
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
 %%%%%%%%%%%%%%%%
 
 %Hook to control the line width in ouputs
@@ -180,14 +181,15 @@ knit_hooks$set(output = function(x, options) {
 \journal{}
 %Authors
 
-\author{Andr\'es M. Villegas\corref{cor1}}
-\ead{Andres.Villegas.1@cass.city.ac.uk}
-\author{Vladimir Kaishev}
+\author[1]{Andr\'es M. Villegas\corref{cor1}}
+\ead{a.villegas@unsw.edu.au}
+\author[2]{Vladimir Kaishev}
 \ead{Vladimir.Kaishev.1@city.ac.uk}
-\author{Pietro Millossovich}
+\author[2]{Pietro Millossovich}
 \ead{Pietro.Millossovich.1@city.ac.uk}
 
-\address{Cass Business School, City University London, United Kingdom}
+\address[1]{ARC Centre of Excellence in Population Ageing Research (CEPAR), UNSW Business School, University of New South Wales, Sydney, Australia}
+\address[2]{Cass Business School, City University London, United Kingdom}
 \cortext[cor1]{Corresponding author}
 
 \begin{abstract}
@@ -216,15 +218,15 @@ One of the most influential approaches \vlad{to} the stochastic modelling of mor
   
 The two factor \revI{Cairns-Blake-Dowd (CBD)} model introduced by \cite{Cairns2006a} is one of the most prominent \revI{variants of} the Lee-Carter \vlad{model}. \revI{The CBD} model relies on the linearity of the logit of one-year death \pietro{probabilities} at older ages. Specifically, \revI{it} assumes that for a \vlad{given} year the logit of the one-year death probability is a linear function of age, and treats the intercept and slope parameters across years as stochastic processes. \cite{Cairns2009} consider three extensions to the original CBD model by incorporating combinations of a quadratic age term and a cohort effect \vlad{term}. \cite{Plat2009a} has combined \vlad{features of the CBD and the Lee-Carter models} to produce a model that is suitable for full age ranges and captures the cohort effect.\\
 
-Given the abundance and rapid increase in the number of stochastic mortality models proposed in the literature, there have been some recent attempts to find the commonalities among these models. \citet{Hunt2014d} review the structure of mortality models and describe an Age-Period-Cohort model structure which encompasses the vast majority of stochastic mortality models. \citet{Currie2014} shows that many mortality models can be expressed in terms of generalised linear models or generalised non-linear models.\\
+Given the abundance and rapid increase in the number of stochastic mortality models proposed in the literature, there have been some recent attempts to find the commonalities among these models. \citet{Hunt2015b} review the structure of mortality models and describe an Age-Period-Cohort model structure which encompasses the vast majority of stochastic mortality models. \citet{Currie2014} shows that many mortality models can be expressed in terms of generalised linear models or generalised non-linear models.\\
 
-In this paper, we build \vlad{upon} the \vlad{works} of \citet{Hunt2014d} and \citet{Currie2014} to define the family of Generalised Age-Period-Cohort stochastic mortality models by mirroring the terminology of generalised linear models. \revI{We also} introduce the \R package \rpkg{StMoMo}\footnote{The acronym StMoMo, pronounced Saint Momo, stands for Stochastic Mortality Modelling. Momo is the king of Carnivals in numerous Latin American festivities \citep{Wikipedia2015}.} which exploits the unifying framework of the Generalised Age-Period-Cohort family to provide computational tools for implementing many of the stochastic mortality models proposed to date. The \rpkg{StMoMo} package is available at \url{https://github.com/amvillegas/StMoMo}. Version 0.2.0 has been used for this paper.\\
+In this paper, we build \vlad{upon} the \vlad{works} of \citet{Hunt2015b} and \citet{Currie2014} to define the family of Generalised Age-Period-Cohort stochastic mortality models by mirroring the terminology of generalised linear models. \revI{We also} introduce the \R package \rpkg{StMoMo}\footnote{The acronym StMoMo, pronounced Saint Momo, stands for Stochastic Mortality Modelling. Momo is the king of Carnivals in numerous Latin American festivities \citep{Wikipedia2015}.} which exploits the unifying framework of the Generalised Age-Period-Cohort family to provide computational tools for implementing many of the stochastic mortality models proposed to date. The \rpkg{StMoMo} package is available at \url{http://CRAN.R-project.org/package=StMoMo}. Version 0.3.0 has been used for this paper.\\
 
 Several packages for mortality modelling are available in the \R environment \citep{RCoreTeam2014}. The package \rpkg{demography} \citep{Hyndman2014}, whose usage is explained in detail in \cite{Booth2014}, implements the original Lee-Carter model along with the \cite{Lee2001}, \cite{Booth2002}, and \cite{Hyndman2007} variants. The \rpkg{ilc} package \citep{Butt2014} implements the \citet{Renshaw2006} cohort extension of the Lee-Carter model together with the Lee-Carter model under a Poisson regression framework. The \rpkg{LifeMetrics} \R functions implement the original CBD model and the three extended CBD models considered in \citet{Cairns2009}, along with the Lee-Carter model (using Poisson maximum likelihood), the Age-Period-Cohort model of \citet{Currie2006} and the \citet{Renshaw2006} model. This package, which is not on CRAN, is available at  \url{http://www.macs.hw.ac.uk/~andrewc/lifemetrics/}.\\ 
 
 There are however several \vlad{drawbacks of the existing packages} which our package \rpkg{StMoMo} seeks to overcome. First, the existing packages are based on model-specific fitting algorithms limiting the models available to those already predefined in the packages. By contrast, \rpkg{StMoMo} allow\vlad{s} users to easily expand the number of models available. In addition, whilst \rpkg{StMoMo} provides forecasting and simulation functions for any model within the Generalised Age-Period-Cohort family, the existing packages only provide such \vlad{functions} for a limited number of models. For instance,  \vlad{the} package \rpkg{ilc} only includes forecasting functions for the Lee-Carter model. Similarly, \vlad{simulation with the package \rpkg{LifeMetrics} is limited to the Lee-Carter and the standard CBD models}. Finally, \rpkg{StMoMo} provides \vlad{functions} which are not available in existing packages, such as tools for analysing the goodness-of-fit\footnote{\revI{We note that \rpkg{ilc} also provides some graphical tools for assessing the goodness of fit of the models implemented in that package.}} and evaluating the impact of parameter uncertainty using bootstrapping techniques.\\ 
 
-\pietro{\rpkg{StMoMo} comes with \vlad{a set of} functions for defining an abstract model --- specifying for instance the number of period terms, whether coefficients are parametric or not --- and for fitting a given model. This is particularly useful when estimating several models on a given dataset or a given model to different datasets. The package also provides preset functions for defining the most common models available in the mortality forecasting literature. \vlad{In addition, other models preferred by the user can be created} in a very simple fashion, see Section \ref{sec:GAPC_StMOMO} where several examples are given. Therefore, the flexibility of the package allows a user to quickly build up a battery of different models, and this is particularly useful when seeking the most appropriate mortality model, comparing different models or assessing model risk. \rpkg{StMoMo} is particularly appealing for actuaries managing life and pensions portfolios exposed to longevity risk. The code backing most functions \vlad{implemented} in the package has been extensively used and tested for the development of multi population mortality models for assessing basis risk in longevity risk transactions, see \cite{LBRWGreport}.}\\
+\pietro{\rpkg{StMoMo} comes with \vlad{a set of} functions for defining an abstract model --- specifying for instance the number of period terms, whether coefficients are parametric or not --- and for fitting a given model. This is particularly useful when estimating several models on a given dataset or a given model to different datasets. The package also provides preset functions for defining the most common models available in the mortality forecasting literature. \vlad{In addition, other models preferred by the user can be created} in a very simple fashion, see Section \ref{sec:GAPC_StMOMO} where several examples are given. Therefore, the flexibility of the package allows a user to quickly build up a battery of different models, and this is particularly useful when seeking the most appropriate mortality model, comparing different models or assessing model risk. \rpkg{StMoMo} is particularly appealing for actuaries managing life and pensions portfolios exposed to longevity risk. The code backing most functions \vlad{implemented} in the package has been extensively used and tested for the development of multi population mortality models for assessing basis risk in longevity risk transactions, see \cite{Haberman2014}.}\\
 
 In the this paper we describe the statistical framework underlying \rpkg{StMoMo} and illustrate \vlad{its usage}. \vlad{For this purpose}, we use as a running example a comparison of several stochastic mortality models fitted to the England and Wales population. This example is in the spirit of the comparison exercises of \cite{Cairns2009,Cairns2011a}, \cite{Haberman2011a} and \cite{Lovasz2011}, \vlad{allowing us to} show how several of the analysis performed in these papers can easily be replicated using \rpkg{StMoMo}. The structure of \vlad{the} paper is as follows. In Section \ref{sec:Notation} we \vlad{introduce} our notation. In Section \ref{sec:GAPC}, we mirror the framework of generalised linear models to define the family of Generalised Age-Period-Cohort (GAPC) stochastic mortality models and \vlad{demonstrate that} many of the mortality models discussed in the literature can be framed within this family. \vlad{In} Section \ref{sec:GAPC_StMOMO} \vlad{we explain how the GAPC family of models is implemented in \rpkg{StMoMo}}. In Section \ref{sec:Fitting}, we describe the fitting of GAPC mortality models and illustrate how this can be accomplished using \rpkg{StMoMo}. \vlad{In Section \ref{sec:GoF} we consider} the evaluation of the goodness-of-fit of GAPC models. In Section \ref{sec:Forecasting} we discuss the forecasting and simulation of GAPC models using time series techniques. Section \ref{sec:ParameterUncertainty} describes the use of bootstrapping techniques to incorporate parameter uncertainty in the estimation and forecasting of GAPC mortality models. Finally, \vlad{in Section \ref{sec:Conclusions} we provide some conclusions and discuss  possible extensions of the \rpkg{StMoMo} package}. 
 
@@ -277,7 +279,7 @@ Let the random variable $D_{xt}$ denote the number of deaths in a population at 
 In \rpkg{StMoMo} and throughout this paper we assume that deaths, $d_{xt}$, and either central exposures, $E^c_{xt}$, or initial exposures, $E^0_{xt}$, are available in a rectangular array format comprising ages (on the rows) $x = x_1, x_2, \ldots, x_k$, and calendar years (on the columns) $t = t_1,t_2, \ldots, t_n$, When only central exposures are available and initial exposures are required (or vice-versa), one can approximate the initial exposures by adding half the matching reported numbers of deaths to the central exposures, i.e, $E^0_{xt}\approx E^c_{xt} + \frac{1}{2}d_{xt}$. When the context is clear, we may write $E_{xt}$ to refer to $E^0_{xt}$ or $E^c_{xt}$.
 
 \section{Generalised Age-Period-Cohort stochastic mortality models}\label{sec:GAPC}
-Some authors have recently sought to identify the similarities amongst stochastic mortality models. For instance, \citet{Hunt2014d} describe an Age-Period-Cohort model structure which encompasses the vast majority of stochastic mortality models. In another interesting contribution, \citet{Currie2014} shows \vlad{that} many common mortality models can be expressed in the standard terminology of generalised linear \pietro{or non-linear models}. In this section, we build \vlad{upon} the aforementioned papers to define the family of Generalised Age-Period-Cohort (GAPC) stochastic mortality models. \\
+Some authors have recently sought to identify the similarities amongst stochastic mortality models. For instance, \citet{Hunt2015b} describe an Age-Period-Cohort model structure which encompasses the vast majority of stochastic mortality models. In another interesting contribution, \citet{Currie2014} shows \vlad{that} many common mortality models can be expressed in the standard terminology of generalised linear \pietro{or non-linear models}. In this section, we build \vlad{upon} the aforementioned papers to define the family of Generalised Age-Period-Cohort (GAPC) stochastic mortality models. \\
 
 Akin to generalised linear models (see e.g. \citet{McCullagh1989}), a GAPC stochastic mortality model is comprised of four components:
 
@@ -295,7 +297,7 @@ with $\Exp\left(\slfrac{D_{xt}}{E^c_{xt}}\right) = \mu_{xt}$ and $\Exp\left(\slf
  
  
  %Systematic Component
- \item The \textit{systematic component}: following \citet{Hunt2014d} the effects of age $x$, calendar year $t$  and year-of-birth (cohort) $c=t-x$ are captured through a \textit{predictor} $\eta_{xt}$ given by:
+ \item The \textit{systematic component}: following \citet{Hunt2015b} the effects of age $x$, calendar year $t$  and year-of-birth (cohort) $c=t-x$ are captured through a \textit{predictor} $\eta_{xt}$ given by:
  \begin{equation*}\label{eq:predictor}
   \eta_{xt} = \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)} + \beta_x^{(0)}\gamma_{t-x}.
  \end{equation*}
@@ -573,10 +575,9 @@ We note that this reduced Plat model has the same identifiability issues as the 
 
  \section{GAPC stochastic mortality models with \rpkg{StMoMo}}\label{sec:GAPC_StMOMO}
  
- \revI{The \rpkg{StMoMo} package provides an \R implementation of the GAPC family of stochastic mortality models using the standard \rcode{S3} object-oriented system. The latest development version of \rpkg{StMoMo} can be installed with the code:}
+ \revI{The \rpkg{StMoMo} package provides an \R implementation of the GAPC family of stochastic mortality models using the standard \rcode{S3} object-oriented system. \rpkg{StMoMo} can be installed with the code:}
  <<installStMoMo, eval = FALSE>>=
-install.packages("devtools")
-devtools::install_github("amvillegas/StMoMo")
+install.packages("StMoMo")
 @
 \noindent 
  \revI{The package is loaded within \R as follows:}
@@ -758,7 +759,7 @@ From this code we note the following:
   \item The first and last three cohorts years are excluded from the fitting via argument \rcode{wxt}. The appropriate 0-1 weighting matrix, \rcode{wxt}, is constructed using the utility function \rcode{genWeightMat} of package \rpkg{StMoMo}.
 \end{itemize}
 
-The fitting of the RH model requires some care as it is well known that fitting cohort extensions of the Lee-Carter models is problematic \citep{Hunt2014c}. In particular, \cite{Currie2014} has encountered convergence issues when using package \rpkg{gnm} to fit the RH model. As a possible way to circumvent these issues, \cite{Currie2014} suggests the use of appropriate starting values when fitting model RH. This can be achieved in function \rcode{fit} via input arguments \rcode{start.ax}, \rcode{start.bx}, \rcode{start.kt}, \rcode{start.b0x}, and \rcode{start.gc}. Using the parameters of the Lee-Carter model as starting values, model RH can be fitted with the code:
+The fitting of the RH model requires some care as it is well known that fitting cohort extensions of the Lee-Carter models is problematic \citep{Hunt2014a}. In particular, \cite{Currie2014} has encountered convergence issues when using package \rpkg{gnm} to fit the RH model. As a possible way to circumvent these issues, \cite{Currie2014} suggests the use of appropriate starting values when fitting model RH. This can be achieved in function \rcode{fit} via input arguments \rcode{start.ax}, \rcode{start.bx}, \rcode{start.kt}, \rcode{start.b0x}, and \rcode{start.gc}. Using the parameters of the Lee-Carter model as starting values, model RH can be fitted with the code:
   
 <<fitRH, eval=TRUE, cache=TRUE, results='hide', dependson="defineAPC_RH_M7">>=
 RHfit <- fit(RH, Dxt = Dxt, Ext = Ext, ages = ages, years = years, 
@@ -1179,7 +1180,7 @@ From Figure \ref{fig:Fancharts} we note the following:
 \begin{figure}[!tb]  
     \centering
     \subfloat[LC]{
-    <<plotLCfan, fig.width=4, fig.height=5,out.width="4.5cm", echo=FALSE, cache=TRUE, dependson="simAll">>=
+    <<plotLCfan, fig.width=4, fig.height=5,out.width="4.5cm", echo=FALSE, warning=FALSE, cache=TRUE, dependson="simAll">>=
 library(fanplot)
 probs = c(2.5, 10, 25, 50, 75, 90, 97.5)
 qxt <- Dxt/Ext 
@@ -1522,8 +1523,8 @@ This work stems from research funded by the Institute \& Faculty of Actuaries an
 
 
  \bibliographystyle{elsarticle-harv} % outcomment this 
- %\bibliography{library} % if more than one, comma separated
- \begin{thebibliography}{46}
+% \bibliography{library} % if more than one, comma separated
+\begin{thebibliography}{47}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{\texttt{#1}}\fi
@@ -1537,9 +1538,6 @@ Alai, D.~H., Sherris, M., 2014. {Rethinking age-period-cohort mortality trend
 Aro, H., Pennanen, T., 2011. {A user-friendly approach to stochastic mortality
   modelling}. European Actuarial Journal 1, 151--167.
 
-\bibitem[Baxter et~al.(2014)Baxter, Gaches, Gunlauggson, Haberman, Kaishev, Millossovich, Sison and Villegas]{LBRWGreport}
-Baxter S., Gaches, A., Gunlauggson, S., Haberman, S., Kaishev, V., Millossovich, P., Sison, M., Villegas, A., 2014. {Longevity Basis Risk - A Methodology for Assessing Basis Risk}, Institute and Faculty of Actuaries, Life and Longevity Markets Association. \newline \urlprefix\url{http://www.actuaries.org.uk/sites/all/files/documents/pdf/ifoa-llma-longevity-basis-risk-report.pdf}
-
 \bibitem[{Booth et~al.(2014)Booth, Hyndman, and Tickle}]{Booth2014}
 Booth, H., Hyndman, R.~J., Tickle, L., 2014. {Prospective life tables}. In:
   Charpentier, A. (Ed.), Computational Actuarial Science with R. CRC Press,
@@ -1547,7 +1545,7 @@ Booth, H., Hyndman, R.~J., Tickle, L., 2014. {Prospective life tables}. In:
 
 \bibitem[{Booth et~al.(2002)Booth, Maindonald, and Smith}]{Booth2002}
 Booth, H., Maindonald, J., Smith, L., 2002. {Applying Lee-Carter under
-  conditions of variable mortality decline.} Population studies 56~(3),
+  conditions of variable mortality decline.} Population Studies 56~(3),
   325--36.
 
 \bibitem[{B\"{o}rger et~al.(2013)B\"{o}rger, Fleischer, and
@@ -1572,19 +1570,19 @@ Butt, Z., Haberman, S., Shang, H.~L., 2014. {ilc: Lee-Carter Mortality Models
 \newline\urlprefix\url{http://cran.r-project.org/package=ilc}
 
 \bibitem[{Cairns et~al.(2006)Cairns, Blake, and Dowd}]{Cairns2006a}
-Cairns, A.~J., Blake, D., Dowd, K., 2006. {A two-factor model for stochastic
+Cairns, A.~J.~G., Blake, D., Dowd, K., 2006. {A two-factor model for stochastic
   mortality with parameter uncertainty: theory and calibration}. Journal of
   Risk and Insurance 73~(4), 687--718.
 
 \bibitem[{Cairns et~al.(2011)Cairns, Blake, Dowd, Coughlan, Epstein, and
   Khalaf-Allah}]{Cairns2011a}
-Cairns, A.~J., Blake, D., Dowd, K., Coughlan, G.~D., Epstein, D., Khalaf-Allah,
+Cairns, A.~J.~G., Blake, D., Dowd, K., Coughlan, G.~D., Epstein, D., Khalaf-Allah,
   M., 2011. {Mortality density forecasts: An analysis of six stochastic
   mortality models}. Insurance: Mathematics and Economics 48~(3), 355--367.
 
 \bibitem[{Cairns et~al.(2009)Cairns, Blake, Dowd, Coughlan, Epstein, Ong, and
   Balevich}]{Cairns2009}
-Cairns, A.~J., Blake, D., Dowd, K., Coughlan, G.~D., Epstein, D., Ong, A.,
+Cairns, A.~J.~G., Blake, D., Dowd, K., Coughlan, G.~D., Epstein, D., Ong, A.,
   Balevich, I., 2009. {A quantitative comparison of stochastic mortality models
   using data from England and Wales and the United States}. North American
   Actuarial Journal 13~(1), 1--35.
@@ -1595,7 +1593,7 @@ Camarda, C., 2012. {MortalitySmooth: An R package for smoothing Poisson counts
 
 \bibitem[{Clayton and Schifflers(1987)}]{Clayton1987}
 Clayton, D., Schifflers, E., 1987. {Models for temporal variation in cancer
-  rates. II: Age-period-cohort models.} Statistics in medicine 6~(4), 469--81.
+  rates. II: Age-period-cohort models.} Statistics in Medicine 6~(4), 469--81.
 
 \bibitem[{Currie(2006)}]{Currie2006}
 Currie, I.~D., 2006. {Smoothing and forecasting mortality rates with
@@ -1613,6 +1611,14 @@ Deb\'{o}n, A., Mart\'{\i}nez-Ruiz, F., Montes, F., 2010. {A geostatistical
   lifetime and annuities}. Insurance: Mathematics and Economics 47~(3),
   327--336.
 
+\bibitem[{Haberman et~al.(2014)Haberman, Kaishev, Millosaovich, Villegas,
+  Baxter, Gaches, Gunnlaugsson, and Sison}]{Haberman2014}
+Haberman, S., Kaishev, V.~K., Millosaovich, P., Villegas, A.~M., Baxter, S.,
+  Gaches, A., Gunnlaugsson, S., Sison, M., 2014. {Longevity Basis Risk: A
+  methodology for assessing basis risk}. Institute and Faculty of Actuaries
+  Sessional Research Paper.
+\newline\urlprefix\url{http://www.actuaries.org.uk/sites/all/files/documents/pdf/ifoa-llma-longevity-basis-risk-report.pdf}
+
 \bibitem[{Haberman and Renshaw(2009)}]{Haberman2009}
 Haberman, S., Renshaw, A., 2009. {On age-period-cohort parametric mortality
   rate projections}. Insurance: Mathematics and Economics 45~(2), 255--270.
@@ -1623,24 +1629,25 @@ Haberman, S., Renshaw, A., 2011. {A comparative study of parametric mortality
 
 \bibitem[{Hobcraft et~al.(1982)Hobcraft, Menken, and Preston}]{Hobcraft1982}
 Hobcraft, J., Menken, J., Preston, S., 1982. {Age, period, and cohort effects
-  in demography: a review.} Population index 48~(1), 4--43.
+  in demography: a review.} Population Index 48~(1), 4--43.
 
 \bibitem[{{Human Mortality Database}(2014)}]{HumanMortalityDatabase2014}
 {Human Mortality Database}, 2014. {University of California, Berkeley (USA),
   and Max Planck Institute for Demographic Research (Germany)}.
 \newline\urlprefix\url{www.mortality.org}
 
-\bibitem[{Hunt and Blake(2014{\natexlab{a}})}]{Hunt2014}
-Hunt, A., Blake, D., 2014{\natexlab{a}}. {A general procedure for constructing
-  mortality models}. North American Actuarial Journal 18~(1), 116--138.
+\bibitem[{Hunt and Blake(2014)}]{Hunt2014}
+Hunt, A., Blake, D., 2014. {A general procedure for constructing mortality
+  models}. North American Actuarial Journal 18~(1), 116--138.
 
-\bibitem[{Hunt and Blake(2014{\natexlab{b}})}]{Hunt2014d}
-Hunt, A., Blake, D., 2014{\natexlab{b}}. {On the structure and classification
-  of mortality models}. Working paper.
+\bibitem[{Hunt and Blake(2015)}]{Hunt2015b}
+Hunt, A., Blake, D., 2015. {On the Structure and Classification of Mortality
+  Models}. Pension Institute Working Paper.
+\newline\urlprefix\url{http://www.pensions-institute.org/workingpapers/wp1506.pdf}
 
-\bibitem[{Hunt and Villegas(2014)}]{Hunt2014c}
-Hunt, A., Villegas, A.~M., 2014. {Robustness and convergence in the Lee-Carter
-  model with cohorts}. Working paper.
+\bibitem[{Hunt and Villegas(2015)}]{Hunt2014a}
+Hunt, A., Villegas, A.~M., 2015. {Robustness and convergence in the Lee-Carter
+  model with cohorts}. Insurance: Mathematics and Economics 64, 186--202.
 
 \bibitem[{Hyndman(2014)}]{Hyndman2014}
 Hyndman, R.~J., 2014. {demography: Forecasting mortality, fertility, migration
@@ -1682,8 +1689,8 @@ McCullagh, P., Nelder, J., 1989. {Generalized Linear Models}, 2nd Edition.
   Chapman \& Hal, London.
 
 \bibitem[{Oeppen and Vaupel(2002)}]{Oeppen2002}
-Oeppen, J., Vaupel, J.~W., Jul. 2002. {Broken limits to life expectancy}.
-  Science 296~(5570), 1029--1031.
+Oeppen, J., Vaupel, J.~W., 2002. {Broken limits to life expectancy}. Science
+  296~(5570), 1029--1031.
 
 \bibitem[{O'Hare and Li(2012)}]{OHare2012}
 O'Hare, C., Li, Y., 2012. {Explaining young mortality}. Insurance: Mathematics
@@ -1736,7 +1743,7 @@ Villegas, A.~M., Haberman, S., Kaishev, V., Millossovich, P., 2015. {A
 
 \bibitem[{Wang and Lu(2005)}]{Wang2005}
 Wang, D., Lu, P., 2005. {Modelling and forecasting mortality distributions in
-  England and Wales using the Lee–Carter model}. Journal of Applied
+  England and Wales using the Lee-Carter model}. Journal of Applied
   Statistics 32~(9), 873--885.
 
 \bibitem[{Wikipedia(2014)}]{Wikipedia2015}
@@ -1748,7 +1755,6 @@ Willets, R., 2004. {The cohort effect: Insights and explanations}. British
   Actuarial Journal 10~(4), 833--877.
 
 \end{thebibliography}
-
 
 
 
