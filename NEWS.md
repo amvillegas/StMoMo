@@ -1,4 +1,4 @@
-StMoMo v0.2.0.9000
+StMoMo v0.3.0
 ----------------------------------------------------------------
 * Add optional parameters kt.lookbacak and gc.lookback to 
   functions forecast.fitStMoMo, simulate.fitStMoMo and 
