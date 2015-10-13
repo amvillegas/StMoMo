@@ -5,6 +5,11 @@ StMoMo v0.2.0.9000
   simulate.bootStMoMo. These new parameter allow the forecast
   and simulation of mortality models using only a limited history
   of the period of the period and cohort indexes
+  
+* Improve documentation of some functions
+  
+* Add citation file
+
 
 StMoMo v0.2.0
 ----------------------------------------------------------------

@@ -1,0 +1,22 @@
+citHeader("To cite package 'StMoMo' in publications use:")
+
+if(!exists("meta") || is.null(meta)) meta <- packageDescription("gnm")
+year <- 2015
+note <- sprintf("R package version %s", meta$Version) 
+
+citEntry(entry="Manual",
+    title = {"StMoMo: An R Package for Stochastic Mortality Modelling"},
+    author = personList(as.person("Andres M. Villegas"),
+                        as.person("Vladimir Kaishev"),
+                        as.person("Pietro Millossovich")),
+    year = year,
+    note = note,
+    url = "http://CRAN.R-project.org/package=StMoMo",
+    textVersion = paste(
+      "Andres M. Villegas,  Vladimir Kaishev and Pietro Millossovich", 
+      sprintf("(%s).", year),
+      "StMoMo: An R Package for Stochastic Mortality Modelling.",
+      sprintf("%s.", note), "URL http://CRAN.R-project.org/package=StMoMo")
+)
+
+
