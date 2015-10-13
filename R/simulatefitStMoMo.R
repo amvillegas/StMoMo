@@ -122,6 +122,7 @@
 simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
                               jumpchoice = c("fit", "actual"),
+                              kt.lookback = NULL, gc.lookback = NULL,
                               ...){
   
   jumpchoice <- match.arg(jumpchoice)
@@ -142,6 +143,10 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   kt <- object$kt
   years <- object$years
   nYears <- length(years)
+  if (is.null(kt.lookback)) kt.lookback <- nYears 
+  if(kt.lookback<=0)
+    stop("kt.lookback must be positive")
+  kt.lookback <- min(c(kt.lookback, nYears))
   yearsSim <- (years[nYears] + 1):(years[nYears] + h)
   ages <- object$ages
   nAges <- length(ages)
@@ -153,7 +158,7 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   if(N > 0){    
     kt.nNA <- max(which(!is.na(kt[1, ])))
     kt.hNA <- nYears - kt.nNA
-    kt.model <- mrwd(kt[, 1:kt.nNA]) 
+    kt.model <- mrwd(kt[, (1+nYears-kt.lookback):kt.nNA]) 
     if(kt.hNA > 0) {
       years.h <- years[-((kt.nNA+1):nYears)]
       years.s <- c(years[(kt.nNA+1):nYears], years.s)
@@ -167,6 +172,10 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   gc <- object$gc
   cohorts <- object$cohorts
   nCohorts <- length(cohorts)
+  if (is.null(gc.lookback)) gc.lookback <- nCohorts 
+  if(gc.lookback<=0)
+    stop("gc.lookback must be positive")
+  gc.lookback <- min(c(gc.lookback, nCohorts))
   gc.h <- gc
   cohorts.h <- cohorts
   gc.model <- NULL
@@ -175,7 +184,7 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   if(!is.null(object$model$cohortAgeFun)){
     gc.nNA <- max(which(!is.na(gc)))
     gc.hNA <- nCohorts - gc.nNA
-    gc.model <- forecast::Arima(gc[1:gc.nNA], order = gc.order, 
+    gc.model <- forecast::Arima(gc[(1+nCohorts - gc.lookback):gc.nNA], order = gc.order, 
                                 include.constant = gc.include.constant) 
     if(gc.hNA > 0){      
       gc.h <- gc[-((gc.nNA+1):nCohorts)]

@@ -7,7 +7,8 @@ Mortality Model}
 \usage{
 \method{simulate}{bootStMoMo}(object, nsim = 1, seed = NULL, h = 50,
   oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), ...)
+  jumpchoice = c("fit", "actual"), kt.lookback = NULL, gc.lookback = NULL,
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{"bootStMoMo"} with the bootstrapped
@@ -38,6 +39,18 @@ should include a constant value. The default is \code{TRUE}.}
 from the final year of observation, to use in projections of mortality rates.
 \code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
 actual rates from the final year.}
+
+\item{kt.lookback}{optional argument to specify the look-back window to use
+in the estimation of the MRWD for period indexes. By default all the
+estimated values are used in estimating the MRWD. If \code{kt.lookback}
+is provided then the last \code{kt.lookback} years of
+\eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
+
+\item{gc.lookback}{optional argument to specify the look-back window to use
+in the estimation of the ARIMA model for the cohort effect. By default all the
+estimated values are used in estimating the ARIMA model. If \code{gc.lookback}
+is provided then the last \code{gc.lookback} years of
+\eqn{\gamma_{t-x}} are used.}
 
 \item{...}{other arguments.}
 }

@@ -6,7 +6,7 @@
 \usage{
 \method{forecast}{fitStMoMo}(object, h = 50, level = 95, oxt = NULL,
   gc.order = c(1, 1, 0), gc.include.constant = TRUE, jumpchoice = c("fit",
-  "actual"), ...)
+  "actual"), kt.lookback = NULL, gc.lookback = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted
@@ -32,6 +32,18 @@ should include a constant value. The default is \code{TRUE}.}
 from the final year of observation, to use in projections of mortality rates.
 \code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
 actual rates from the final year.}
+
+\item{kt.lookback}{optional argument to specify the look-back window to use
+in the estimation of the MRWD for period indexes. By default all the
+estimated values are used in estimating the MRWD. If \code{kt.lookback}
+is provided then the last \code{kt.lookback} years of
+\eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
+
+\item{gc.lookback}{optional argument to specify the look-back window to use
+in the estimation of the ARIMA model for the cohort effect. By default all the
+estimated values are used in estimating the ARIMA model. If \code{gc.lookback}
+is provided then the last \code{gc.lookback} years of
+\eqn{\gamma_{t-x}} are used.}
 
 \item{...}{other arguments.}
 }
@@ -69,7 +81,7 @@ the years for which the mortality model was fitted.}
 \description{
 Forecast mortality rates using a Stochastic Mortality Model fit.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are forecasted
-using a Multivariate Random Walk with Drift. The cohort index
+using a Multivariate Random Walk with Drift (MRWD). The cohort index
 \eqn{\gamma_{t-x}} is forecasted using an ARIMA\eqn{(p, d, q)}. By default
 an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
@@ -116,5 +128,29 @@ plot(c(APCfit$years, APCfor1$years) , (cbind(APCfor1$fitted, APCfor1$rates))["65
      main = "Forecasts with different models for gc")
 lines(APCfor2$years, APCfor2$rates["65", ], col = "blue")
 points(APCfit$years, (APCfit$Dxt / APCfit$Ext)["65", ], pch = 19)
+
+#Compare Lee-Carter forecast using:
+#  1. Fitted jump-off rates and all history for kt
+#  2. Actual jump-off rates and all history for kt
+#  3. Fitted jump-off rates and only history for
+#     the past 30 years of kt (i.e 1982-2011)
+
+LCfor1 <- forecast(LCfit)
+LCfor2 <- forecast(LCfit, jumpchoice = "actual")
+LCfor3 <- forecast(LCfit, kt.lookback = 30)
+
+plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)["60", ],
+     xlim = range(LCfit$years, LCfor1$years),
+     ylim = range((LCfit$Dxt / LCfit$Ext)["60", ], LCfor1$rates["60", ],
+                  LCfor2$rates["60", ], LCfor3$rates["60", ]),
+     type = "p", xlab = "year", ylab = "rate",
+     main = "Lee-Carter: Forecast of mortality rates at age 60")
+lines(LCfit$years, fitted(LCfit, type = "rates")["60", ])
+lines(LCfor1$years, LCfor1$rates["60", ], lty = 2)
+lines(LCfor2$years, LCfor2$rates["60", ], lty = 3, col = "blue")
+lines(LCfor3$years, LCfor3$rates["60", ], lty = 4, col = "red")
+legend("topright",legend = c("Fitted jump-off", "Actual jump-off",
+       "Fitted jump-off, 30 year look-back"),
+       lty = 1:3, col = c("black", "blue", "red"))
 }
 

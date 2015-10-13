@@ -2,7 +2,7 @@
 #' 
 #' Forecast mortality rates using a Stochastic Mortality Model fit.
 #' The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are forecasted
-#' using a Multivariate Random Walk with Drift. The cohort index 
+#' using a Multivariate Random Walk with Drift (MRWD). The cohort index 
 #' \eqn{\gamma_{t-x}} is forecasted using an ARIMA\eqn{(p, d, q)}. By default
 #' an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 #' 
@@ -23,6 +23,16 @@
 #' from the final year of observation, to use in projections of mortality rates. 
 #' \code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the 
 #' actual rates from the final year.
+#' @param kt.lookback optional argument to specify the look-back window to use
+#'        in the estimation of the MRWD for period indexes. By default all the 
+#'        estimated values are used in estimating the MRWD. If \code{kt.lookback}
+#'        is provided then the last \code{kt.lookback} years of 
+#'        \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.
+#' @param gc.lookback optional argument to specify the look-back window to use
+#'        in the estimation of the ARIMA model for the cohort effect. By default all the 
+#'        estimated values are used in estimating the ARIMA model. If \code{gc.lookback}
+#'        is provided then the last \code{gc.lookback} years of 
+#'        \eqn{\gamma_{t-x}} are used.
 #' @param ... other arguments.
 #'  
 #' @return A list of class \code{"forStMoMo"} with components:
@@ -98,10 +108,35 @@
 #'      main = "Forecasts with different models for gc")
 #' lines(APCfor2$years, APCfor2$rates["65", ], col = "blue")
 #' points(APCfit$years, (APCfit$Dxt / APCfit$Ext)["65", ], pch = 19) 
+#' 
+#' #Compare Lee-Carter forecast using: 
+#' #  1. Fitted jump-off rates and all history for kt
+#' #  2. Actual jump-off rates and all history for kt
+#' #  3. Fitted jump-off rates and only history for 
+#' #     the past 30 years of kt (i.e 1982-2011)
+#' 
+#' LCfor1 <- forecast(LCfit)
+#' LCfor2 <- forecast(LCfit, jumpchoice = "actual")
+#' LCfor3 <- forecast(LCfit, kt.lookback = 30) 
+#' 
+#' plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)["60", ],
+#'      xlim = range(LCfit$years, LCfor1$years),
+#'      ylim = range((LCfit$Dxt / LCfit$Ext)["60", ], LCfor1$rates["60", ],
+#'                   LCfor2$rates["60", ], LCfor3$rates["60", ]),
+#'      type = "p", xlab = "year", ylab = "rate",
+#'      main = "Lee-Carter: Forecast of mortality rates at age 60")
+#' lines(LCfit$years, fitted(LCfit, type = "rates")["60", ])
+#' lines(LCfor1$years, LCfor1$rates["60", ], lty = 2)
+#' lines(LCfor2$years, LCfor2$rates["60", ], lty = 3, col = "blue")
+#' lines(LCfor3$years, LCfor3$rates["60", ], lty = 4, col = "red")
+#' legend("topright",legend = c("Fitted jump-off", "Actual jump-off", 
+#'        "Fitted jump-off, 30 year look-back"), 
+#'        lty = 1:3, col = c("black", "blue", "red"))
 #' @export
 forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-                              jumpchoice = c("fit", "actual"),
+                              jumpchoice = c("fit", "actual"), 
+                              kt.lookback = NULL, gc.lookback = NULL,
                               ...){
   
   jumpchoice <- match.arg(jumpchoice)
@@ -114,6 +149,10 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   kt <- object$kt
   years <- object$years
   nYears <- length(years)
+  if (is.null(kt.lookback)) kt.lookback <- nYears 
+  if(kt.lookback<=0)
+    stop("kt.lookback must be positive")
+  kt.lookback <- min(c(kt.lookback, nYears))
   yearsFor <- (years[nYears] + 1):(years[nYears] + h)
   agesFor <- object$ages
   nAges <- length(object$ages)
@@ -125,7 +164,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   if(object$model$N > 0){
     kt.nNA <- max(which(!is.na(kt[1, ])))
     kt.hNA <- nYears - kt.nNA
-    kt.model <- mrwd(kt[, 1:kt.nNA]) 
+    kt.model <- mrwd(kt[, (1+nYears-kt.lookback):kt.nNA]) 
     kt.for <- forecast(kt.model, h = h + kt.hNA, level = level)
     if(kt.hNA > 0) {
       years.h <- years[-((kt.nNA+1):nYears)]
@@ -143,6 +182,10 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   gc <- object$gc
   cohorts <- object$cohorts
   nCohorts <- length(cohorts)
+  if (is.null(gc.lookback)) gc.lookback <- nCohorts 
+  if(gc.lookback<=0)
+    stop("gc.lookback must be positive")
+  gc.lookback <- min(c(gc.lookback, nCohorts))
   gc.h <- gc
   cohorts.h <- cohorts
   gc.model <- NULL
@@ -151,11 +194,11 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
   if(!is.null(object$model$cohortAgeFun)){
     gc.nNA <- max(which(!is.na(gc)))
     gc.hNA <- nCohorts - gc.nNA
-    gc.model <- forecast::Arima(gc[1:gc.nNA], order = gc.order, 
+    gc.model <- forecast::Arima(gc[(1+nCohorts - gc.lookback):gc.nNA], order = gc.order, 
                                 include.constant = gc.include.constant) 
     gc.for <- forecast(gc.model, h = h + gc.hNA, level = level) 
     
-    if(gc.hNA > 0){      
+  if(gc.hNA > 0){      
       gc.h <- gc[-((gc.nNA+1):nCohorts)]
       cohorts.h <- cohorts[-((gc.nNA+1):nCohorts)]
       cohorts.f <- c(cohorts[(gc.nNA+1):nCohorts], cohorts.f)

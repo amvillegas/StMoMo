@@ -79,6 +79,7 @@
 simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL,
                               gc.order = c(1, 1, 0), gc.include.constant = TRUE,
                               jumpchoice = c("fit", "actual"),
+                              kt.lookback = NULL, gc.lookback = NULL,
                               ...){  
   jumpchoice <- match.arg(jumpchoice)
   ages <- object$model$ages
@@ -86,7 +87,7 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
   nBoot <- length(object$bootParameters)
   nPath <- nsim * nBoot
   
-  ## Handle generato seed
+  ## Handle generator seed
   if (!exists(".Random.seed", envir = .GlobalEnv)) 
     runif(1)
   if (is.null(seed)) 
@@ -113,7 +114,8 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
                             nsim = nsim, seed = NULL, h = h, 
                             oxt = oxt.s[, , 1], gc.order = gc.order, 
                             gc.include.constant = gc.include.constant, 
-                            jumpchoice = jumpchoice)
+                            jumpchoice = jumpchoice,
+                            kt.lookback = kt.lookback, gc.lookback = gc.lookback)
   rates <- array(NA, c(dim(tempSim$rates)[1:2], nPath), 
                  list(dimnames(tempSim$rates)[[1]], dimnames(tempSim$rates)[[2]], 1:nPath))
   fitted <- array(NA, c(dim(tempSim$fitted)[1:2], nPath), 
@@ -149,7 +151,8 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50, oxt = NULL
                               nsim = nsim, seed = NULL, h = h, 
                               oxt = oxt.s[, , i], gc.order = gc.order, 
                               gc.include.constant = gc.include.constant,                               
-                              jumpchoice = jumpchoice)
+                              jumpchoice = jumpchoice,
+                              kt.lookback = kt.lookback, gc.lookback = gc.lookback)
     
     }    
   }  
