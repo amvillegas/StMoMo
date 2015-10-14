@@ -1,12 +1,14 @@
-StMoMo v0.2.0.9000
+StMoMo v0.3.0
 ----------------------------------------------------------------
 * Add optional parameters kt.lookbacak and gc.lookback to 
   functions forecast.fitStMoMo, simulate.fitStMoMo and 
-  simulate.bootStMoMo. These new parameter allow the forecast
+  simulate.bootStMoMo. These new parameters allow the forecast
   and simulation of mortality models using only a limited history
-  of the period of the period and cohort indexes
+  of the period and cohort indexes
   
 * Improve documentation of some functions
+
+* Update package vignette
   
 * Add citation file
 
