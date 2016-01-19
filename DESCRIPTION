@@ -18,7 +18,8 @@ Imports:
     rootSolve (>= 1.6.5.1),
     fanplot (>= 3.4),
     reshape2 (>= 1.4.1),
-    fields (>= 8.2)
+    fields (>= 8.2),
+    RColorBrewer
 Depends: 
     R (>= 3.2.0),
     gnm (>= 1.0), 

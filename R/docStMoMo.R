@@ -14,6 +14,7 @@
 #' @importFrom stats aggregate as.formula binomial coef cov fitted lm na.omit 
 #' @importFrom stats nobs poisson predict qnorm quantile rbinom residuals rpois runif start
 #' @importFrom utils head tail
+#' @importFrom RColorBrewer brewer.pal
 NULL
 
 

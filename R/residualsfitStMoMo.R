@@ -108,17 +108,27 @@ residuals.fitStMoMo<-function(object, scale = TRUE, ...){
 #' @export 
 #' @method plot resStMoMo
 plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"), 
-                           reslim = range(x$residuals, na.rm = TRUE),
+                           reslim = NULL,
                            plotAge = TRUE, plotYear = TRUE, 
                            plotCohort  = TRUE, pch = 20, ...){
   type <- match.arg(type)
   oldpar <- par(no.readonly = TRUE)
+  
+  if(is.null(reslim)){
+    maxRes <- max(abs(x$residuals), na.rm = TRUE)
+    reslim <- c(-maxRes, maxRes)
+  }
+  if (!hasArg(col)) {
+    col <- colorRampPalette(RColorBrewer::brewer.pal(10, "RdBu"))(64)
+  }
+  
   switch(type, 
          scatter = scatterplotAPC(x$residuals, x$ages, x$years, plotAge = plotAge, 
                                   plotYear = plotYear, plotCohort = plotCohort, 
                                   pch = pch, ylab = "residuals", ylim = reslim, ...),
          colourmap = fields::image.plot(x$year, x$age, t(x$residuals), zlim = reslim,
-                                        ylab = "age", xlab = "calendar year", ...),
+                                        ylab = "age", xlab = "calendar year", 
+                                        col = col, nlevel = nlevel, ...),
          signplot = image.default(x$year, x$age, t(x$residuals), zlim = reslim, 
                           ylab = "age", xlab = "calendar year", 
                           breaks = c(-10e10,0, 10e10), col = grey.colors(2), ...)

@@ -1,5 +1,9 @@
 StMoMo v0.3.0.9000
 ----------------------------------------------------------------
+* Change residual plotting function (plot.resStMoMo) to use a
+  more effective divergent colour palette for colourmaps.
+* Change the default plotting limits in residual plotting 
+  function to have a symmetric scale
 
 
 StMoMo v0.3.0
@@ -20,4 +24,4 @@ StMoMo v0.3.0
 StMoMo v0.2.0
 ----------------------------------------------------------------
 
-* First stable version of StMoMo realeased to CRAN
+* First stable version of StMoMo released to CRAN
