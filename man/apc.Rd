@@ -8,9 +8,9 @@ apc(link = c("log", "logit"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with
-  the mortality model. \code{"log"} would assume that deaths follow a Poisson
-  distribution and use a log link while \code{"logit"} would assume that
-  deaths follow a Binomial distribution and a logit link.}
+  the mortality model. \code{"log"} would assume that deaths follow a
+  Poisson distribution and use a log link while \code{"logit"} would assume
+  that deaths follow a Binomial distribution and a logit link.}
 }
 \value{
 An object of class \code{"StMoMo"}.
@@ -20,12 +20,13 @@ Utility function to initialise a \code{StMoMo} object representing an
 Age-Period-Cohort mortality model.
 }
 \details{
-The created model is either a log-Poisson or a logit-Binomial version of the
-classical age-period-cohort mortality model which has predictor structure
+The created model is either a log-Poisson or a logit-Binomial version of
+the classical age-period-cohort mortality model which has predictor
+structure
 \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 
-To ensure identifiability we follow Cairns et al. (2009) and impose constraints
-\deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
+To ensure identifiability we follow Cairns et al. (2009) and impose
+constraints \deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
 }
 \examples{
 APC <- apc()
@@ -36,9 +37,9 @@ APCfit <- fit(APC, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
 plot(APCfit, parametricbx = FALSE, nCol = 3)
 }
 \references{
-Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A.,
-& Balevich, I. (2009). A quantitative comparison of stochastic mortality models using
-data from England and Wales and the United States.
+Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D.,
+Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic
+mortality models using data from England and Wales and the United States.
 North American Actuarial Journal, 13(1), 1-35.
 }
 \seealso{

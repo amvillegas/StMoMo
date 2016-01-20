@@ -22,28 +22,28 @@ added in the forecasting. This can be used to specify any a priori
 known component to be added to the forecasted predictor.}
 
 \item{gc.order}{a specification of the ARIMA model: the three components
-\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA order.
-The default is an ARIMA\eqn{(1, 1, 0)}.}
+\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA
+order. The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
 
 \item{jumpchoice}{option to select the jump-off rates, i.e. the rates
-from the final year of observation, to use in projections of mortality rates.
-\code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
-actual rates from the final year.}
+from the final year of observation, to use in projections of mortality
+rates. \code{"fit"}(default) uses the fitted rates and \code{"actual"}
+uses the actual rates from the final year.}
 
 \item{kt.lookback}{optional argument to specify the look-back window to use
 in the estimation of the MRWD for period indexes. By default all the
-estimated values are used in estimating the MRWD. If \code{kt.lookback}
-is provided then the last \code{kt.lookback} years of
-\eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
+estimated values are used in estimating the MRWD. If
+\code{kt.lookback} is provided then the last \code{kt.lookback}
+years of \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
 
 \item{gc.lookback}{optional argument to specify the look-back window to use
-in the estimation of the ARIMA model for the cohort effect. By default all the
-estimated values are used in estimating the ARIMA model. If \code{gc.lookback}
-is provided then the last \code{gc.lookback} years of
-\eqn{\gamma_{t-x}} are used.}
+in the estimation of the ARIMA model for the cohort effect. By
+default all the estimated values are used in estimating the ARIMA
+model. If \code{gc.lookback} is provided then the last
+\code{gc.lookback} years of \eqn{\gamma_{t-x}} are used.}
 
 \item{...}{other arguments.}
 }
@@ -55,19 +55,20 @@ A list of class \code{"forStMoMo"} with components:
 \item{years}{vector of years for which a forecast has been produced. This
  corresponds to the columns of \code{rates}.}
 
-\item{kt.f}{ forecasts of period indexes of the model. This is a list with the
- \code{model} fitted to \eqn{\kappa_t}; the \code{mean}(central) forecast,
- the \code{lower} and \code{upper} limits of the prediction interval;
- the confidence \code{level} associated with the prediction interval; and the
- \code{years} for which a forecast was produced. If the model does
-  not have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
+\item{kt.f}{ forecasts of period indexes of the model. This is a list with
+the \code{model} fitted to \eqn{\kappa_t}; the \code{mean}(central)
+forecast, the \code{lower} and \code{upper} limits of the prediction
+interval; the confidence \code{level} associated with the prediction
+interval; and the \code{years} for which a forecast was produced. If the
+model does not have any age-period terms (i.e. \eqn{N=0}) this is set to
+\code{NULL}.}
 
-\item{gc.f}{ forecasts of cohort index of the model. This is a list with the
- \code{model} fitted to \eqn{\gamma_c}; the \code{mean}(point) forecast,
- the \code{lower} and \code{upper} limits of the prediction interval;
- the confidence \code{level} associated with the prediction interval; and the
- \code{cohorts} for which a forecast was produced. If the mortality model does
- not have a cohort effect this is set to \code{NULL}.}
+\item{gc.f}{ forecasts of cohort index of the model. This is a list with
+the \code{model} fitted to \eqn{\gamma_c}; the \code{mean}(point) forecast,
+the \code{lower} and \code{upper} limits of the prediction interval; the
+confidence \code{level} associated with the prediction interval; and the
+\code{cohorts} for which a forecast was produced. If the mortality model
+does not have a cohort effect this is set to \code{NULL}.}
 
 \item{oxt.f}{ the offset used in the forecast.}
 
@@ -121,9 +122,10 @@ APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages.fit = 55:89, wxt = wxt)
 APCfor1 <- forecast(APCfit)
 plot(APCfor1, parametricbx = FALSE, nCol = 3)
-APCfor2 <- forecast(APCfit, gc.order = c(0,2,2))
+APCfor2 <- forecast(APCfit, gc.order = c(0, 2, 2))
 plot(APCfor2, only.gc = TRUE)
-plot(c(APCfit$years, APCfor1$years) , (cbind(APCfor1$fitted, APCfor1$rates))["65", ],
+plot(c(APCfit$years, APCfor1$years),
+     cbind(APCfor1$fitted, APCfor1$rates)["65", ],
      type = "l", xlab = "year", ylab = "Mortality rate at age 65",
      main = "Forecasts with different models for gc")
 lines(APCfor2$years, APCfor2$rates["65", ], col = "blue")

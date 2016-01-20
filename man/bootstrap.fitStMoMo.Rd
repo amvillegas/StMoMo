@@ -13,40 +13,46 @@ parameters of a stochastic mortality model.}
 
 \item{nBoot}{number of bootstrap samples to produce.}
 
-\item{type}{type of bootstrapping approach to be applied. \code{"semiparametric"}(default)
-uses the assumed distribution of the deaths to generate bootstrap samples.
-\code{"residual"} resamples the  deviance residuals of the model to generate bootstrap samples.}
+\item{type}{type of bootstrapping approach to be applied.
+\code{"semiparametric"}(default) uses the assumed distribution of the
+deaths to generate bootstrap samples. \code{"residual"} resamples the
+deviance residuals of the model to generate bootstrap samples.}
 
-\item{deathType}{type of deaths to sample in the semiparametric bootstrap. \code{"observed"} (default)
-resamples the observed deaths. \code{"fitted"} resamples the fitted deaths. This parameter is only used
-if \code{type} is \code{"semiparametric"}.}
+\item{deathType}{type of deaths to sample in the semiparametric bootstrap.
+\code{"observed"} (default) resamples the observed deaths. \code{"fitted"}
+resamples the fitted deaths. This parameter is only used if \code{type} is
+\code{"semiparametric"}.}
 
 \item{...}{arguments to be passed to or from other methods.}
 }
 \value{
 A list with class \code{"bootStMoMo"} with components:
 
-\item{bootParameters}{ a list of of length \code{nBoot} with the fitted parameters for each bootstrap
-replication.}
+\item{bootParameters}{ a list of of length \code{nBoot} with the fitted
+parameters for each bootstrap replication.}
 \item{model}{ the model fit that has been bootstrapped.}
 \item{type}{ type of bootstrapping approach applied.}
-\item{deathType}{ type of deaths sampled in case of semiparametric bootstrap.}
+\item{deathType}{ type of deaths sampled in case of semiparametric
+bootstrap.}
 }
 \description{
-Produce bootstrap parameters of a Stochastic Mortality Model to account for parameter
-uncertainty.
+Produce bootstrap parameters of a Stochastic Mortality Model to account for
+parameter uncertainty.
 }
 \details{
-When \code{type} is \code{"residual"} the residual bootstrapping approach described in
-Renshaw and Haberman (2008) is applied, which is an adaptation of the approach of
-Koissi et al (2006). In the case of a \code{"logit"} link with Binomial responses the adaptation
-described in Debon et al, (2010, section 3) is used.
+When \code{type} is \code{"residual"} the residual bootstrapping approach
+described in Renshaw and Haberman (2008) is applied, which is an
+adaptation of the approach of Koissi et al (2006). In the case of a
+\code{"logit"} link with Binomial responses the adaptation described in
+Debon et al, (2010, section 3) is used.
 
-When \code{type} is \code{"semiparametric"} the semiparametric approach described in
-Brouhns et al.(2005) is used. In the case of a \code{"logit"} link with Binomial responses a
-suitable adaptation is applied. If \code{deathType} is \code{"observed"} then the observed deaths are
-used in the sampling as in Brouhns et al. (2005) while if \code{deathType} is \code{"fitted"} the fitted
-deaths are used in the sampling as in Renshaw and Haberman (2008).
+When \code{type} is \code{"semiparametric"} the semiparametric approach
+described in Brouhns et al.(2005) is used. In the case of a \code{"logit"}
+link with Binomial responses a suitable adaptation is applied. If
+\code{deathType} is \code{"observed"} then the observed deaths are used in
+the sampling as in Brouhns et al. (2005) while if \code{deathType} is
+\code{"fitted"} the fitted deaths are used in the sampling as in
+Renshaw and Haberman (2008).
 }
 \examples{
 #Long computing times
@@ -64,16 +70,18 @@ plot(LCSemiFitBoot)
 }
 }
 \references{
-Brouhns, N., Denuit M., & Van Keilegom, I. (2005). Bootstrapping the Poisson log-bilinear model
-for mortality forecasting. Scandinavian Actuarial Journal, 2005(3), 212-224.
+Brouhns, N., Denuit M., & Van Keilegom, I. (2005). Bootstrapping the
+Poisson log-bilinear model for mortality forecasting.
+Scandinavian Actuarial Journal, 2005(3), 212-224.
 
-Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical approach for dynamic
-life tables: The effect of mortality on remaining lifetime and annuities.
-Insurance: Mathematics and Economics, 47(3), 327-336.
+Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical
+approach for dynamic life tables: The effect of mortality on remaining
+lifetime and annuities. Insurance: Mathematics and Economics, 47(3),
+327-336.
 
-Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to risk measurement in
-mortality with specific reference to Poisson Lee-Carter modelling.
-Insurance: Mathematics and Economics, 42(2), 797-816.
+Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to
+risk measurement in mortality with specific reference to Poisson Lee-Carter
+modelling. Insurance: Mathematics and Economics, 42(2), 797-816.
 }
 \seealso{
 \code{\link{simulate.bootStMoMo}}, \code{\link{plot.bootStMoMo}}

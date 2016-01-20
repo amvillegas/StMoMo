@@ -8,10 +8,10 @@ cbd(link = c("logit", "log"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with
-the mortality model. \code{"log"} would assume that deaths follow a Poisson
-distribution and use a log link while \code{"logit"} would assume that
-deaths follow a Binomial distribution and a logit link. Note that the default
-is the logit link.}
+the mortality model. \code{"log"} would assume that deaths follow a
+Poisson distribution and use a log link while \code{"logit"} would
+assume that deaths follow a Binomial distribution and a logit link.
+Note that the default is the logit link.}
 }
 \value{
 An object of class \code{"StMoMo"}.
@@ -21,8 +21,8 @@ Utility function to initialise a \code{StMoMo} object representing a
 Cairns-Blake-Dowd mortality model.
 }
 \details{
-The created model is either a logit-Binomial or a log-Poisson version of the
-Cairns-Blake-Dowd mortality model which has predictor structure
+The created model is either a logit-Binomial or a log-Poisson version of
+the Cairns-Blake-Dowd mortality model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
 where \eqn{\bar{x}} is the average age in the data.
 }
@@ -36,11 +36,12 @@ CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext,
 plot(CBDfit, parametricbx = FALSE)
 }
 \references{
-Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for Stochastic
-Mortality with Parameter Uncertainty: Theory and Calibration.
+Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for
+Stochastic Mortality with Parameter Uncertainty: Theory and Calibration.
 Journal of Risk and Insurance, 73(4), 687-718.
 }
 \seealso{
-\code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
+\code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}},
+\code{\link{m8}}
 }
 

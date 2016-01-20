@@ -14,16 +14,17 @@ genPoissonResBootSamples(devRes, dhat, nBoot)
 \item{nBoot}{number of bootstrap samples to produce.}
 }
 \value{
-a list of length \code{nBoot} of marices with matching sampled deaths
+a list of length \code{nBoot} of marices with matching sampled
+deaths
 }
 \description{
 Generate poisson bootstrap samples using the procedure
 described in Renshaw and Haberman (2008)
 }
 \references{
-Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to risk measurement in
-mortality with specific reference to Poisson Lee-Carter modelling.
-Insurance: Mathematics and Economics, 42(2), 797-816.
+Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to
+risk measurement in mortality with specific reference to Poisson Lee-Carter
+modelling. Insurance: Mathematics and Economics, 42(2), 797-816.
 }
 \keyword{internal}
 

@@ -2,7 +2,8 @@
 
 #' Plot fitted parameters from a stochastic mortality model
 #' 
-#' Plot fitted parameters of a stochastic mortality model of class \code{"fitStMoMo"}.
+#' Plot fitted parameters of a stochastic mortality model of class 
+#' \code{"fitStMoMo"}.
 #' 
 #' @usage 
 #' \method{plot}{fitStMoMo}(x, nCol = 2, parametricbx = TRUE, type = "l", ...)
@@ -36,7 +37,7 @@
 #' 
 #' @export 
 #' @method plot fitStMoMo
-plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ... ) {
+plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ...) {
   
   years <- x$years
   ages <- x$ages
@@ -49,7 +50,7 @@ plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ... ) {
   N <- x$model$N
     
   #Calculate number of plots and rows
-  nPlots <- 2*N + (!is.null(ax)) + 2*(!is.null(gc))
+  nPlots <- 2 * N + (!is.null(ax)) + 2 * (!is.null(gc))
   is.nonparametric <- function(bx) {
     is.character(bx) && bx == "NP"
   }  
@@ -69,7 +70,6 @@ plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ... ) {
   oldpar <- par(no.readonly = TRUE)
   par(mfrow = c(nRow, nCol))
   
-  
   #ax
   if (!is.null(ax)) {
     plot(x = ages, y = ax, ylab = "", xlab = "age", 
@@ -82,32 +82,32 @@ plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ... ) {
       
   # bx, kt
   if (N > 0) {
-    for (i in 1:N){      
+    for (i in 1:N) {      
       #bx
       if (parametricbx == TRUE || is.nonparametric(x$model$periodAgeFun[[i]])) {
         plot(x = ages, y = bx[, i], ylab = "", xlab = "age", 
-             main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), list(i = i)), type = type, ...)
-      
+             main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
+                               list(i = i)), type = type, ...)
       }
       #kt
-      plot( x= years,y = kt[i,], ylab="", xlab = "year", 
-           main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), list(i = i)), type = type, ...)  
-      
+      plot(x = years,y = kt[i, ], ylab = "", xlab = "year", 
+           main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), 
+                             list(i = i)), type = type, ...) 
     }
   }
   
   
-  if (!is.null(gc) == TRUE){
+  if (!is.null(gc) == TRUE) {
     #bx0
     if (parametricbx == TRUE || is.nonparametric(x$model$cohortAgeFun)) {
       plot(x = ages, y = b0x, ylab = "", xlab = "age", 
-           main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), list(i = 0)), type = type, ...)    
+           main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
+                             list(i = 0)), type = type, ...)    
     }    
     #gc  
-    plot(x=cohorts,y=gc, ylab="", xlab="cohort", 
-         main = expression(paste(gamma[t-x], " vs. t-x","")), type = type, ...)
+    plot(x = cohorts, y = gc, ylab = "", xlab = "cohort", 
+         main = expression(paste(gamma[t-x], " vs. t-x","")),
+         type = type, ...)
   }
   par(oldpar)
 }
-
-

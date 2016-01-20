@@ -11,8 +11,8 @@
 
 \item{nsim}{number of periods for the simulated series.}
 
-\item{seed}{either \code{NULL} or an integer that will be used in a call to
-\code{\link{set.seed}} before simulating the time series.
+\item{seed}{either \code{NULL} or an integer that will be used in a
+call to \code{\link{set.seed}} before simulating the time series.
 The default, \code{NULL} will not change the random generator state.}
 
 \item{...}{other arguments.}

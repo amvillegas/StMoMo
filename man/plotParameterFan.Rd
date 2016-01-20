@@ -29,8 +29,9 @@ plotParameterFan(x, y, yBoot, main, xlab, ylab, probs, fan.col, n.fan, ...)
 Plot fanchart of the parameters
 }
 \details{
-In order for the plotting to look appropiately the intervals of the data with
-non missing values need to be found. Otherwise fanplot::fan doesn't work.
+In order for the plotting to look appropiately the intervals of
+the data with non missing values need to be found. Otherwise fanplot::fan
+doesn't work.
 }
 \keyword{internal}
 

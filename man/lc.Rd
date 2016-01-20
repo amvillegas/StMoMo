@@ -8,20 +8,22 @@ lc(link = c("log", "logit"), const = c("sum", "last", "first"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with
-  the mortality model. \code{"log"} would assume that deaths follow a Poisson
-  distribution and use a log link while \code{"logit"} would assume that
-  deaths follow a Binomial distribution and a logit link.}
+  the mortality model. \code{"log"} would assume that deaths follow a
+  Poisson distribution and use a log link while \code{"logit"} would assume
+  that deaths follow a Binomial distribution and a logit link.}
 
-\item{const}{defines the constraint to impose to the period index of the model
-to ensure identifiability. The alternatives are \code{"sum"}(default),  \code{"last"}
-and \code{"first"} which apply constraints \eqn{\sum_t\kappa_t = 0}, \eqn{\kappa_n = 0}
-and \eqn{\kappa_1 = 0}, respectively.}
+\item{const}{defines the constraint to impose to the period index of the
+ model to ensure identifiability. The alternatives are
+ \code{"sum"}(default),  \code{"last"} and \code{"first"} which apply
+ constraints \eqn{\sum_t\kappa_t = 0}, \eqn{\kappa_n = 0} and
+ \eqn{\kappa_1 = 0}, respectively.}
 }
 \value{
 An object of class \code{"StMoMo"}.
 }
 \description{
-Utility function to initialise a \code{StMoMo} object representing a Lee-Carter model.
+Utility function to initialise a \code{StMoMo} object representing a
+Lee-Carter model.
 }
 \details{
 The created model is either a log-Poisson (see Brouhns et al (2002)) or a
@@ -40,14 +42,14 @@ LCfit1<-fit(LC1, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
             ages.fit = 55:89)
 plot(LCfit1)
 
-#kt[1]= 0 and log link
+#kt[1] = 0 and log link
 LC2 <- lc(const = "first")
 LCfit2<-fit(LC2, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
             ages = EWMaleData$ages, years = EWMaleData$years,
             ages.fit = 55:89)
 plot(LCfit2)
 
-#kt[n]= 0 and logit link
+#kt[n] = 0 and logit link
 LC3 <- lc("logit", "last")
 LCfit3<-fit(LC3, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
             ages = EWMaleData$ages, years = EWMaleData$years,
@@ -55,9 +57,9 @@ LCfit3<-fit(LC3, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
 plot(LCfit3)
 }
 \references{
-Brouhns, N., Denuit, M., & Vermunt, J. K. (2002). A Poisson log-bilinear regression
-approach to the construction of projected lifetables. Insurance: Mathematics and
-Economics, 31(3), 373-393.
+Brouhns, N., Denuit, M., & Vermunt, J. K. (2002). A Poisson log-bilinear
+regression approach to the construction of projected lifetables.
+ Insurance: Mathematics and Economics, 31(3), 373-393.
 
 Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting U.S. mortality.
 Journal of the American Statistical Association, 87(419), 659-671.

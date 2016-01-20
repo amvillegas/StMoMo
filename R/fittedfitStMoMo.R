@@ -26,11 +26,12 @@
 #'      main = "fitted vs. observed rates at age 65")
 #' lines(LCfit$years, qxthat["65", ])
 #' @export 
-fitted.fitStMoMo<-function(object, type = c("link", "rates", "deaths"), ...){
+fitted.fitStMoMo<-function(object, type = c("link", "rates", "deaths"), ...) {
   
   type <- match.arg(type)
-  link <- with(object, predictLink(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc,
-                           oxt = oxt, ages = ages, years = years))
+  link <- with(object, predictLink(ax = ax, bx = bx, kt = kt, b0x = b0x, 
+                                   gc = gc, oxt = oxt, ages = ages, 
+                                   years = years))
   rates <- switch(object$model$link, log = exp(link), logit = invlogit(link))
   deaths <- object$Ext * rates
   switch(type, rates = rates, deaths = deaths, link = link)  

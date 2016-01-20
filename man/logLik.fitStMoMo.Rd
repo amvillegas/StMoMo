@@ -7,8 +7,8 @@
 \method{logLik}{fitStMoMo}(object, ...)
 }
 \arguments{
-\item{object}{an object of class \code{fitStMoMo} representing a Stochastic Mortality Model
-fitted to some data.}
+\item{object}{an object of class \code{fitStMoMo} representing a
+Stochastic Mortality Model fitted to some data.}
 
 \item{...}{other arguments.}
 }

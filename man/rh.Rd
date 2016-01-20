@@ -8,9 +8,9 @@ rh(link = c("log", "logit"), cohortAgeFun = c("1", "NP"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with
-  the mortality model. \code{"log"} would assume that deaths follow a Poisson
-  distribution and use a log link while \code{"logit"} would assume that
-  deaths follow a Binomial distribution and a logit link.}
+  the mortality model. \code{"log"} would assume that deaths follow a
+  Poisson distribution and use a log link while \code{"logit"} would assume
+  that deaths follow a Binomial distribution and a logit link.}
 
 \item{cohortAgeFun}{defines the cohort age modulating parameter
   \eqn{\beta_x^{(0)}}. It can take values: \code{"NP"} for a non-parametric age
@@ -40,7 +40,7 @@ plus
 if \code{cohortAgeFun = "NP"}
 
 By default \eqn{\beta^{(0)}_x = 1} as this model has shown to be more
-stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014)).
+stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2015)).
 }
 \examples{
 LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
@@ -54,14 +54,17 @@ RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
 plot(RHfit)
 }
 \references{
-Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection
-models. Insurance: Mathematics and Economics, 48(1), 35-55.
+Haberman, S., & Renshaw, A. (2011). A comparative study of parametric
+mortality projection models. Insurance: Mathematics and Economics,
+48(1), 35-55.
 
-Hunt, A., & Villegas, A. M. (2014). Robustness and convergence in the Lee-Carter model
-with cohorts. Working Paper.
+Hunt, A., & Villegas, A. M. (2015). Robustness and convergence in the
+Lee-Carter model with cohorts. Insurance: Mathematics and Economics,
+64, 186-202.
 
-Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the Lee-Carter model
-for mortality reduction factors.Insurance: Mathematics and Economics, 38(3), 556-570.
+Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the
+Lee-Carter model for mortality reduction factors.
+Insurance: Mathematics and Economics, 38(3), 556-570.
 }
 \seealso{
 \code{\link{StMoMo}}, \link{lc}, \link{apc}

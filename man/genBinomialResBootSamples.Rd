@@ -16,16 +16,18 @@ genBinomialResBootSamples(devRes, dhat, E, nBoot)
 \item{nBoot}{number of bootstrap samples to produce.}
 }
 \value{
-a list of length \code{nBoot} of matrices with matching sampled deaths
+a list of length \code{nBoot} of matrices with matching sampled
+deaths
 }
 \description{
 Generate Binomial bootstrap samples using the procedure
 described in Debon et al. (2010, section 3)
 }
 \references{
-Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical approach for dynamic
-life tables: The effect of mortality on remaining lifetime and annuities.
-Insurance: Mathematics and Economics, 47(3), 327-336.
+Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical
+approach for dynamic life tables: The effect of mortality on remaining
+lifetime and annuities. Insurance: Mathematics and Economics, 47(3),
+327-336.
 }
 \keyword{internal}
 

@@ -29,7 +29,8 @@ For further information on the Multivariate Random Walk with
 drift see Appendix B in Haberman and Renshaw (2011).
 }
 \references{
-Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality
-projection models. Insurance: Mathematics and Economics, 48(1), 35-55.
+Haberman, S., & Renshaw, A. (2011). A comparative study of parametric
+mortality projection models. Insurance: Mathematics and Economics,
+48(1), 35-55.
 }
 

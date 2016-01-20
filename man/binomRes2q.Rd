@@ -21,9 +21,10 @@ This funciont uses the procedure described in
 Debon et al. (2010, section 3)
 }
 \references{
-Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical approach for dynamic
-life tables: The effect of mortality on remaining lifetime and annuities.
-Insurance: Mathematics and Economics, 47(3), 327-336.
+Debon, A., Martinez-Ruiz, F., & Montes, F. (2010). A geostatistical
+approach for dynamic life tables: The effect of mortality on remaining
+lifetime and annuities. Insurance: Mathematics and Economics,
+47(3), 327-336.
 }
 \keyword{internal}
 

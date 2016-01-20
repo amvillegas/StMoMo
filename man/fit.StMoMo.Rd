@@ -21,20 +21,20 @@ mortality model.}
 
 \item{years}{vector of years corresponding to rows of \code{Dxt} and \code{Ext}.}
 
-\item{ages.fit}{optional vector of ages to include in the fit. Must be a subset of
-\code{ages}.}
+\item{ages.fit}{optional vector of ages to include in the fit. Must be a
+subset of \code{ages}.}
 
-\item{years.fit}{optional vector of years to include in the fit. Must be a subset of
-\code{years}.}
+\item{years.fit}{optional vector of years to include in the fit. Must be a
+subset of \code{years}.}
 
 \item{oxt}{optional matrix/vector or scalar of known offset to be used in fitting
 the model. This can be used to specify any a priori known component to be added to
 the predictor during fitting.}
 
 \item{wxt}{optional matrix of 0-1 weights to be used in the fitting process.
-This can be used, for instance, to zero weight some cohorts in the data. See
-\code{\link{genWeightMat}} which is a helper function for defining weighting
-matrices.}
+This can be used, for instance, to zero weight some cohorts in the data.
+See \code{\link{genWeightMat}} which is a helper function for defining
+weighting matrices.}
 
 \item{start.ax}{optional vector with starting values for \eqn{\alpha_x}.}
 
@@ -46,35 +46,44 @@ matrices.}
 
 \item{start.gc}{optional vector with starting values for \eqn{\gamma_c}.}
 
-\item{verbose}{a logical value. If \code{TRUE} progress indicators are printed
-as the model is fitted. Set \code{verbose = FALSE} to silent the
+\item{verbose}{a logical value. If \code{TRUE} progress indicators are
+printed as the model is fitted. Set \code{verbose = FALSE} to silent the
 fitting and avoid progress messages.}
 
-\item{...}{arguments to be passed to or from other methods. This can be used
-to control the fitting parameters of \code{gnm}.  See \code{\link[gnm]{gnm}}.}
+\item{...}{arguments to be passed to or from other methods. This can be
+used to control the fitting parameters of \code{gnm}. See
+\code{\link[gnm]{gnm}}.}
 }
 \value{
 A list with class \code{"fitStMoMo"} with components:
 
-  \item{model}{ the object of class \code{"StMoMo"} defining the fitted stochastic mortality model.}
+  \item{model}{ the object of class \code{"StMoMo"} defining the fitted
+  stochastic mortality model.}
 
-  \item{ax}{ vector with the fitted values of the static age function \eqn{\alpha_x}.
-   If the model does not have a static age function or failed to fit this is set to \code{NULL}.}
+  \item{ax}{ vector with the fitted values of the static age function
+  \eqn{\alpha_x}. If the model does not have a static age function or
+  failed to fit this is set to \code{NULL}.}
 
   \item{bx}{ matrix with the values of the period age-modulating functions
-  \eqn{\beta_x^{(i)}, i=1, ..., N}. If the \eqn{i}-th age-modulating function is non-parametric
-  (e.g. as in the Lee-Carter model) \code{bx[, i]} contains the estimated values. If the model does
-  not have any age-period terms (i.e. \eqn{N=0}) or failed to fit this is set to \code{NULL}.}
+  \eqn{\beta_x^{(i)}, i=1, ..., N}. If the \eqn{i}-th age-modulating
+  function is non-parametric (e.g. as in the Lee-Carter model)
+  \code{bx[, i]} contains the estimated values. If the model does not have
+  any age-period terms (i.e. \eqn{N=0}) or failed to fit this is set to
+  \code{NULL}.}
 
-  \item{kt}{ matrix with the values of the fitted period indexes \eqn{\kappa_t^{(i)}, i=1, ..., N}.
-  \code{kt[i, ]} contains the estimated values of the \eqn{i}-th period index. If the model does
-  not have any age-period terms (i.e. \eqn{N=0}) or failed to fit this is set to \code{NULL}.}
-  \item{b0x}{ vector with the values of the cohort age-modulating function \eqn{\beta_x^{(0)}}.
-   If the age-modulating function is non-parametric \code{b0x} contains the estimated values.
-   If the model does not have a cohort effect or failed to fit this is set to \code{NULL}.}
+  \item{kt}{ matrix with the values of the fitted period indexes
+  \eqn{\kappa_t^{(i)}, i=1, ..., N}. \code{kt[i, ]} contains the estimated
+  values of the \eqn{i}-th period index. If the model does not have any
+  age-period terms (i.e. \eqn{N=0}) or failed to fit this is set to
+  \code{NULL}.}
+  \item{b0x}{ vector with the values of the cohort age-modulating function
+  \eqn{\beta_x^{(0)}}. If the age-modulating function is non-parametric
+  \code{b0x} contains the estimated values. If the model does not have a
+  cohort effect or failed to fit this is set to \code{NULL}.}
 
   \item{gc}{ vector with the fitted cohort index \eqn{\gamma_{c}}.
-  If the model does not have a cohort effect or failed to fit this is set to \code{NULL}.}
+  If the model does not have a cohort effect or failed to fit this is set
+  to \code{NULL}.}
 
   \item{Dxt}{ matrix of deaths used in the fitting.}
 
@@ -90,36 +99,39 @@ A list with class \code{"fitStMoMo"} with components:
 
   \item{cohorts}{ vector of cohorts used in the fitting.}
 
-  \item{fittingModel}{ output from the call to \code{gnm} used to fit the model.
-  If the fitting failed to converge this is set to \code{NULL}.}
+  \item{fittingModel}{ output from the call to \code{gnm} used to fit the
+  model. If the fitting failed to converge this is set to \code{NULL}.}
 
-  \item{loglik}{ log-likelihood of the model. If the fitting failed to converge this
-   is set to \code{NULL}.}
+  \item{loglik}{ log-likelihood of the model. If the fitting failed to
+  converge this is set to \code{NULL}.}
 
-  \item{deviance}{ deviance of the model. If the fitting failed to converge this
-   is set to \code{NULL}.}
+  \item{deviance}{ deviance of the model. If the fitting failed to
+  converge this is set to \code{NULL}.}
 
-  \item{npar}{ effective number of parameters in the model. If the fitting failed to converge this
-   is set to \code{NULL}.}
+  \item{npar}{ effective number of parameters in the model. If the fitting
+  failed to converge this is set to \code{NULL}.}
 
-   \item{nobs}{ number of observations in the model fit. If the fitting failed to converge this
-   is set to \code{NULL}.}
+   \item{nobs}{ number of observations in the model fit. If the fitting
+   failed to converge this is set to \code{NULL}.}
 
-   \item{fail}{ \code{TRUE} if a model could not be fitted and \code{FALSE} otherwise.}
+   \item{fail}{ \code{TRUE} if a model could not be fitted and
+   \code{FALSE} otherwise.}
 
-   \item{conv}{ \code{TRUE} if the model fitting converged and \code{FALSE} if it didn't.}
+   \item{conv}{ \code{TRUE} if the model fitting converged and
+   \code{FALSE} if it didn't.}
 }
 \description{
-Fit a Stochastic Mortality Model to a given data set. The fitting is done using
-package \code{gnm}.
+Fit a Stochastic Mortality Model to a given data set. The fitting is done
+using package \code{gnm}.
 }
 \details{
-Fitting is done using function \code{\link[gnm]{gnm}} within package \code{gnm}.
-This is equivalent to minimising (maximising) the deviance (log-likelihood) of the
-model. Ages and years in the data should be of type numeric. Data points with zero
-exposure are assigned a zero weight and are ignored in the fitting process.
-Similarly, \code{NA} are assigned a zero weight and ignored in the fitting process.
-Parameter estimates can be plotted using function \code{\link{plot.fitStMoMo}}.
+Fitting is done using function \code{\link[gnm]{gnm}} within package
+\code{gnm}. This is equivalent to minimising (maximising) the deviance
+(log-likelihood) of the  model. Ages and years in the data should be of
+type numeric. Data points with zero exposure are assigned a zero weight
+and are ignored in the fitting process. Similarly, \code{NA} are assigned a
+zero weight and ignored in the fitting process. Parameter estimates can be
+plotted using function \code{\link{plot.fitStMoMo}}.
 }
 \examples{
 # CBD model only to older ages
@@ -148,8 +160,8 @@ constLCfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){
   kt <- kt * c1
   list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
 }
-LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE, periodAgeFun = "NP",
-                   constFun =  constLCfix_ax)
+LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE,
+                   periodAgeFun = "NP", constFun =  constLCfix_ax)
 LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
                    ages = EWMaleData$ages, years = EWMaleData$years,
                    oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))

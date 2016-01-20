@@ -19,8 +19,9 @@ Generate Poisson semiparametric bootstrap samples using the procedure
 described in Brouhns et al (2005).
 }
 \references{
-Brouhns, N., Denuit M., & Van Keilegom, I. (2005). Bootstrapping the Poisson log-bilinear model
-for mortality forecasting. Scandinavian Actuarial Journal, 2005(3), 212-224.
+Brouhns, N., Denuit M., & Van Keilegom, I. (2005). Bootstrapping the
+Poisson log-bilinear model for mortality forecasting.
+Scandinavian Actuarial Journal, 2005(3), 212-224.
 }
 \keyword{internal}
 

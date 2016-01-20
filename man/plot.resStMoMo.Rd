@@ -4,18 +4,21 @@
 \alias{plot.resStMoMo}
 \title{Plot the residuals of a Stochastic Mortality Model}
 \usage{
-\method{plot}{resStMoMo}(x, type = c("scatter", "colourmap", "signplot"),
-reslim = range(x$residuals, na.rm = TRUE), plotAge = TRUE, plotYear = TRUE,
-plotCohort  = TRUE, pch = 20, ...)
+\method{plot}{resStMoMo}(x, type = c("scatter", "colourmap",
+                                            "signplot"),
+                                reslim = NULL, plotAge = TRUE,
+                                plotYear = TRUE, plotCohort  = TRUE,
+                                pch = 20, ...)
 }
 \arguments{
 \item{x}{an object of class \code{resStMoMo} with the residuals of a
 Stochastic Mortality Model.}
 
-\item{type}{the type of the plot. The alternatives are \code{"scatter"}(default)
-\code{"colourmap"}, and \code{"signplot"}.}
+\item{type}{the type of the plot. The alternatives are
+\code{"scatter"}(default), \code{"colourmap"}, and \code{"signplot"}.}
 
-\item{reslim}{optional numeric vector of length 2, giving the  range of the residuals.}
+\item{reslim}{optional numeric vector of length 2, giving the range of the
+residuals.}
 
 \item{plotAge}{logical value indicating if the age scatter plot should be
 produced. This is only used when \code{type = "scatter"}.}
@@ -27,10 +30,11 @@ should be produced. This is only used when \code{type = "scatter"}.}
 should be produced. This is only used when \code{type = "scatter"}.}
 
 \item{pch}{optional symbol to use for the points in a scatterplot.
-This is only used when \code{type = "scatter"}. See \code{\link[graphics]{plot}}.}
+This is only used when \code{type = "scatter"}. See
+\code{\link[graphics]{plot}}.}
 
-\item{...}{other plotting parameters to be passed to the plotting functions. This can
-be used to control the appearance of the plots.}
+\item{...}{other plotting parameters to be passed to the plotting
+functions. This can be used to control the appearance of the plots.}
 }
 \description{
 Plots the deviance residuals of a Stochastic Mortality Model which are
@@ -40,17 +44,18 @@ colour map (heatmap) of the residuals, and a black and white signplot
 of the residuals.
 }
 \details{
-When \code{type = "scatter"} scatter plots of the residuals against age, calendar
-year and cohort (year of birth) are produced.
+When \code{type = "scatter"} scatter plots of the residuals against age,
+calendar year and cohort (year of birth) are produced.
 
-When \code{type = "colourmap"} a two dimensional colour map of the residuals is
-plotted. This is produced using function \code{\link[fields]{image.plot}}. See
-\code{\link[fields]{image.plot}} for further parameters that can be passed to this
-type of plots.
+When \code{type = "colourmap"} a two dimensional colour map of the
+residuals is plotted. This is produced using function
+\code{\link[fields]{image.plot}}. See \code{\link[fields]{image.plot}}
+for further parameters that can be passed to this type of plots.
 
-When \code{type = "signplot"} a two dimensional black and white map of the residuals is
-plotted with dark grey representing negative residuals and light grey representing
-positive residuals. This is produced using function \code{\link[graphics]{image.default}}.
+When \code{type = "signplot"} a two dimensional black and white map of the
+ residuals is plotted with dark grey representing negative residuals and
+ light grey representing positive residuals. This is produced using
+ function \code{\link[graphics]{image.default}}.
 }
 \examples{
 CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
@@ -59,7 +64,7 @@ CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
 CBDres <- residuals(CBDfit)
 plot(CBDres)
 plot(CBDres, type = "signplot")
-plot(CBDres, type = "colourmap", reslim = c(-4,4))
+plot(CBDres, type = "colourmap")
 }
 \seealso{
 \code{\link{residuals.fitStMoMo}}

@@ -8,10 +8,10 @@ m8(link = c("logit", "log"), xc)
 }
 \arguments{
 \item{link}{defines the link function and random component associated with
-the mortality model. \code{"log"} would assume that deaths follow a Poisson
-distribution and use a log link while \code{"logit"} would assume that
-deaths follow a Binomial distribution and a logit link. Note that the default
-is the logit link.}
+the mortality model. \code{"log"} would assume that deaths follow a
+Poisson distribution and use a log link while \code{"logit"} would
+assume that deaths follow a Binomial distribution and a logit link.
+Note that the default is the logit link.}
 
 \item{xc}{constant defining the cohort age-modulating parameter.}
 }
@@ -24,12 +24,13 @@ M8 extension of the Cairns-Blake-Dowd mortality model introduced
 in Cairns et al (2009).
 }
 \details{
-The created model is either a logit-Binomial or a log-Poisson version of the
-M8 model which has predictor structure
+The created model is either a logit-Binomial or a log-Poisson version of
+the M8 model which has predictor structure
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
-where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a predefined
-constant.
-Identifiability of the model is accomplished by applying parameters constraint
+where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a
+predefined constant.
+Identifiability of the model is accomplished by applying parameters
+constraint
 \deqn{\sum_c\gamma_c = 0.}
 }
 \examples{
@@ -42,9 +43,9 @@ M8fit <- fit(M8, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages,
 plot(M8fit, parametricbx = FALSE)
 }
 \references{
-Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A.,
-& Balevich, I. (2009). A quantitative comparison of stochastic mortality models using
-data from England and Wales and the United States.
+Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D.,
+Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic
+mortality models using data from England and Wales and the United States.
 North American Actuarial Journal, 13(1), 1-35.
 }
 \seealso{

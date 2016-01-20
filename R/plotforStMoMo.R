@@ -31,7 +31,7 @@
 #' @export 
 #' @method plot forStMoMo
 plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE, 
-                           only.kt = FALSE, only.gc = FALSE, ... ) {
+                           only.kt = FALSE, only.gc = FALSE, ...) {
   
   x.h <- x$model
   years.h <- x.h$years
@@ -49,16 +49,17 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
   N <- x.h$model$N
     
   #Calculate number of plots and rows
-  if (only.kt) only.gc <- FALSE
-  if(only.kt || only.gc){
+  if (only.kt) 
+    only.gc <- FALSE
+  if (only.kt || only.gc) {
     nPlots <- N * only.kt + (!is.null(gc.h)) * only.gc
   } else {
-    nPlots <- 2*N + (!is.null(ax)) + 2*(!is.null(gc.h))
+    nPlots <- 2 * N + (!is.null(ax)) + 2 * (!is.null(gc.h))
     is.nonparametric <- function(bx) {
       is.character(bx) && bx == "NP"
     }  
     if (parametricbx == FALSE) {  #substract the parametric plots        
-      nParametricbx <- ifelse( is.null(x.h$model$periodAgeFun), 0, 
+      nParametricbx <- ifelse(is.null(x.h$model$periodAgeFun), 0, 
                                sum(sapply(x.h$model$periodAgeFun, 
                                           FUN = function(x) !is.nonparametric(x)))) +
                         (!is.null(x.h$model$cohortAgeFun) && !is.nonparametric(x.h$model$cohortAgeFun))
@@ -72,10 +73,11 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
 
   nRow <- ceiling(nPlots / nCol)  
   oldpar <- par(no.readonly = TRUE)
-  if (nPlots > 1L)par(mfrow = c(nRow, nCol))
+  if (nPlots > 1L)
+    par(mfrow = c(nRow, nCol))
   
   #ax
-  if (!only.kt && !only.gc){
+  if (!only.kt && !only.gc) {
     if (!is.null(ax)) {
       plot(x = ages, y = ax, ylab = "", xlab = "age", 
            main = expression(paste(alpha[x], " vs. x", "")), type = "l", ...)
@@ -86,44 +88,47 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
   }
   # bx, kt
   if (N > 0) {
-    for (i in 1:N){      
+    for (i in 1:N) {      
       #bx
-      if (!only.kt && !only.gc){
+      if (!only.kt && !only.gc) {
         if (parametricbx == TRUE || is.nonparametric(x$model$periodAgeFun[[i]])) {
           plot(x = ages, y = bx[, i], ylab = "", xlab = "age", 
-               main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), list(i = i)), type = "l", ...)
+               main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
+                                 list(i = i)), type = "l", ...)
         
         }
       }
       #kt
-      if (!only.gc){
+      if (!only.gc) {
         kt.ylim <- range(kt.h[i, ], kt.f$mean[i, ], kt.f$upper[i, ], 
                          kt.f$lower[i, ], na.rm=TRUE)
         kt.xlim <- c(years.h[1],tail(years.f,1))
-        plot(x = years.h,y = kt.h[i,], ylab="", xlab = "year", 
-             main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), list(i = i)), type = "l",
+        plot(x = years.h,y = kt.h[i, ], ylab="", xlab = "year", 
+             main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), 
+                               list(i = i)), type = "l",
              xlim = kt.xlim, ylim = kt.ylim, ...)  
-        lines(years.f, kt.f$mean[i,], lty = 4, ...)
-        lines(years.f, kt.f$upper[i,], lty = 3, ...)
-        lines(years.f, kt.f$lower[i,], lty = 3, ...)
+        lines(years.f, kt.f$mean[i, ], lty = 4, ...)
+        lines(years.f, kt.f$upper[i, ], lty = 3, ...)
+        lines(years.f, kt.f$lower[i, ], lty = 3, ...)
       }
     }
   }
   
   
-  if (!is.null(gc.h) == TRUE){
+  if (!is.null(gc.h) == TRUE) {
     #bx0
-    if (!only.kt && !only.gc){
+    if (!only.kt && !only.gc) {
       if (parametricbx == TRUE || is.nonparametric(x.h$model$cohortAgeFun)) {
         plot(x = ages, y = b0x, ylab = "", xlab = "age", 
-             main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), list(i = 0)), type = "l", ...)    
+             main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
+                               list(i = 0)), type = "l", ...)    
       }
     }
     #gc
-    if (!only.kt){
-      gc.ylim <- range(gc.h, gc.f$mean, gc.f$upper, gc.f$lower, na.rm=TRUE)
-      gc.xlim <- c(cohorts.h[1],tail(cohorts.f,1))
-      plot(x=cohorts.h,y=gc.h, ylab="", xlab="cohort", 
+    if (!only.kt) {
+      gc.ylim <- range(gc.h, gc.f$mean, gc.f$upper, gc.f$lower, na.rm = TRUE)
+      gc.xlim <- c(cohorts.h[1], tail(cohorts.f, 1))
+      plot(x = cohorts.h, y = gc.h, ylab = "", xlab = "cohort", 
            main = expression(paste(gamma[t-x], " vs. t-x","")), type = "l", 
            xlim = gc.xlim, ylim = gc.ylim, ...)  
       lines(cohorts.f, gc.f$mean, lty = 4, ...)

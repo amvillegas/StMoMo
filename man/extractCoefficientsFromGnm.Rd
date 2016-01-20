@@ -19,14 +19,14 @@ mortality model.}
 
 \item{cohorts}{cohorts in the fitting data.}
 
-\item{zeroWeigthAges}{character vector of years whose parameters cannot be
-estimated because all data is zero weighted}
+\item{zeroWeigthAges}{character vector of years whose parameters cannot
+be estimated because all data is zero weighted}
 
-\item{zeroWeigthYears}{character vector of years whose parameters cannot be
-estimated because all data is zero weighted}
+\item{zeroWeigthYears}{character vector of years whose parameters cannot
+be estimated because all data is zero weighted}
 
-\item{zeroWeigthCohorts}{character vector of cohort whose parameters cannot be
-estimated because all data is zero weighted}
+\item{zeroWeigthCohorts}{character vector of cohort whose parameters
+cannot be estimated because all data is zero weighted}
 }
 \value{
 A list with the model parameters, ax, bx, kt, b0x, gc
@@ -36,8 +36,8 @@ Extract the model coefficient of a stochastic mortality model from
 a gnm fit of the model
 }
 \details{
-Weigth vectors wx, wx, wc are used to identify parameters that cannot
-be estimated because all the data is weighted out.
+Weigth vectors wx, wx, wc are used to identify parameters that
+cannot be estimated because all the data is weighted out.
 }
 \keyword{internal}
 

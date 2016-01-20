@@ -22,7 +22,8 @@ which don't need to be estimated, are not plotted.}
 See \code{\link[graphics]{plot}}.}
 }
 \description{
-Plot fitted parameters of a stochastic mortality model of class \code{"fitStMoMo"}.
+Plot fitted parameters of a stochastic mortality model of class
+\code{"fitStMoMo"}.
 }
 \examples{
 #Fit and plot a Lee-Carter model

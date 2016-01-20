@@ -7,19 +7,21 @@
 bootstrap(object, nBoot, ...)
 }
 \arguments{
-\item{object}{an object used to select a method. Typically of class \code{fitStMoMo} or
-an extension of this class.}
+\item{object}{an object used to select a method. Typically of class
+\code{fitStMoMo} or an extension of this class.}
 
 \item{nBoot}{number of bootstrap samples to produce.}
 
 \item{...}{arguments to be passed to or from other methods.}
 }
 \description{
-\code{bootstrap} is a generic function for bootstrapping Stochastic Mortality Models.
-The function invokes particular methods which depend on the class of the first argument.
+\code{bootstrap} is a generic function for bootstrapping Stochastic
+Mortality Models. The function invokes particular methods which depend on
+the class of the first argument.
 }
 \details{
-\code{bootstrap} is a generic function which means that new fitting strategies can be added
-for particular stochastic mortality models. See for instance \code{\link{bootstrap.fitStMoMo}}
+\code{bootstrap} is a generic function which means that new fitting
+strategies can be added for particular stochastic mortality models. See
+for instance \code{\link{bootstrap.fitStMoMo}}.
 }
 

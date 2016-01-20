@@ -34,7 +34,7 @@
 #' plot(APCfit2, parametricbx = FALSE, nCol = 3)
 #'
 #'@export
-genWeightMat <- function(ages, years, clip = 0, zeroCohorts = NULL){
+genWeightMat <- function(ages, years, clip = 0, zeroCohorts = NULL) {
   nAges <- length(ages)
   nYears <- length(years)  
   cohorts <- (years[1] - ages[nAges]):(years[nYears] - ages[1])
@@ -42,17 +42,17 @@ genWeightMat <- function(ages, years, clip = 0, zeroCohorts = NULL){
   wxt <- matrix(1, nrow = nAges, ncol = nYears)
   rownames(wxt) <- ages
   colnames(wxt) <- years
-  if (clip > 0){
+  if (clip > 0) {
     zeroCohorts <- c(zeroCohorts, head(cohorts, clip), tail(cohorts, clip))
   }
   for (c in zeroCohorts){
     h <- c - cohorts[1] + 1 - nAges
     if (h <= 0){
       col <- 1
-      row <- -h+1
+      row <- -h + 1
     } else {
       row <- 1
-      col <- h+1
+      col <- h + 1
     }
     while (col <= nYears && row <= nAges) {
       wxt[row, col] <- 0
@@ -62,6 +62,3 @@ genWeightMat <- function(ages, years, clip = 0, zeroCohorts = NULL){
   }
   wxt
 }
-
-
-

@@ -18,18 +18,19 @@ If the model has any age-period term this argument needs to be provided and
 the number of rows in \code{kt} must be equal to the number of age-period
 terms in the model and the number of columns in \code{kt} must correspond
 to the length of \code{years}. If the Stochastic Mortality Model doesn't
-have any age-period terms this argument is ignored and needs not be provided.}
+have any age-period terms this argument is ignored and needs not be
+provided.}
 
 \item{gc}{vector of values of the cohort indexes to use for the prediction.
 If the model has a cohort effect this argument needs to be provided.
 In this case the length of \code{gc} must be equal to the number of cohorts
 for which a prediction is being produced, namely,
 \code{length(object$ages) + length(years) - 1}. If the Stochastic Mortality
-Model doesn't have a cohort effect  this argument is ignored and needs not be
-provided.}
+Model doesn't have a cohort effect  this argument is ignored and needs not
+be provided.}
 
-\item{oxt}{optional matrix/vector or scalar of known offset to be used in the
-prediction.}
+\item{oxt}{optional matrix/vector or scalar of known offset to be used in
+the prediction.}
 
 \item{type}{the type of the predicted values that should be returned. The
 alternatives are \code{"link"}(default) and \code{"rates"}.}
@@ -45,17 +46,18 @@ fit.
 }
 \details{
 This function evaluates
-\deqn{\hat{\eta}_{xt} = o_{xt} + \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)}
-+ \beta_x^{(0)}\gamma_{t-x}}
+\deqn{\hat{\eta}_{xt} = o_{xt} + \alpha_x +
+\sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)} + \beta_x^{(0)}\gamma_{t-x}}
 for a fitted Stochastic Mortality model.
 In producing a prediction the static age function, \eqn{\alpha_x}, and the
-age-modulating parameters, \eqn{\beta_x^{(i)}, i=0, ..., N}, are taken from the
-fitted model in \code{object} while the period indexes, \eqn{\kappa_t^{(i)}, i=1,..., N},
-and cohort index, \eqn{\gamma_{t-x}}, are taken from the function arguments.
+age-modulating parameters, \eqn{\beta_x^{(i)}, i=0, ..., N}, are taken from
+the fitted model in \code{object} while the period indexes,
+\eqn{\kappa_t^{(i)}, i=1,..., N}, and cohort index, \eqn{\gamma_{t-x}},
+are taken from the function arguments.
 
-This function can be useful, for instance, in producing forecasts of mortality rates
-using time series models different to those available in \code{\link{forecast.fitStMoMo}}
-(See examples below).
+This function can be useful, for instance, in producing forecasts of
+mortality rates using time series models different to those available
+in \code{\link{forecast.fitStMoMo}} (See examples below).
 }
 \examples{
 library(forecast)
@@ -68,7 +70,7 @@ mxtForLC <- predict(LCfit, years = 2012:2041, kt = ktForLC$mean,
                     type = "rates")
 mxthatLC <- fitted(LCfit, type = "rates")
 mxt <- LCfit$Dxt / LCfit$Ext
-plot(1961:2041 , (cbind(mxthatLC, mxtForLC))["80", ], type = "l",
+plot(1961:2041, (cbind(mxthatLC, mxtForLC))["80", ], type = "l",
      xlab = "year", ylab = "death rate",
      main = "Fitted vs. Observed rates at age 80")
 points(1961:2011, mxt["80", ])
@@ -80,9 +82,11 @@ APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
 ktForAPC <- forecast(auto.arima(as.vector(APCfit$kt)), h = 30)
 gcForAPC <- forecast(auto.arima(as.vector(APCfit$gc), max.d = 1), h = 30)
 mxtForAPC <- predict(APCfit, years = 2012:2041, kt = ktForAPC$mean,
-                     gc = c(tail(APCfit$gc, 34), gcForAPC$mean), type = "rates")
+                     gc = c(tail(APCfit$gc, 34), gcForAPC$mean),
+                     type = "rates")
 mxthatAPC <- fitted(APCfit, type = "rates")
-lines(1961:2041 , (cbind(mxthatAPC, mxtForAPC))["80", ], type = "l", col = "blue")
+lines(1961:2041 , (cbind(mxthatAPC, mxtForAPC))["80", ], type = "l",
+      col = "blue")
 }
 \seealso{
 \code{\link{forecast.fitStMoMo}}

@@ -1,6 +1,7 @@
 #' Create a Lee-Carter model
 #' 
-#' Utility function to initialise a \code{StMoMo} object representing a Lee-Carter model.
+#' Utility function to initialise a \code{StMoMo} object representing a 
+#' Lee-Carter model.
 #' 
 #' The created model is either a log-Poisson (see Brouhns et al (2002)) or a 
 #' logit-Binomial version of the Lee-Carter model which has predictor structure   
@@ -11,19 +12,20 @@
 #' \deqn{\sum_x\beta_x = 1.}
 #' 
 #' @inheritParams StMoMo
-#' @param const defines the constraint to impose to the period index of the model
-#' to ensure identifiability. The alternatives are \code{"sum"}(default),  \code{"last"}
-#' and \code{"first"} which apply constraints \eqn{\sum_t\kappa_t = 0}, \eqn{\kappa_n = 0}
-#' and \eqn{\kappa_1 = 0}, respectively.
+#' @param const defines the constraint to impose to the period index of the
+#'  model to ensure identifiability. The alternatives are 
+#'  \code{"sum"}(default),  \code{"last"} and \code{"first"} which apply 
+#'  constraints \eqn{\sum_t\kappa_t = 0}, \eqn{\kappa_n = 0} and 
+#'  \eqn{\kappa_1 = 0}, respectively.
 #' 
 #' @return An object of class \code{"StMoMo"}.
 #' 
 #' @seealso \code{\link{StMoMo}}
 #'  
 #' @references
-#' Brouhns, N., Denuit, M., & Vermunt, J. K. (2002). A Poisson log-bilinear regression 
-#' approach to the construction of projected lifetables. Insurance: Mathematics and 
-#' Economics, 31(3), 373-393.
+#' Brouhns, N., Denuit, M., & Vermunt, J. K. (2002). A Poisson log-bilinear 
+#' regression approach to the construction of projected lifetables.
+#'  Insurance: Mathematics and Economics, 31(3), 373-393.
 #' 
 #' Lee, R. D., & Carter, L. R. (1992). Modeling and forecasting U.S. mortality. 
 #' Journal of the American Statistical Association, 87(419), 659-671. 
@@ -37,14 +39,14 @@
 #'             ages.fit = 55:89)
 #' plot(LCfit1)
 #' 
-#' #kt[1]= 0 and log link
+#' #kt[1] = 0 and log link
 #' LC2 <- lc(const = "first")
 #' LCfit2<-fit(LC2, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext, 
 #'             ages = EWMaleData$ages, years = EWMaleData$years,
 #'             ages.fit = 55:89)
 #' plot(LCfit2)
 #' 
-#' #kt[n]= 0 and logit link
+#' #kt[n] = 0 and logit link
 #' LC3 <- lc("logit", "last")
 #' LCfit3<-fit(LC3, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext, 
 #'             ages = EWMaleData$ages, years = EWMaleData$years,
@@ -52,10 +54,10 @@
 #' plot(LCfit3)
 #' 
 #' @export
-lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
+lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")) {
   link <- match.arg(link)
   const <- match.arg(const)  
-  constLC <- function(ax, bx, kt, b0x, gc, wxt, ages){    
+  constLC <- function(ax, bx, kt, b0x, gc, wxt, ages) {    
     c1 <- switch(const, sum = mean(kt[1, ], na.rm = TRUE),
                  first = kt[1, 1], last = tail(kt[1, ], 1))
     ax <- ax + c1 * bx[, 1]
@@ -65,7 +67,8 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
     kt[1, ] <- kt[1, ] * c2
     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
   }
-  StMoMo(link = link, staticAgeFun = TRUE, periodAgeFun = "NP", constFun = constLC)    
+  StMoMo(link = link, staticAgeFun = TRUE, periodAgeFun = "NP", 
+         constFun = constLC)    
 }
 
 #' Create a Cairns-Blake-Dowd mortality model
@@ -73,23 +76,24 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #' Utility function to initialise a \code{StMoMo} object representing a 
 #' Cairns-Blake-Dowd mortality model.
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' Cairns-Blake-Dowd mortality model which has predictor structure 
+#' The created model is either a logit-Binomial or a log-Poisson version of 
+#' the Cairns-Blake-Dowd mortality model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
 #' where \eqn{\bar{x}} is the average age in the data.
 #' 
 #' @param link defines the link function and random component associated with 
-#'   the mortality model. \code{"log"} would assume that deaths follow a Poisson
-#'   distribution and use a log link while \code{"logit"} would assume that 
-#'   deaths follow a Binomial distribution and a logit link. Note that the default 
-#'   is the logit link.
+#'   the mortality model. \code{"log"} would assume that deaths follow a 
+#'   Poisson distribution and use a log link while \code{"logit"} would 
+#'   assume that deaths follow a Binomial distribution and a logit link. 
+#'   Note that the default is the logit link.
 #' @return An object of class \code{"StMoMo"}.
 #' 
-#' @seealso \code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
+#' @seealso \code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}}, 
+#' \code{\link{m8}}
 #'  
 #' @references
-#' Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for Stochastic 
-#' Mortality with Parameter Uncertainty: Theory and Calibration. 
+#' Cairns, A. J. G., Blake, D., & Dowd, K. (2006). A Two-Factor Model for 
+#' Stochastic Mortality with Parameter Uncertainty: Theory and Calibration. 
 #' Journal of Risk and Insurance, 73(4), 687-718.
 #' 
 #' @examples
@@ -103,7 +107,7 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")){
 #' plot(CBDfit, parametricbx = FALSE)
 #' 
 #' @export
-cbd <- function(link = c("logit", "log")){
+cbd <- function(link = c("logit", "log")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun=c("1", f1))
@@ -115,12 +119,13 @@ cbd <- function(link = c("logit", "log")){
 #' Utility function to initialise a \code{StMoMo} object representing an 
 #' Age-Period-Cohort mortality model.
 #' 
-#' The created model is either a log-Poisson or a logit-Binomial version of the 
-#' classical age-period-cohort mortality model which has predictor structure 
+#' The created model is either a log-Poisson or a logit-Binomial version of 
+#' the classical age-period-cohort mortality model which has predictor 
+#' structure 
 #' \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 #' 
-#' To ensure identifiability we follow Cairns et al. (2009) and impose constraints 
-#' \deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
+#' To ensure identifiability we follow Cairns et al. (2009) and impose 
+#' constraints \deqn{\sum_c \gamma_c = 0}  and  \deqn{\sum_c c\gamma_c = 0}
 #' 
 #' @inheritParams StMoMo
 #' @return An object of class \code{"StMoMo"}.
@@ -129,9 +134,9 @@ cbd <- function(link = c("logit", "log")){
 #' 
 #' @references
 #' 
-#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
-#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
-#' data from England and Wales and the United States. 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., 
+#' Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic 
+#' mortality models using data from England and Wales and the United States. 
 #' North American Actuarial Journal, 13(1), 1-35.
 #' 
 #' @examples
@@ -144,9 +149,9 @@ cbd <- function(link = c("logit", "log")){
 #' plot(APCfit, parametricbx = FALSE, nCol = 3)
 #' 
 #' @export
-apc <- function(link = c("log", "logit")){
+apc <- function(link = c("log", "logit")) {
   link <- match.arg(link)
-  constAPC <- function(ax, bx, kt, b0x, gc, wxt, ages){    
+  constAPC <- function(ax, bx, kt, b0x, gc, wxt, ages) {    
     nYears <- dim(wxt)[2]  
     x <- ages  
     t <- 1:nYears
@@ -191,7 +196,7 @@ apc <- function(link = c("log", "logit")){
 #' if \code{cohortAgeFun = "NP"}
 #' 
 #' By default \eqn{\beta^{(0)}_x = 1} as this model has shown to be more
-#' stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2014)).
+#' stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2015)).
 #' 
 #' @inheritParams StMoMo
 #' @param cohortAgeFun defines the cohort age modulating parameter 
@@ -204,14 +209,17 @@ apc <- function(link = c("log", "logit")){
 #'  
 #' @references
 #'
-#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
-#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
+#' mortality projection models. Insurance: Mathematics and Economics, 
+#' 48(1), 35-55. 
 #' 
-#' Hunt, A., & Villegas, A. M. (2014). Robustness and convergence in the Lee-Carter model 
-#' with cohorts. Working Paper.
+#' Hunt, A., & Villegas, A. M. (2015). Robustness and convergence in the 
+#' Lee-Carter model with cohorts. Insurance: Mathematics and Economics, 
+#' 64, 186-202. 
 #' 
-#' Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the Lee-Carter model 
-#' for mortality reduction factors.Insurance: Mathematics and Economics, 38(3), 556-570.
+#' Renshaw, A. E., & Haberman, S. (2006). A cohort-based extension to the 
+#' Lee-Carter model for mortality reduction factors. 
+#' Insurance: Mathematics and Economics, 38(3), 556-570.
 #' 
 #' @examples
 #' 
@@ -226,10 +234,10 @@ apc <- function(link = c("log", "logit")){
 #' plot(RHfit)
 #' 
 #' @export
-rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
+rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")) {
   link <- match.arg(link)
   cohortAgeFun <- match.arg(cohortAgeFun)
-  constRHgeneral <- function(ax, bx, kt, b0x, gc, wxt, ages, cohortAgeFun){
+  constRHgeneral <- function(ax, bx, kt, b0x, gc, wxt, ages, cohortAgeFun) {
     #\sum k[t] = 0
     c1 <- mean(kt[1, ], na.rm = TRUE) 
     ax <- ax + c1 * bx[, 1]
@@ -250,7 +258,7 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
     }
     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
   }
-  constRH <- function(ax, bx, kt, b0x, gc, wxt, ages){
+  constRH <- function(ax, bx, kt, b0x, gc, wxt, ages) {
     constRHgeneral(ax, bx, kt, b0x, gc, wxt, ages, cohortAgeFun) 
   }
   StMoMo(link = link, staticAgeFun = TRUE, periodAgeFun = "NP",
@@ -269,11 +277,12 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + \gamma_{t-x},} 
 #' where \eqn{\bar{x}} is the average age in the data.
 #' 
-#' Identifiability of the model is accomplished by applying parameters constraints
+#' Identifiability of the model is accomplished by applying parameters 
+#' constraints
 #' \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0}
-#' which ensure that the cohort effect fluctuates around zero and has no linear 
-#' trend. These constraints are applied using the strategy discussed  in Appendix A
-#' of Haberman and Renshaw (2011).
+#' which ensure that the cohort effect fluctuates around zero and has no 
+#' linear trend. These constraints are applied using the strategy discussed 
+#' in Appendix A of Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
 #' @return An object of class \code{"StMoMo"}.
@@ -283,13 +292,14 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' 
 #' @references
 #' 
-#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
-#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
-#' data from England and Wales and the United States. 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., 
+#' Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic 
+#' mortality models using data from England and Wales and the United States. 
 #' North American Actuarial Journal, 13(1), 1-35.
 #' 
-#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
-#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
+#' mortality projection models. Insurance: Mathematics and Economics, 
+#' 48(1), 35-55. 
 #' 
 #' @examples
 #' 
@@ -302,10 +312,10 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP")){
 #' plot(M6fit, parametricbx = FALSE)
 #' 
 #' @export
-m6 <- function(link = c("logit", "log")){
+m6 <- function(link = c("logit", "log")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
-  constM6 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+  constM6 <- function(ax, bx, kt, b0x, gc, wxt, ages) {
     #See Appendix A in Haberman and Renshaw (2011)
     nYears <- dim(wxt)[2]
     x <- ages
@@ -333,18 +343,19 @@ m6 <- function(link = c("logit", "log")){
 #' M7 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' M7 model which has predictor structure 
+#' The created model is either a logit-Binomial or a log-Poisson version of 
+#' the M7 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + 
 #'                            ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x},} 
 #' where \eqn{\bar{x}} is the average age in the data and \eqn{\hat{\sigma}^2_x} 
 #' is the average value of \eqn{(x-\bar{x})^2}.
 #'                            
-#' Identifiability of the model is accomplished by applying parameters constraints
-#' \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0, \sum_c c^2\gamma_c = 0}
-#' which ensure that the cohort effect fluctuates around zero and has no linear
-#' or quadratic trend. These constraints are applied using the strategy discussed  
-#' in Appendix A of Haberman and Renshaw (2011).
+#' Identifiability of the model is accomplished by applying parameters 
+#' constraints \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0, 
+#' \sum_c c^2\gamma_c = 0} which ensure that the cohort effect fluctuates 
+#' around zero and has no linear or quadratic trend. These constraints are 
+#' applied using the strategy discussed in Appendix A of 
+#' Haberman and Renshaw (2011).
 #' 
 #' @inheritParams cbd
 #' @return An object of class \code{"StMoMo"}.
@@ -354,13 +365,14 @@ m6 <- function(link = c("logit", "log")){
 #' 
 #' @references
 #' 
-#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
-#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
-#' data from England and Wales and the United States. 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D.,
+#' Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic 
+#' mortality models using data from England and Wales and the United States. 
 #' North American Actuarial Journal, 13(1), 1-35.
 #' 
-#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality projection 
-#' models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
+#' mortality projection models. Insurance: Mathematics and Economics, 
+#' 48(1), 35-55. 
 #' 
 #' @examples
 #' 
@@ -373,15 +385,15 @@ m6 <- function(link = c("logit", "log")){
 #' plot(M7fit, parametricbx = FALSE)
 #' 
 #' @export
-m7 <- function(link = c("logit", "log")){
+m7 <- function(link = c("logit", "log")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   f2 <- function(x,ages) {
     xbar <- mean(ages)
-    s2<-mean((ages - xbar)^2)
-    (x-xbar)^2-s2
+    s2 <- mean((ages - xbar)^2)
+    (x - xbar)^2 - s2
   }
-  constM7 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+  constM7 <- function(ax, bx, kt, b0x, gc, wxt, ages) {
     #See Appendix A in Haberman and Renshaw (2011)
     nYears <- dim(wxt)[2]
     x <- ages
@@ -395,11 +407,12 @@ m7 <- function(link = c("logit", "log")){
     gc <- gc - phi[1] - phi[2] * c - phi[3] * c^2    
     kt[3, ] <- kt[3, ] + phi[3]
     kt[2, ] <- kt[2, ] - phi[2] - 2 * phi[3] * (t - xbar)  
-    kt[1, ] <- kt[1, ]+phi[1]+phi[2] * (t - xbar) + phi[3] * ((t - xbar)^2 + s2)
+    kt[1, ] <- kt[1, ] + phi[1] + phi[2] * (t - xbar) + 
+      phi[3] * ((t - xbar)^2 + s2)
     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
   }
-  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1",f1,f2),cohortAgeFun = "1",
-               constFun = constM7)
+  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1", f1, f2),
+         cohortAgeFun = "1", constFun = constM7)
   
 }
 
@@ -410,12 +423,13 @@ m7 <- function(link = c("logit", "log")){
 #' M8 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' M8 model which has predictor structure 
+#' The created model is either a logit-Binomial or a log-Poisson version of 
+#' the M8 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
-#' where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a predefined
-#' constant. 
-#' Identifiability of the model is accomplished by applying parameters constraint
+#' where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a
+#' predefined constant. 
+#' Identifiability of the model is accomplished by applying parameters 
+#' constraint
 #' \deqn{\sum_c\gamma_c = 0.}
 #' 
 #' @inheritParams cbd
@@ -428,9 +442,9 @@ m7 <- function(link = c("logit", "log")){
 #' 
 #' @references
 #' 
-#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., Ong, A., 
-#' & Balevich, I. (2009). A quantitative comparison of stochastic mortality models using 
-#' data from England and Wales and the United States. 
+#' Cairns, A. J. G., Blake, D., Dowd, K., Coughlan, G. D., Epstein, D., 
+#' Ong, A., & Balevich, I. (2009). A quantitative comparison of stochastic
+#' mortality models using data from England and Wales and the United States. 
 #' North American Actuarial Journal, 13(1), 1-35.
 #' 
 #' @examples
@@ -444,11 +458,11 @@ m7 <- function(link = c("logit", "log")){
 #' plot(M8fit, parametricbx = FALSE)
 #' 
 #' @export
-m8 <- function(link = c("logit", "log"), xc){
+m8 <- function(link = c("logit", "log"), xc) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   f3 <- function(x,ages) xc - x
-  constM8 <- function(ax, bx, kt, b0x, gc, wxt, ages){
+  constM8 <- function(ax, bx, kt, b0x, gc, wxt, ages) {
     #See Appenix A in Haberman and Renshaw (2011)
     x <- ages
     xbar <- mean(x)      
@@ -458,7 +472,7 @@ m8 <- function(link = c("logit", "log"), xc){
     kt[2, ] <- kt[2, ] - c 
     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
   }
-  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1",f1),
+  StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun = c("1", f1),
          cohortAgeFun = f3, constFun = constM8)
   
 }

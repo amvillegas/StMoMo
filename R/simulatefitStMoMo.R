@@ -18,27 +18,34 @@
 #' @return A list of class \code{"simStMoMo"} with components:
 #' 
 #' \item{rates}{ a three dimensional array with the future simulated rates.}
-#' \item{ages}{ vector of ages corresponding to the first dimension of \code{rates}.}
-#' \item{years}{vector of years for which a simulations has been produced. This
-#'  corresponds to the second dimension of \code{rates}.}  
-#' \item{kt.s}{ information on the simulated paths of the period indexes of the model. 
-#'  This is a list with the  \code{model} fitted to \eqn{\kappa_t}; the simulated paths
-#'  (\code{sim}); and the \code{years} for which simulations were produced. If the
-#'  mortality model does not have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
+#' 
+#' \item{ages}{ vector of ages corresponding to the first dimension of 
+#' \code{rates}.}
+#' 
+#' \item{years}{vector of years for which a simulations has been produced. 
+#' This corresponds to the second dimension of \code{rates}.}  
+#' 
+#' \item{kt.s}{ information on the simulated paths of the period indexes 
+#' of the model. This is a list with the  \code{model} fitted to 
+#' \eqn{\kappa_t}; the simulated paths (\code{sim}); and the \code{years} 
+#' for which simulations were produced. If the mortality model does not 
+#' have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
 #'   
-#' \item{gc.s}{ information on the simulated paths of the cohort index of the model. 
-#'  This is a list with the \code{model} fitted to \eqn{\gamma_c}; the simulated paths
-#'  (\code{sim}); and the \code{cohorts} for which simulations were produced. If the 
-#'  mortality model does not have a cohort effect this is set to \code{NULL}.} 
+#' \item{gc.s}{ information on the simulated paths of the cohort index of 
+#' the model. This is a list with the \code{model} fitted to \eqn{\gamma_c}; 
+#' the simulated paths (\code{sim}); and the \code{cohorts} for which 
+#' simulations were produced. If the mortality model does not have a cohort 
+#' effect this is set to \code{NULL}.} 
 #' 
-#' \item{oxt.s}{ a three dimensional array with the offset used in the simulations.}
+#' \item{oxt.s}{ a three dimensional array with the offset used in the 
+#' simulations.}
 #' 
-#' \item{fitted}{ a three dimensional array with the in-sample rates of the model 
-#'  for the years for which the mortality model was fitted.}
+#' \item{fitted}{ a three dimensional array with the in-sample rates of 
+#' the model for the years for which the mortality model was fitted.}
 #'  
-#'  \item{jumpchoice}{Jump-off method used in the simulation.}
+#' \item{jumpchoice}{Jump-off method used in the simulation.}
 #'  
-#'  \item{model}{ the model fit from which the simulations were produced.}
+#' \item{model}{ the model fit from which the simulations were produced.}
 #' 
 #' @details
 #' Fitting and simulation of the Multivariate Random Walk with Drift
@@ -85,12 +92,15 @@
 #'               ages.fit = 55:89, wxt = wxt)
 #' APCsim <- simulate(APCfit, nsim = 100, gc.order = c(1, 1, 0))
 #' 
-#' plot(APCfit$years, APCfit$kt[1, ], xlim = range(APCfit$years, APCsim$kt.s$years),
+#' plot(APCfit$years, APCfit$kt[1, ], 
+#'      xlim = range(APCfit$years, APCsim$kt.s$years),
 #'      ylim = range(APCfit$kt, APCsim$kt.s$sim), type = "l",
-#'      xlab = "year", ylab = "kt", main = "APC: Simulated paths of the period index kt")
+#'      xlab = "year", ylab = "kt",
+#'      main = "APC: Simulated paths of the period index kt")
 #' matlines(APCsim$kt.s$years, APCsim$kt.s$sim[1, , ], type = "l", lty = 1)
 #' 
-#' plot(APCfit$cohorts, APCfit$gc, xlim = range(APCfit$cohorts, APCsim$gc.s$cohorts),
+#' plot(APCfit$cohorts, APCfit$gc, 
+#'      xlim = range(APCfit$cohorts, APCsim$gc.s$cohorts),
 #'      ylim = range(APCfit$gc, APCsim$gc.s$sim, na.rm = TRUE), type = "l",
 #'      xlab = "year", ylab = "kt", 
 #'      main = "APC: Simulated paths of the cohort index (ARIMA(1,1,0))")
@@ -119,11 +129,12 @@
 #'     n.fan = 4, fan.col = colorRampPalette(c(rgb(0, 0, 1), rgb(1, 1, 1))), 
 #'     ln = NULL) 
 #'@export
-simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NULL,
-                              gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-                              jumpchoice = c("fit", "actual"),
-                              kt.lookback = NULL, gc.lookback = NULL,
-                              ...){
+simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50, 
+                               oxt = NULL, gc.order = c(1, 1, 0), 
+                               gc.include.constant = TRUE,
+                               jumpchoice = c("fit", "actual"),
+                               kt.lookback = NULL, gc.lookback = NULL, 
+                               ...) {
   
   jumpchoice <- match.arg(jumpchoice)
   #Handle generato seed
@@ -143,8 +154,9 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   kt <- object$kt
   years <- object$years
   nYears <- length(years)
-  if (is.null(kt.lookback)) kt.lookback <- nYears 
-  if(kt.lookback<=0)
+  if (is.null(kt.lookback)) 
+    kt.lookback <- nYears 
+  if (kt.lookback <= 0)
     stop("kt.lookback must be positive")
   kt.lookback <- min(c(kt.lookback, nYears))
   yearsSim <- (years[nYears] + 1):(years[nYears] + h)
@@ -155,17 +167,17 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   kt.model <- NULL
   years.h <- years
   years.s <- yearsSim
-  if(N > 0){    
+  if (N > 0) {    
     kt.nNA <- max(which(!is.na(kt[1, ])))
     kt.hNA <- nYears - kt.nNA
-    kt.model <- mrwd(kt[, (1+nYears-kt.lookback):kt.nNA]) 
-    if(kt.hNA > 0) {
+    kt.model <- mrwd(kt[, (1 + nYears - kt.lookback):kt.nNA]) 
+    if (kt.hNA > 0) {
       years.h <- years[-((kt.nNA+1):nYears)]
       years.s <- c(years[(kt.nNA+1):nYears], years.s)
-      kt.h <-array(kt.h[,1:kt.nNA], c(nrow(kt),kt.nNA))
+      kt.h <- array(kt.h[, 1:kt.nNA], c(nrow(kt), kt.nNA))
       dimnames(kt.h)[[2]] <- years.h      
     } 
-    kt.sim <- array(NA,c(N, length(years.s), nsim), list(1:N,years.s,1:nsim))
+    kt.sim <- array(NA,c(N, length(years.s), nsim), list(1:N, years.s, 1:nsim))
   }
     
   #fit model to gc
@@ -173,7 +185,7 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   cohorts <- object$cohorts
   nCohorts <- length(cohorts)
   if (is.null(gc.lookback)) gc.lookback <- nCohorts 
-  if(gc.lookback<=0)
+  if (gc.lookback <= 0)
     stop("gc.lookback must be positive")
   gc.lookback <- min(c(gc.lookback, nCohorts))
   gc.h <- gc
@@ -181,20 +193,22 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
   gc.model <- NULL
   gc.path <- NULL
   cohorts.s <- (cohorts[nCohorts] + 1):(cohorts[nCohorts] + h)
-  if(!is.null(object$model$cohortAgeFun)){
+  if (!is.null(object$model$cohortAgeFun)) {
     gc.nNA <- max(which(!is.na(gc)))
     gc.hNA <- nCohorts - gc.nNA
-    gc.model <- forecast::Arima(gc[(1+nCohorts - gc.lookback):gc.nNA], order = gc.order, 
+    gc.model <- forecast::Arima(gc[(1 + nCohorts - gc.lookback):gc.nNA],
+                                order = gc.order, 
                                 include.constant = gc.include.constant) 
-    if(gc.hNA > 0){      
+    if (gc.hNA > 0) {      
       gc.h <- gc[-((gc.nNA+1):nCohorts)]
-      cohorts.h <- cohorts[-((gc.nNA+1):nCohorts)]
-      cohorts.s <- c(cohorts[(gc.nNA+1):nCohorts], cohorts.s)
+      cohorts.h <- cohorts[-((gc.nNA + 1):nCohorts)]
+      cohorts.s <- c(cohorts[(gc.nNA + 1):nCohorts], cohorts.s)
     }    
-    gc.sim <- array(NA,c(length(cohorts.s), nsim), list(cohorts.s,1:nsim))
+    gc.sim <- array(NA, c(length(cohorts.s), nsim), list(cohorts.s, 1:nsim))
   }
   #Offset
-  if(is.null(oxt)) oxt <- 0
+  if (is.null(oxt)) 
+    oxt <- 0
   oxt.s <- matrix(oxt, nrow = nAges, ncol = h)
   colnames(oxt.s) <- yearsSim
   rownames(oxt.s) <- ages
@@ -208,12 +222,12 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
     jumpoffRates <- (object$Dxt / object$Ext)[, nYears]   
   }
   
-  for (i in 1:nsim){
-    if(!is.null(kt.model)) {
+  for (i in 1:nsim) {
+    if (!is.null(kt.model)) {
       kt.path <- simulate(kt.model,h + kt.hNA)
       kt.sim[, , i] <- kt.path
     }
-    if(!is.null(gc.model)) {
+    if (!is.null(gc.model)) {
       gc.path <- as.vector(simulate(gc.model, h + gc.hNA))
       gc.sim[, i] <- gc.path
     }    
@@ -221,19 +235,19 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
                      kt = cbind(kt.h,kt.path), gc = c(gc.h, gc.path),
                      oxt = cbind(object$oxt,oxt.s), type = "rates")
     
-    forcastRates[, , i]  <- ratesi[, (nYears+1):(nYears+h)]
+    forcastRates[, , i] <- ratesi[, (nYears + 1):(nYears + h)]
     fittedRates[, , i] <- ratesi[, 1:nYears]
     if (jumpchoice == "actual") {     
-      forcastRates[, , i] <- forcastRates[, , i] * jumpoffRates / ratesi[ , nYears]
+      forcastRates[, , i] <- forcastRates[, , i] * jumpoffRates / ratesi[, nYears]
     }    
   }
   
-  if(is.null(kt.model)){
+  if (is.null(kt.model)) {
     kt.s <- NULL
   } else {
     kt.s <- list(sim = kt.sim, model = kt.model, years = years.s)
   }
-  if(is.null(gc.model)){
+  if (is.null(gc.model)) {
     gc.s <- NULL
   } else {
     gc.s <- list(sim = gc.sim, model = gc.model, cohorts = cohorts.s)
@@ -256,7 +270,7 @@ simulate.fitStMoMo <-function(object, nsim = 1000, seed = NULL, h = 50, oxt = NU
 #' @param ... arguments to be passed to or from other methods.
 #' @export 
 #' @method print simStMoMo
-print.simStMoMo <- function(x,...) {
+print.simStMoMo <- function(x, ...) {
   cat("Simulations of Stochastic Mortality Model")
   cat(paste("\nCall:", deparse(x$call)))
   cat("\n\nSimulation based on")

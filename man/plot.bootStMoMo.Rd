@@ -4,8 +4,9 @@
 \alias{plot.bootStMoMo}
 \title{Plot bootstrapped parameters of a Stochastic Mortality Model}
 \usage{
-\method{plot}{bootStMoMo}(x, nCol = 2, parametricbx = TRUE, colour = rgb(0, 0, 0),
-probs = c(2.5, 10, 25, 50, 75, 90, 97.5), ...)
+\method{plot}{bootStMoMo}(x, nCol = 2, parametricbx = TRUE,
+                          colour = rgb(0, 0, 0),
+                          probs = c(2.5, 10, 25, 50, 75, 90, 97.5), ...)
 }
 \arguments{
 \item{x}{an object of class \code{"bootStMoMo"} with the bootstrapped
@@ -19,8 +20,8 @@ which don't need to be estimated, are not plotted.}
 \item{colour}{colour to use in the fans.}
 
 \item{probs}{probabilities related to percentiles to plot in the fan chart.
-The  default \code{c(2.5,10,25,50,75,90,97.5)} plots the 50\%, 80\% and 95\%
-confidence intervals of the parameters.}
+The  default \code{c(2.5,10,25,50,75,90,97.5)} plots the 50\%, 80\% and
+95\% confidence intervals of the parameters.}
 
 \item{...}{other arguments.}
 }

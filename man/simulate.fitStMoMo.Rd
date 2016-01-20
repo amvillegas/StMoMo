@@ -15,8 +15,8 @@ parameters of a stochastic mortality model.}
 
 \item{nsim}{number of sample paths to simulate.}
 
-\item{seed}{either \code{NULL} or an integer that will be used in a call to
-\code{\link{set.seed}} before simulating the time series.
+\item{seed}{either \code{NULL} or an integer that will be used in a
+call to \code{\link{set.seed}} before simulating the time series.
 The default, \code{NULL} will not change the random generator state.}
 
 \item{h}{number of years ahead to forecast.}
@@ -26,28 +26,28 @@ added in the simulations. This can be used to specify any a priori
 known component to be added to the simulated predictor.}
 
 \item{gc.order}{a specification of the ARIMA model: the three components
-\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA order.
-The default is an ARIMA\eqn{(1, 1, 0)}.}
+\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA
+order. The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
 
 \item{jumpchoice}{option to select the jump-off rates, i.e. the rates
-from the final year of observation, to use in projections of mortality rates.
-\code{"fit"}(default) uses the fitted rates and \code{"actual"} uses the
-actual rates from the final year.}
+from the final year of observation, to use in projections of mortality
+rates. \code{"fit"}(default) uses the fitted rates and \code{"actual"}
+uses the actual rates from the final year.}
 
 \item{kt.lookback}{optional argument to specify the look-back window to use
 in the estimation of the MRWD for period indexes. By default all the
-estimated values are used in estimating the MRWD. If \code{kt.lookback}
-is provided then the last \code{kt.lookback} years of
-\eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
+estimated values are used in estimating the MRWD. If
+\code{kt.lookback} is provided then the last \code{kt.lookback}
+years of \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
 
 \item{gc.lookback}{optional argument to specify the look-back window to use
-in the estimation of the ARIMA model for the cohort effect. By default all the
-estimated values are used in estimating the ARIMA model. If \code{gc.lookback}
-is provided then the last \code{gc.lookback} years of
-\eqn{\gamma_{t-x}} are used.}
+in the estimation of the ARIMA model for the cohort effect. By
+default all the estimated values are used in estimating the ARIMA
+model. If \code{gc.lookback} is provided then the last
+\code{gc.lookback} years of \eqn{\gamma_{t-x}} are used.}
 
 \item{...}{other arguments.}
 }
@@ -55,27 +55,34 @@ is provided then the last \code{gc.lookback} years of
 A list of class \code{"simStMoMo"} with components:
 
 \item{rates}{ a three dimensional array with the future simulated rates.}
-\item{ages}{ vector of ages corresponding to the first dimension of \code{rates}.}
-\item{years}{vector of years for which a simulations has been produced. This
- corresponds to the second dimension of \code{rates}.}
-\item{kt.s}{ information on the simulated paths of the period indexes of the model.
- This is a list with the  \code{model} fitted to \eqn{\kappa_t}; the simulated paths
- (\code{sim}); and the \code{years} for which simulations were produced. If the
- mortality model does not have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
 
-\item{gc.s}{ information on the simulated paths of the cohort index of the model.
- This is a list with the \code{model} fitted to \eqn{\gamma_c}; the simulated paths
- (\code{sim}); and the \code{cohorts} for which simulations were produced. If the
- mortality model does not have a cohort effect this is set to \code{NULL}.}
+\item{ages}{ vector of ages corresponding to the first dimension of
+\code{rates}.}
 
-\item{oxt.s}{ a three dimensional array with the offset used in the simulations.}
+\item{years}{vector of years for which a simulations has been produced.
+This corresponds to the second dimension of \code{rates}.}
 
-\item{fitted}{ a three dimensional array with the in-sample rates of the model
- for the years for which the mortality model was fitted.}
+\item{kt.s}{ information on the simulated paths of the period indexes
+of the model. This is a list with the  \code{model} fitted to
+\eqn{\kappa_t}; the simulated paths (\code{sim}); and the \code{years}
+for which simulations were produced. If the mortality model does not
+have any age-period terms (i.e. \eqn{N=0}) this is set to \code{NULL}.}
 
- \item{jumpchoice}{Jump-off method used in the simulation.}
+\item{gc.s}{ information on the simulated paths of the cohort index of
+the model. This is a list with the \code{model} fitted to \eqn{\gamma_c};
+the simulated paths (\code{sim}); and the \code{cohorts} for which
+simulations were produced. If the mortality model does not have a cohort
+effect this is set to \code{NULL}.}
 
- \item{model}{ the model fit from which the simulations were produced.}
+\item{oxt.s}{ a three dimensional array with the offset used in the
+simulations.}
+
+\item{fitted}{ a three dimensional array with the in-sample rates of
+the model for the years for which the mortality model was fitted.}
+
+\item{jumpchoice}{Jump-off method used in the simulation.}
+
+\item{model}{ the model fit from which the simulations were produced.}
 }
 \description{
 Simulate future sample paths from a Stochastic Mortality Model.
@@ -127,12 +134,15 @@ APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
               ages.fit = 55:89, wxt = wxt)
 APCsim <- simulate(APCfit, nsim = 100, gc.order = c(1, 1, 0))
 
-plot(APCfit$years, APCfit$kt[1, ], xlim = range(APCfit$years, APCsim$kt.s$years),
+plot(APCfit$years, APCfit$kt[1, ],
+     xlim = range(APCfit$years, APCsim$kt.s$years),
      ylim = range(APCfit$kt, APCsim$kt.s$sim), type = "l",
-     xlab = "year", ylab = "kt", main = "APC: Simulated paths of the period index kt")
+     xlab = "year", ylab = "kt",
+     main = "APC: Simulated paths of the period index kt")
 matlines(APCsim$kt.s$years, APCsim$kt.s$sim[1, , ], type = "l", lty = 1)
 
-plot(APCfit$cohorts, APCfit$gc, xlim = range(APCfit$cohorts, APCsim$gc.s$cohorts),
+plot(APCfit$cohorts, APCfit$gc,
+     xlim = range(APCfit$cohorts, APCsim$gc.s$cohorts),
      ylim = range(APCfit$gc, APCsim$gc.s$sim, na.rm = TRUE), type = "l",
      xlab = "year", ylab = "kt",
      main = "APC: Simulated paths of the cohort index (ARIMA(1,1,0))")

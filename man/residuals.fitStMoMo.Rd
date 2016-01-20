@@ -2,8 +2,7 @@
 % Please edit documentation in R/residualsfitStMoMo.R
 \name{residuals.fitStMoMo}
 \alias{residuals.fitStMoMo}
-\title{Extract deviance residuals of a Stochastic
-Mortality Model}
+\title{Extract deviance residuals of a Stochastic Mortality Model}
 \usage{
 \method{residuals}{fitStMoMo}(object, scale = TRUE, ...)
 }
@@ -18,8 +17,8 @@ Default is \code{TRUE}.}
 \item{...}{other arguments.}
 }
 \value{
-An object of class \code{"resStMoMo"} with the residuals. This object
-has components:
+An object of class \code{"resStMoMo"} with the residuals. This
+object has components:
   \item{residuals}{ a matrix with the residuals.}
   \item{ages}{ ages corresponding to the rows in \code{residuals}.}
   \item{years}{ years corresponding to the columns in \code{residuals}.}

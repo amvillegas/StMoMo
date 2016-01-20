@@ -20,21 +20,24 @@
 #' \item{x}{the original time series.}
 #' 
 #' @references
-#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric mortality 
-#' projection models. Insurance: Mathematics and Economics, 48(1), 35-55. 
+#' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
+#' mortality projection models. Insurance: Mathematics and Economics, 
+#' 48(1), 35-55. 
 #' 
 #' @export
-mrwd <- function(x){  
+mrwd <- function(x) {  
   x <- as.matrix(x)
-  if(ncol(x) == 1L) x <- t(x)
+  if (ncol(x) == 1L) 
+    x <- t(x)
   nYear <- ncol(x)
   N <- nrow(x)
   d <- t(colMeans(diff(t(x)), na.rm = TRUE))
   fits <- cbind(array(NA, c(N, 1)), x[, -nYear] + array(d, c(N, nYear - 1)))
   res <- x - fits
   dimnames(fits) <- dimnames(res) <- dimnames(x)
-  sigma <- cov(t(res), use="complete.obs")
-  structure(list(drift = d, sigma = sigma, fitted = fits, residuals = res, x = x), class = "mrwd")  
+  sigma <- cov(t(res), use = "complete.obs")
+  structure(list(drift = d, sigma = sigma, fitted = fits, residuals = res, 
+                 x = x), class = "mrwd")  
 }
 
 #' Forecast a Multivariate Random Walk with Drift
@@ -59,7 +62,7 @@ mrwd <- function(x){
 #'  \item{level}{ the confidence values associated with the prediction 
 #'  intervals.}
 #'  @export
-forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...){
+forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...) {
   
   x <- object$x
   nn <- 1:h
@@ -67,7 +70,7 @@ forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...){
   N <- nrow(x)  
   yearsFor <- (as.numeric(colnames(x)[nYear]) + 1):(as.numeric(colnames(x)[nYear]) + h)
   
-  mean <- x[ ,nYear] + t(array(nn, c(h, N))) * array(object$drift, c(N,h))
+  mean <- x[, nYear] + t(array(nn, c(h, N))) * array(object$drift, c(N,h))
   rownames(mean) <- rownames(x)
   colnames(mean) <- yearsFor
   
@@ -80,18 +83,19 @@ forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...){
       stop("Confidence limit out of range")
   }
   nn <- 1:h
-  se <- sqrt(t(array(nn, c(h, N))) * array(diag(object$sigma), c(N,h)))
+  se <- sqrt(t(array(nn, c(h, N))) * array(diag(object$sigma), c(N, h)))
   nconf <- length(level)
-  z <- qnorm(0.5 + level/200)
-  lower <- upper <- array(NA, c(N,h,nconf), dimnames = list(rownames(x), yearsFor, 
-                                                         paste(level, "%", sep = "")))
+  z <- qnorm(0.5 + level / 200)
+  lower <- upper <- array(NA, c(N, h, nconf), 
+                          dimnames = list(rownames(x), yearsFor, 
+                                          paste(level, "%", sep = "")))
   for (i in 1:nconf) {
     lower[, , i] <- mean - z[i] * se
     upper[, , i] <- mean + z[i] * se
   }
       
-  structure(list(model = object, level = level, mean = mean, lower = lower, upper = upper ),
-            class = "mrwdForecast")    
+  structure(list(model = object, level = level, mean = mean, lower = lower, 
+                 upper = upper), class = "mrwdForecast")    
 }
 
 #' Simulate a Multivariate Random Walk with Drift
@@ -101,13 +105,13 @@ forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...){
 #' 
 #' @param object An object of class \code{"mrwd"}.
 #' @param nsim number of periods for the simulated series.
-#' @param seed either \code{NULL} or an integer that will be used in a call to 
-#' \code{\link{set.seed}} before simulating the time series. 
+#' @param seed either \code{NULL} or an integer that will be used in a 
+#' call to \code{\link{set.seed}} before simulating the time series. 
 #' The default, \code{NULL} will not change the random generator state.
 #' @param ... other arguments.
 #' 
 #' @export
-simulate.mrwd <- function(object, nsim = 10, seed = NULL, ...){
+simulate.mrwd <- function(object, nsim = 10, seed = NULL, ...) {
   
   if (!exists(".Random.seed", envir = .GlobalEnv)) 
     runif(1)
@@ -127,7 +131,8 @@ simulate.mrwd <- function(object, nsim = 10, seed = NULL, ...){
   N <- nrow(x)  
   u <- MASS::mvrnorm(nsim, rep(0, N), Sigma = object$sigma)
   su <- t(apply(u, 2, cumsum))
-  sim <- x[ , nYear] + t(array(nn, c(nsim, N))) * array(object$drift, c(N, nsim)) + su
+  sim <- x[, nYear] + t(array(nn, c(nsim, N))) * array(object$drift, 
+                                                       c(N, nsim)) + su
   
   yearsSim <- (as.numeric(colnames(x)[nYear]) + 1):(as.numeric(colnames(x)[nYear]) + nsim)
   rownames(sim) <- rownames(x)
