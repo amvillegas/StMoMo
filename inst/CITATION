@@ -1,7 +1,7 @@
 citHeader("To cite package 'StMoMo' in publications use:")
 
 if(!exists("meta") || is.null(meta)) meta <- packageDescription("gnm")
-year <- 2015
+year <- 2016
 note <- sprintf("R package version %s", meta$Version) 
 
 citEntry(entry="Manual",
