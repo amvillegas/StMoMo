@@ -198,18 +198,18 @@ StMoMo  <- function(link = c("log", "logit"), staticAgeFun = TRUE,
     for (i in 1:N) {
       if (is.function(periodAgeFun[[i]])) {
         gnmFormula <- paste(gnmFormula, " + B", i, ":factor(t)", sep = "")
-        textFormula <- paste(textFormula, termSep, "f",i,"[x] k",i,"[t]", 
+        textFormula <- paste(textFormula, termSep, "f", i, "[x] k", i, "[t]", 
                              sep = "")
       } else if (periodAgeFun[[i]] == "1") {
         gnmFormula <- paste(gnmFormula, " + factor(t)", sep = "")      
-        textFormula <- paste(textFormula, termSep, "k",i,"[t]", sep = "")
+        textFormula <- paste(textFormula, termSep, "k", i, "[t]", sep = "")
       } else if ( periodAgeFun[[i]] == "NP" ) {
         ind <- i:N
         inst <- 1 + sum(periodAgeFun[-ind] == periodAgeFun[[i]]) 
         gnmFormula <- paste(gnmFormula, 
                             " + Mult(factor(x), factor(t), inst = ", inst,
                             ")", sep = "")   
-        textFormula <- paste(textFormula, termSep, "b",i,"[x] k",i,"[t]", 
+        textFormula <- paste(textFormula, termSep, "b", i, "[x] k", i, "[t]", 
                              sep = "")
       } else {
         stop("Not appropriate period age modulating function definition")
