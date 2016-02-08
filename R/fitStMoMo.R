@@ -421,7 +421,7 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt),
               Dxt = Dxt, Ext = Ext, oxt = oxt , wxt = wxt, ages = ages, 
               years = years, cohorts = cohorts, fittingModel = fittingModel, 
               loglik = loglik, deviance = deviance,   
-              npar = fittingModel$rank, nobs = nobs(fittingModel), 
+              npar = fittingModel$rank[1], nobs = nobs(fittingModel), 
               conv = conv, fail = fail, call  = match.call())          
   class(out) <- "fitStMoMo"
   out    
