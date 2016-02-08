@@ -14,7 +14,5 @@ LaTeX: pdfLaTeX
 
 BuildType: Package
 PackageUseDevtools: Yes
-PackageInstallArgs: --no-multiarch --with-keep.source --library="H:\R\win-library\3.2"
-PackageBuildBinaryArgs: --library="H:\R\win-library\3.2"
-PackageCheckArgs: --no-install
+PackageInstallArgs: --no-multiarch --with-keep.source
 PackageRoxygenize: rd,collate,namespace
