@@ -140,7 +140,6 @@
 %%%%%%%%%%%%%%%%
 \begin{document}
 %\SweaveOpts{concordance=TRUE}
-%\SweaveOpts{concordance=TRUE}
 %%%%%%%%%%%%%%%%
 
 %Hook to control the line width in ouputs
@@ -183,10 +182,10 @@ knit_hooks$set(output = function(x, options) {
 
 \author[1]{Andr\'es M. Villegas\corref{cor1}}
 \ead{a.villegas@unsw.edu.au}
-\author[2]{Vladimir Kaishev}
-\ead{Vladimir.Kaishev.1@city.ac.uk}
 \author[2]{Pietro Millossovich}
 \ead{Pietro.Millossovich.1@city.ac.uk}
+\author[2]{Vladimir Kaishev}
+\ead{Vladimir.Kaishev.1@city.ac.uk}
 
 \address[1]{ARC Centre of Excellence in Population Ageing Research (CEPAR), UNSW Business School, University of New South Wales, Sydney, Australia}
 \address[2]{Cass Business School, City University London, United Kingdom}
@@ -220,7 +219,7 @@ The two factor \revI{Cairns-Blake-Dowd (CBD)} model introduced by \cite{Cairns20
 
 Given the abundance and rapid increase in the number of stochastic mortality models proposed in the literature, there have been some recent attempts to find the commonalities among these models. \citet{Hunt2015b} review the structure of mortality models and describe an Age-Period-Cohort model structure which encompasses the vast majority of stochastic mortality models. \citet{Currie2014} shows that many mortality models can be expressed in terms of generalised linear models or generalised non-linear models.\\
 
-In this paper, we build \vlad{upon} the \vlad{works} of \citet{Hunt2015b} and \citet{Currie2014} to define the family of Generalised Age-Period-Cohort stochastic mortality models by mirroring the terminology of generalised linear models. \revI{We also} introduce the \R package \rpkg{StMoMo}\footnote{The acronym StMoMo, pronounced Saint Momo, stands for Stochastic Mortality Modelling. Momo is the king of Carnivals in numerous Latin American festivities \citep{Wikipedia2015}.} which exploits the unifying framework of the Generalised Age-Period-Cohort family to provide computational tools for implementing many of the stochastic mortality models proposed to date. The \rpkg{StMoMo} package is available at \url{http://CRAN.R-project.org/package=StMoMo}. Version 0.3.0 has been used for this paper.\\
+In this paper, we build \vlad{upon} the \vlad{works} of \citet{Hunt2015b} and \citet{Currie2014} to define the family of Generalised Age-Period-Cohort stochastic mortality models by mirroring the terminology of generalised linear models. \revI{We also} introduce the \R package \rpkg{StMoMo}\footnote{The acronym StMoMo, pronounced Saint Momo, stands for Stochastic Mortality Modelling. Momo is the king of Carnivals in numerous Latin American festivities \citep{Wikipedia2015}.} which exploits the unifying framework of the Generalised Age-Period-Cohort family to provide computational tools for implementing many of the stochastic mortality models proposed to date. The \rpkg{StMoMo} package is available at \url{http://CRAN.R-project.org/package=StMoMo}. Version 0.3.1 has been used for this paper.\\
 
 Several packages for mortality modelling are available in the \R environment \citep{RCoreTeam2014}. The package \rpkg{demography} \citep{Hyndman2014}, whose usage is explained in detail in \cite{Booth2014}, implements the original Lee-Carter model along with the \cite{Lee2001}, \cite{Booth2002}, and \cite{Hyndman2007} variants. The \rpkg{ilc} package \citep{Butt2014} implements the \citet{Renshaw2006} cohort extension of the Lee-Carter model together with the Lee-Carter model under a Poisson regression framework. The \rpkg{LifeMetrics} \R functions implement the original CBD model and the three extended CBD models considered in \citet{Cairns2009}, along with the Lee-Carter model (using Poisson maximum likelihood), the Age-Period-Cohort model of \citet{Currie2006} and the \citet{Renshaw2006} model. This package, which is not on CRAN, is available at  \url{http://www.macs.hw.ac.uk/~andrewc/lifemetrics/}.\\ 
 

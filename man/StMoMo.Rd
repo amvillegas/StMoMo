@@ -159,8 +159,8 @@ plot(fit(PLAT, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext,
 
 #Models not supported
 \dontrun{
-MnotSup1 <- StMoMo(periodAgeFun = c(f1, "NP"))
-MnotSup1 <- StMoMo(periodAgeFun = f1, cohortAgeFun = "NP")
+MnotSup1 <- StMoMo(periodAgeFun = c(f2, "NP"))
+MnotSup1 <- StMoMo(periodAgeFun = f2, cohortAgeFun = "NP")
 }
 }
 \references{
