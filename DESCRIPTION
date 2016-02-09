@@ -5,26 +5,29 @@ Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
     Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
     Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
 Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
-Description: Implementation of the family of generalised age-period-cohort 
-    stochastic mortality models.  This family of models encompasses many models 
-    proposed in the actuarial and demographic literature including the Lee-Carter model 
-    and the Cairns-Blake-Dowd model. It includes functions for fitting mortality models,
-    analysing their goodness-of-fit and performing mortality projections and 
-    simulations.
+Description: Implementation of the family of generalised age-period-cohort
+    stochastic mortality models. This family of models encompasses many models
+    proposed in the actuarial and demographic literature including the Lee-Carter
+    model and the Cairns-Blake-Dowd model. It includes functions for fitting
+    mortality models, analysing their goodness-of-fit and performing mortality
+    projections and simulations.
 URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
-Imports: 
+Imports:
     MASS,
     rootSolve (>= 1.6.5.1),
     fanplot (>= 3.4),
     reshape2 (>= 1.4.1),
     fields (>= 8.2),
     RColorBrewer
-Depends: 
+Depends:
     R (>= 3.2.0),
-    gnm (>= 1.0), 
+    gnm (>= 1.0),
     forecast(>= 6.1)
 License: GPL (>= 2)
 LazyData: true
-Suggests: knitr, xtable
+Suggests:
+    knitr,
+    xtable
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1
