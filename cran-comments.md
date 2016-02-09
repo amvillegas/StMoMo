@@ -9,7 +9,15 @@ issues in a couple of printing methods.
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTES. 
+There were no ERRORs or WARNINGs.
+
+There was one NOTE.
+
+* checking CRAN incoming feasibility ... NOTE
+
+    I am the mantainer of the package
+  
+
 
 ## Downstream dependencies
 There are no downstream dependencies
