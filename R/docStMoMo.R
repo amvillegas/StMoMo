@@ -16,7 +16,6 @@
 #' @importFrom stats rpois runif start
 #' @importFrom utils head tail
 #' @importFrom RColorBrewer brewer.pal
-#' @importFrom methods hasArg 
 NULL
 
 

@@ -67,7 +67,7 @@ residuals.fitStMoMo <- function(object, scale = TRUE, ...) {
 #'                                             "signplot"), 
 #'                                 reslim = NULL, plotAge = TRUE, 
 #'                                 plotYear = TRUE, plotCohort  = TRUE, 
-#'                                 pch = 20, ...)
+#'                                 pch = 20, col = NULL, ...)
 #' 
 #' @param x an object of class \code{resStMoMo} with the residuals of a 
 #' Stochastic Mortality Model.
@@ -84,6 +84,11 @@ residuals.fitStMoMo <- function(object, scale = TRUE, ...) {
 #' @param pch optional symbol to use for the points in a scatterplot. 
 #' This is only used when \code{type = "scatter"}. See 
 #' \code{\link[graphics]{plot}}.
+#' @param col optional colours to use in plotting. If 
+#' \code{type = "scatter"} this is a single colour to use in the points
+#' in the scatter plots, while if \code{type = "colourmap"} this should
+#' be a list of colours (see help in \code{\link[fields]{image.plot}} 
+#' for details). This argument is ignored if \code{type = "signplot"}.
 #' @param ... other plotting parameters to be passed to the plotting 
 #' functions. This can be used to control the appearance of the plots.
 #'
@@ -116,7 +121,7 @@ residuals.fitStMoMo <- function(object, scale = TRUE, ...) {
 #' @method plot resStMoMo
 plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"), 
                            reslim = NULL, plotAge = TRUE, plotYear = TRUE, 
-                           plotCohort  = TRUE, pch = 20, ...) {
+                           plotCohort  = TRUE, pch = 20, col = NULL, ...) {
   type <- match.arg(type)
   oldpar <- par(no.readonly = TRUE)
   
@@ -124,15 +129,19 @@ plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"),
     maxRes <- max(abs(x$residuals), na.rm = TRUE)
     reslim <- c(-maxRes, maxRes)
   }
-  if (!hasArg(col)) {
+  if (is.null(col) & type == "colourmap") {
     col <- colorRampPalette(RColorBrewer::brewer.pal(10, "RdBu"))(64)
+  }
+  if (is.null(col) & type == "scatter") {
+    col <- "black"
   }
   
   switch(type, 
          scatter = scatterplotAPC(x$residuals, x$ages, x$years, 
                                   plotAge = plotAge, plotYear = plotYear, 
                                   plotCohort = plotCohort, pch = pch, 
-                                  ylab = "residuals", ylim = reslim, ...),
+                                  ylab = "residuals", ylim = reslim, 
+                                  col = col, ...),
          colourmap = fields::image.plot(x$year, x$age, t(x$residuals), 
                                         zlim = reslim, ylab = "age", 
                                         xlab = "calendar year", col = col, 

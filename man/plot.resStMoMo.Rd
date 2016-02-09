@@ -8,7 +8,7 @@
                                             "signplot"),
                                 reslim = NULL, plotAge = TRUE,
                                 plotYear = TRUE, plotCohort  = TRUE,
-                                pch = 20, ...)
+                                pch = 20, col = NULL, ...)
 }
 \arguments{
 \item{x}{an object of class \code{resStMoMo} with the residuals of a
@@ -32,6 +32,12 @@ should be produced. This is only used when \code{type = "scatter"}.}
 \item{pch}{optional symbol to use for the points in a scatterplot.
 This is only used when \code{type = "scatter"}. See
 \code{\link[graphics]{plot}}.}
+
+\item{col}{optional colours to use in plotting. If
+\code{type = "scatter"} this is a single colour to use in the points
+in the scatter plots, while if \code{type = "colourmap"} this should
+be a list of colours (see help in \code{\link[fields]{image.plot}}
+for details). This argument is ignored if \code{type = "signplot"}.}
 
 \item{...}{other plotting parameters to be passed to the plotting
 functions. This can be used to control the appearance of the plots.}
