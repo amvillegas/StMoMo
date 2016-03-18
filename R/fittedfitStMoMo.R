@@ -20,11 +20,11 @@
 #'         col = rainbow(length(LCfit$years)), xlab = "year", 
 #'         ylab = "log death rate", main = "Fitted rates")
 #' 
-#' qxthat <- fitted(LCfit, type = "rates")
-#' qxt <- LCfit$Dxt / LCfit$Ext
-#' plot(LCfit$years, qxt["65", ], xlab = "year", ylab = "death rate",
+#' uxthat <- fitted(LCfit, type = "rates")
+#' uxt <- LCfit$Dxt / LCfit$Ext
+#' plot(LCfit$years, uxt["65", ], xlab = "year", ylab = "death rate",
 #'      main = "fitted vs. observed rates at age 65")
-#' lines(LCfit$years, qxthat["65", ])
+#' lines(LCfit$years, uxthat["65", ])
 #' @export 
 fitted.fitStMoMo<-function(object, type = c("link", "rates", "deaths"), ...) {
   
