@@ -2,7 +2,7 @@
 StMoMo
 ======
 
-[![Build Status](https://travis-ci.org/amvillegas/StMoMo.svg?branch=master)](https://travis-ci.org/amvillegas/StMoMo)
+[![Build Status](https://travis-ci.org/amvillegas/StMoMo.svg?branch=master)](https://travis-ci.org/amvillegas/StMoMo) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/StMoMo)](http://cran.r-project.org/package=StMoMo) ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/StMoMo)
 
 StMoMo (Stochastic Mortality Modelling) is an R package providing functions to specify and fit stochastic mortality models including the Lee-Carter models, the CBD model, the APC model and many other (possibly new) models. The package also includes tools for analysing the goodness of fit of the models and performing mortality projections and simulations.
 
