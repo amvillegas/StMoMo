@@ -387,7 +387,7 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt),
                           (is.null(gc) || anyNA(gc[!is.na(fittedCoef$gc)])))
                        
   if (NAinNewParameters) {
-    stop("The parameter trasnformation function transformed some parameters into NA or NULL.
+    stop("The parameter transformation function transformed some parameters into NA or NULL.
          Check the 'constFun' argument of StMoMo.\n")
   }
   
