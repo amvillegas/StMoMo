@@ -157,3 +157,61 @@ extractCohort <- function(A, age = as.numeric(dimnames(A)[[1]][1]),
   }
   out
 }
+
+
+#' Create StMoMoData object from demogdata object 
+#' 
+#' Create StMoMoData object suitable for fitting a Stochastic Mortality 
+#' Model using function \code{\link{fit.StMoMo}}. 
+#' 
+#' @param  data demogdata object of type "mortality". It is either the
+#' output from functions \code{\link[demography]{read.demogdata}} or 
+#' \code{\link[demography]{hmd.mx}} of package \code{demography}.
+#' @param series name of series within \code{data} to use.
+#' @param type the type of exposure that should be included in the 
+#' output. The alternatives are \code{"central"} (default) and 
+#' \code{"initial"}.  \code{"central"} exposures are suitable for fitting
+#' models under a log-Poisson framework while \code{"initial"} exposures
+#' are suitable under a logit-Binomial framework. 
+#' 
+#' @return A list with class \code{"StMoMoData"} with components:
+#'   
+#'   \item{Dxt}{ matrix of deaths data.}   
+#'   
+#'   \item{Ext}{ matrix of observed exposures.} 
+#'   
+#'   \item{ages}{ vector of ages corresponding to rows of \code{Dxt} and 
+#'   \code{Ext}.} 
+#'   
+#'   \item{years}{ vector of years corresponding to rows of \code{Dxt} and 
+#'   \code{Ext}.} 
+#'   
+#'   \item{type}{ the type of exposure in the data.}
+#'   
+#'   \item{series}{ name of the extracted series.}
+#'   
+#'   \item{label}{ label of the data.}
+#' 
+#' @export
+StMoMoData <- function(data, series = names(data$rate)[1], 
+                       type = c("central", "initial")){
+  
+  if (class(data) != "demogdata")
+    stop("Argument data needs to be of class demogdata.")
+  if (data$type != "mortality")
+    stop("Argument data needs to be class demogdata and type mortality.")
+  type <- match.arg(type)
+  
+  Ext <- data$pop[[series]]
+  Dxt <- data$pop[[series]]  
+  if (type == "initial") Ext <- Ext + 0.5 * Dxt
+  
+  rownames(Ext) <- rownames(Dxt) <- data$age
+  
+  structure(list(Dxt = Dxt, Ext = Ext, ages = data$age, 
+                 years = data$year, type = type, 
+                 series = series, label = data$label), 
+            class = "StMoMoData")
+    
+}
+
