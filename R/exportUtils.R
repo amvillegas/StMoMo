@@ -62,3 +62,98 @@ genWeightMat <- function(ages, years, clip = 0, zeroCohorts = NULL) {
   }
   wxt
 }
+
+
+#'Extract cohort from an age-period array
+#'
+#'Extract cohorts from an age-period array. This is useful to
+#'construct a life table or to perform actuarial/demographic 
+#'calculations on a cohort basis using the output of several functions
+#'in \code{StMoMo}.
+#'
+#'@param A an age-period array with a demographic quantity. This array 
+#'can have two or more dimensions, with the first dimension being the age and 
+#'the second dimension being the period (calendar year). Note that the names 
+#'of these two dimension are taken to represent the possible ages and periods
+#'in the array.
+#'   
+#'@param age optional age for defining the cohort to be extracted. If 
+#'argument \code{age} is provided (and argument \code{cohort} is not) then the 
+#'extracted cohort corresponds to those born in the year \code{period-age}.
+#'@param period optional period (calendar year) for defining the cohort to be 
+#'extracted. If argument \code{period} is provided (and argument \code{cohort} 
+#'is not) then the extracted cohort corresponds to those born in the year 
+#'\code{period-age}.
+#'@param cohort optional cohort to be extracted. If this argument is provided
+#'then arguments \code{age} and \code{period} are ignored.
+#'
+#'@return If the the input array is two dimensional the the output is a 
+#'a vector with the quantity along the cohort. Otherwise if \code{A} is an 
+#'N-dimensional  array the output is an (N-1)-dimensional array with the first 
+#'dimension representing the cohort.
+#'
+#'
+#'@seealso \code{\link{fitted.fitStMoMo}}, \code{\link{forecast.fitStMoMo}},
+#'\code{\link{simulate.fitStMoMo}}, \code{\link{simulate.bootStMoMo}}
+#'
+#'@examples
+#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+#'              ages = EWMaleData$ages, years = EWMaleData$years,
+#'              ages.fit = 55:89)
+#' #Plot forecast mortality rates for the 1950 cohort
+#' LCfor <- forecast(LCfit)
+#' plot(55:61, extractCohort(fitted(LCfit, type = "rates"), cohort = 1950), 
+#'      type = "l", log = "y", xlab = "age", ylab = "Mortality rate", 
+#'      main = "Mortality rates for the 1950 cohort", 
+#'      xlim = c(55,89), ylim = c(0.005, 0.12))
+#' lines(62:89, extractCohort(LCfor$rates, cohort = 1950), lty = 2, col = "blue")
+#' 
+#' 
+#' #Plot 10 simulated sets of mortality rates for the cohort 
+#' # aged 60 in year 2010 (i.e., the 1950 cohort)
+#' LCsim <- simulate(LCfit, nsim = 10)
+#' mSim <- extractCohort(LCsim$rates, age = 60, period = 2010)
+#' plot(55:61, extractCohort(fitted(LCfit, type = "rates"), cohort = 1950), 
+#'      type = "l", log = "y", xlab = "age", ylab = "Mortality rate", 
+#'      main = "Mortality rates for the 1950 cohort", 
+#'      xlim = c(55,89), ylim = c(0.005, 0.12))
+#' matlines(62:89, mSim, lty = 2)
+#' 
+#'@export
+extractCohort <- function(A, age = as.numeric(dimnames(A)[[1]][1]), 
+                          period = as.numeric(dimnames(A)[[2]][1]), 
+                          cohort = period - age){
+  if (!is.array(A)) stop( "extractCohort only defined for arrays.")
+  
+  ages <- as.numeric(dimnames(A)[[1]])   
+  years <- as.numeric(dimnames(A)[[2]])
+  nAges <- length(ages)
+  nYears <- length(years)  
+  cohorts <- (years[1] - ages[nAges]):(years[nYears] - ages[1])
+  
+  if (!(cohort %in% cohorts)) 
+    stop("The required cohort is not part of the data.")
+  
+  #Find roe and column indexes corresponding to the cohort
+  diag <- cohort - (years[1]-ages[1])
+  if (diag >= 0){
+    i0 <- 1
+    j0 <- diag + 1
+  } else {
+    i0 <- -diag + 1
+    j0 <- 1
+  }
+  nc <- min(nAges-i0, nYears - j0)
+  
+  #Extract cohort
+  nDims <- length(dim(A))
+  if (nDims == 2){
+    out <- A[cbind(i0:(i0 + nc),  j0:(j0 + nc))]
+    names(out) <- i0:(i0 + nc) + ages[1]-1
+  } else {
+    out <- apply(A, 3:nDims, function(x) x[cbind(i0:(i0 + nc),  
+                                                 j0:(j0 + nc))])
+    dimnames(out)[[1]] <- i0:(i0 + nc) + ages[1]-1
+  }
+  out
+}
