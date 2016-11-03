@@ -208,7 +208,7 @@ StMoMoData <- function(data, series = names(data$rate)[1],
   if (class(data) != "demogdata")
     stop("Argument data needs to be of class demogdata.")
   if (data$type != "mortality")
-    stop("Argument data needs to be class demogdata and type mortality.")
+    stop("Argument data needs to be of class demogdata and type mortality.")
   type <- match.arg(type)
   
   Ext <- data$pop[[series]]
@@ -231,7 +231,7 @@ print.StMoMoData <- function(x, ...)
   cat("\n    Series: ", x$series)
   cat(paste("\n    Years:", min(x$years), "-", max(x$years)))
   cat(paste("\n    Ages: ", min(x$ages), "-", max(x$ages)))
-  cat("\n    Exposure: ", NZStMoMo$type, "\n")
+  cat("\n    Exposure: ", x$type, "\n")
 }
 
 #' @export
@@ -240,3 +240,48 @@ summary.StMoMoData <- function(object, ...)
   print(object)
 }
 
+#' Transform StMoMoData from central to initial exposures
+#' 
+#' Transform StMoMoData from central to initial exposures. Initial exposures
+#' are computed by adding one half of the deaths to the central exposures.
+#' 
+#' @param data StMoMoData object of type "central" created with function 
+#' \code{\link{StMoMoData}}.
+#' 
+#' @return A StMoMoData object of type "initial". 
+#' 
+#' @seealso \code{\link{initial2central}}
+#' 
+#' @export
+central2initial <- function(data){
+  if (class(data) != "StMoMoData")
+    stop("Argument data needs to be of class StMoMoData.")
+  if (data$type != "central")
+    stop("Argument data needs to be of class StMoMoData and type central.")
+  data$Ext <- data$Ext + 0.5 * data$Dxt
+  data$type <- "initial"
+  data
+}
+
+#' Transform StMoMoData from initial to central exposures
+#' 
+#' Transform StMoMoData from initial to central exposures. Central exposures
+#' are computed by substracting one half of the deaths from the initial exposures.
+#' 
+#' @param data StMoMoData object of type "initial" created with function 
+#' \code{\link{StMoMoData}}.
+#' 
+#' @return A StMoMoData object of type "central". 
+#' 
+#' @seealso \code{\link{central2initial}}
+#' 
+#' @export
+initial2central <- function(data){
+  if (class(data) != "StMoMoData")
+    stop("Argument data needs to be of class StMoMoData.")
+  if (data$type != "initial")
+    stop("Argument data needs to be of class StMoMoData and type initial.")
+  data$Ext <- data$Ext + 0.5 * data$Dxt
+  data$type <- "central"
+  data
+}
