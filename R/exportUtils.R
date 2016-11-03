@@ -192,6 +192,15 @@ extractCohort <- function(A, age = as.numeric(dimnames(A)[[1]][1]),
 #'   
 #'   \item{label}{ label of the data.}
 #' 
+#' @examples 
+#' \dontrun{
+#' library(demography)
+#' NZdata <- hmd.mx(country = "NZL_NP", username = username, password = password, 
+#' label = "New Zealand")
+#' NZStMoMo <- StMoMoData(NZdata, series = "male")
+#' summary(NZStMoMo)
+#' }
+#' 
 #' @export
 StMoMoData <- function(data, series = names(data$rate)[1], 
                        type = c("central", "initial")){
@@ -213,5 +222,21 @@ StMoMoData <- function(data, series = names(data$rate)[1],
                  series = series, label = data$label), 
             class = "StMoMoData")
     
+}
+
+#' @export
+print.StMoMoData <- function(x, ...)
+{
+  cat(paste("Mortality data for", x$label))
+  cat("\n    Series: ", x$series)
+  cat(paste("\n    Years:", min(x$years), "-", max(x$years)))
+  cat(paste("\n    Ages: ", min(x$ages), "-", max(x$ages)))
+  cat("\n    Exposure: ", NZStMoMo$type, "\n")
+}
+
+#' @export
+summary.StMoMoData <- function(object, ...)
+{
+  print(object)
 }
 

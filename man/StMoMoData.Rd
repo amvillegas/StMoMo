@@ -8,8 +8,8 @@ StMoMoData(data, series = names(data$rate)[1], type = c("central",
   "initial"))
 }
 \arguments{
-\item{data}{demogdata object of tyep "mortality". It is either the
-output from funcions \code{\link[demography]{read.demogdata}} or
+\item{data}{demogdata object of type "mortality". It is either the
+output from functions \code{\link[demography]{read.demogdata}} or
 \code{\link[demography]{hmd.mx}} of package \code{demography}.}
 
 \item{series}{name of series within \code{data} to use.}
@@ -18,7 +18,7 @@ output from funcions \code{\link[demography]{read.demogdata}} or
 output. The alternatives are \code{"central"} (default) and
 \code{"initial"}.  \code{"central"} exposures are suitable for fitting
 models under a log-Poisson framework while \code{"initial"} exposures
-are suitable unde a logit-Binomial framework.}
+are suitable under a logit-Binomial framework.}
 }
 \value{
 A list with class \code{"StMoMoData"} with components:
@@ -42,5 +42,14 @@ A list with class \code{"StMoMoData"} with components:
 \description{
 Create StMoMoData object suitable for fitting a Stochastic Mortality
 Model using function \code{\link{fit.StMoMo}}.
+}
+\examples{
+\dontrun{
+library(demography)
+NZdata <- hmd.mx(country = "NZL_NP", username = username, password = password,
+label = "New Zealand")
+NZStMoMo <- StMoMoData(NZdata, series = "male")
+summary(NZStMoMo)
+}
 }
 
