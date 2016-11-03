@@ -33,10 +33,17 @@ fit =  function(object, ...)
 #' 
 #' @param object an object of class \code{"StMoMo"} defining the stochastic
 #' mortality model.
-#' @param Dxt matrix of deaths data.
-#' @param Ext matrix of observed exposures of the same dimension of \code{Dxt}. 
-#' @param ages vector of ages corresponding to rows of \code{Dxt} and \code{Ext}. 
-#' @param years vector of years corresponding to rows of \code{Dxt} and \code{Ext}. 
+#' @param data an optional object of type StMoMoData containing information on
+#' deaths and exposures to be used for fitting the model. This is typically created 
+#' with  function \code{\link{StMoMoData}}. If this is not provided then the fitting 
+#' data is taken from arguments, \code{Dxt}, \code{Ext}, \code{ages}, \code{years}.
+#' @param Dxt optional matrix of deaths data.
+#' @param Ext optional matrix of observed exposures of the same dimension of 
+#' \code{Dxt}. 
+#' @param ages optional vector of ages corresponding to rows of \code{Dxt} and 
+#' \code{Ext}. 
+#' @param years optional vector of years corresponding to rows of \code{Dxt} and 
+#' \code{Ext}. 
 #' @param ages.fit optional vector of ages to include in the fit. Must be a 
 #' subset of \code{ages}. 
 #' @param years.fit optional vector of years to include in the fit. Must be a 
@@ -90,6 +97,8 @@ fit =  function(object, ...)
 #'   If the model does not have a cohort effect or failed to fit this is set
 #'   to \code{NULL}.}
 #'   
+#'   \item{data}{ StMoMoData object provided for fitting the model.}
+#'   
 #'   \item{Dxt}{ matrix of deaths used in the fitting.}
 #'   
 #'   \item{Ext}{ matrix of exposures used in the fitting.}
@@ -125,53 +134,80 @@ fit =  function(object, ...)
 #'    \item{conv}{ \code{TRUE} if the model fitting converged and 
 #'    \code{FALSE} if it didn't.}
 #'     
-#'  @seealso \code{\link{genWeightMat}}, \code{\link{plot.fitStMoMo}}
+#'  @seealso \code{\link{StMoMoData}}, \code{\link{genWeightMat}}, 
+#'  \code{\link{plot.fitStMoMo}}, \code{\link{EWMaleData}}
 #'     
 #' @examples    
 #' 
-#' # CBD model only to older ages
-#' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years, 
-#'               ages.fit = 55:89)
-#' plot(CBDfit, parametricbx = FALSE)
+#' # Lee-Carter model only for older ages
+#' LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
+#' plot(LCfit)
+#' 
+#' # Use arguments Dxt, Ext, ages, years to pass fitting data
+#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#'              ages = EWMaleData$ages, years = EWMaleData$years, 
+#'              ages.fit = 55:89)
+#' plot(LCfit)
 #' 
 #' # APC model weigthing out the 3 first and last cohorts
 #' wxt <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3)
-#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years, 
-#'               wxt = wxt)
+#' APCfit <- fit(apc(), data = EWMaleData, wxt = wxt)
 #' plot(APCfit, parametricbx = FALSE, nCol = 3)
 #' 
 #' # Set verbose = FALSE for silent fitting
-#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years, 
-#'               wxt = wxt, verbose = FALSE)
+#' APCfit <- fit(apc(), data = EWMaleData,  wxt = wxt, 
+#'               verbose = FALSE)
 #' \dontrun{
-#' # Poisson Lee-Carter model with the static age function set to  
-#' # the mean over time of the log-death rates
-#' constLCfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){  
-#'   c1 <- sum(bx, na.rm = TRUE)
-#'   bx <- bx / c1
-#'   kt <- kt * c1  
-#'   list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)  
-#' }  
-#' LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE, 
-#'                    periodAgeFun = "NP", constFun =  constLCfix_ax)
-#' LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'                    ages = EWMaleData$ages, years = EWMaleData$years, 
-#'                    oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
-#' plot(LCfix_axfit)
+#'   # Poisson Lee-Carter model with the static age function set to  
+#'   # the mean over time of the log-death rates
+#'   constLCfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){  
+#'     c1 <- sum(bx, na.rm = TRUE)
+#'     bx <- bx / c1
+#'     kt <- kt * c1  
+#'     list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)  
+#'   }  
+#'   LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE, 
+#'                      periodAgeFun = "NP", constFun =  constLCfix_ax)
+#'   LCfix_axfit <- fit(LCfix_ax, data= EWMaleData, 
+#'                      oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
+#'   plot(LCfix_axfit)
 #' }
 #' @export 
-fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt), 
-                       years = 1:ncol(Dxt), ages.fit = ages, 
-                       years.fit = years, oxt = NULL, wxt = NULL, 
+fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
+                       ages = NULL, years = NULL, ages.fit = NULL, 
+                       years.fit = NULL, oxt = NULL, wxt = NULL, 
                        start.ax = NULL, start.bx = NULL, start.kt = NULL,
                        start.b0x = NULL, start.gc = NULL, verbose = TRUE, 
                        ...) {
   #Hack to remove notes in CRAN check
   x <- NULL
   w <- NULL
+  
+  # Select data from data or from Dxt, Ext, ages, years
+  
+  if(!is.null(data)) {
+    if (class(data) != "StMoMoData")
+      stop("Argument data needs to be of class StMoMoData.")
+    Dxt <- data$Dxt
+    Ext <- data$Ext
+    ages <- data$ages
+    years <- data$years
+  } else {
+    if (is.null(Dxt) || is.null(Ext))
+      stop("Either argument data or arguments Dxt and Ext need to be provided.")
+    if (is.null(ages)) ages <- 1:nrow(Dxt)
+    if (is.null(years)) years <- 1:ncol(Dxt)
+    data <- EWMaleData
+    data$Dxt <- Dxt
+    data$Ext <- Ext
+    data$ages <- ages
+    data$type <- ifelse(object$link == "log", "central", "initial")
+    data$series <- "unknown"
+    data$label <- "unknown"
+  }
+  if (is.null(ages.fit)) ages.fit <- ages
+  if (is.null(years.fit)) years.fit <- years
+  
   
   # Construct fitting data
   
@@ -192,6 +228,10 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt),
   }
   rownames(Ext) <- ages
   colnames(Ext) <- years  
+  if (data$type == "central" && object$link == "logit")
+    warning( "logit-Binomial model fitted to central exposure data\n")
+  if (data$type == "initial" && object$link == "log")
+    warning( "log-Poisson model fitted to initial exposure data\n")
   
   #Extract the specific ages and years for fitting 
   if (length(ages.fit) != length(which(ages.fit %in% ages))) {
@@ -418,7 +458,8 @@ fit.StMoMo <- function(object, Dxt, Ext, ages = 1:nrow(Dxt),
   }
   
   out <- list(model = object, ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc, 
-              Dxt = Dxt, Ext = Ext, oxt = oxt , wxt = wxt, ages = ages, 
+              data = data, Dxt = Dxt, Ext = Ext, oxt = oxt , wxt = wxt, 
+              ages = ages, 
               years = years, cohorts = cohorts, fittingModel = fittingModel, 
               loglik = loglik, deviance = deviance,   
               npar = fittingModel$rank[1], nobs = nobs(fittingModel), 

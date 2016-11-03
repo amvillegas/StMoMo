@@ -37,7 +37,6 @@ NULL
 #'   \item{type}{ the type of exposure in the data (central).}
 #'   \item{series}{ name of the extracted seriesin this case males.}
 #'   \item{label}{ label of the data.}
-
 #' }
 #' @seealso \code{\link{StMoMoData}}
 #' @source Human Mortality Database \url{http://www.mortality.org/}.
