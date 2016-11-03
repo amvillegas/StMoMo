@@ -82,24 +82,19 @@
 #' 
 #' @examples 
 #' #Lee-Carter
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years,
-#'              ages.fit = 55:89)
+#' LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 #' LCfor <- forecast(LCfit)
 #' plot(LCfor)
 #' 
 #' #CBD
-#' CBDfit <- fit(cbd(),Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years,
-#'               ages.fit = 55:89)
+#' CBDfit <- fit(cbd(), data = EWMaleData, ages.fit = 55:89)
 #' CBDfor <- forecast(CBDfit)
 #' plot(CBDfor, parametricbx = FALSE)
 #' 
 #' #APC: Compare forecast with different models for the cohort index
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years, 
-#'               ages.fit = 55:89, wxt = wxt)
+#' APCfit <- fit(apc(), data = EWMaleData,  ages.fit = 55:89, 
+#'               wxt = wxt)
 #' APCfor1 <- forecast(APCfit)
 #' plot(APCfor1, parametricbx = FALSE, nCol = 3)
 #' APCfor2 <- forecast(APCfit, gc.order = c(0, 2, 2))

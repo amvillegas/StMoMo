@@ -107,9 +107,7 @@ have been zero weighted. The simulated cohorts can be seen in
 }
 \examples{
 #Lee-Carter
-LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-             ages = EWMaleData$ages, years = EWMaleData$years,
-             ages.fit = 55:89)
+LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 LCsim <- simulate(LCfit, nsim = 100)
 
 par(mfrow=c(1, 2))
@@ -129,9 +127,7 @@ matlines(LCsim$years, LCsim$rates["65", , ], type = "l", lty = 1)
 #APC
 par(mfrow=c(1, 3))
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-              ages = EWMaleData$ages, years = EWMaleData$years,
-              ages.fit = 55:89, wxt = wxt)
+APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89, wxt = wxt)
 APCsim <- simulate(APCfit, nsim = 100, gc.order = c(1, 1, 0))
 
 plot(APCfit$years, APCfit$kt[1, ],

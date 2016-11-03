@@ -38,11 +38,8 @@ Haberman and Renshaw (2011).
 }
 \examples{
 M7 <- m7()
-Dxt <- EWMaleData$Dxt
-Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-M7fit <- fit(M7, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages,
-             years = EWMaleData$years, ages.fit = 55:89)
+M7fit <- fit(M7, data = central2initial(EWMaleData), ages.fit = 55:89)
 plot(M7fit, parametricbx = FALSE)
 }
 \references{
@@ -56,7 +53,7 @@ mortality projection models. Insurance: Mathematics and Economics,
 48(1), 35-55.
 }
 \seealso{
-\code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}},
-\code{\link{m8}}
+\code{\link{StMoMo}}, \code{\link{central2initial}},
+\code{\link{cbd}}, \code{\link{m6}}, \code{\link{m8}}
 }
 

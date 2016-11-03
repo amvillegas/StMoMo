@@ -30,9 +30,7 @@ Plot a forecasted Stochastic Mortality Model of class \code{"forStMoMo"}.
 }
 \examples{
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-              ages = EWMaleData$ages, years = EWMaleData$years,
-              ages.fit = 55:89, wxt = wxt)
+APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89, wxt = wxt)
 APCfor <- forecast(APCfit)
 plot(APCfor)
 plot(APCfor, parametricbx = FALSE, nCol = 3)

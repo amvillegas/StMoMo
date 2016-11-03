@@ -28,9 +28,7 @@ Compute deviance residuals of a fitted Stochastic Mortality Model.
 These residuals can be plotted using \code{\link{plot.resStMoMo}}.
 }
 \examples{
-CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-              ages = EWMaleData$ages, years = EWMaleData$years,
-              ages.fit = 55:89)
+CBDfit <- fit(cbd(), data = central2initial(EWMaleData), ages.fit = 55:89)
 CBDres <- residuals(CBDfit)
 plot(CBDres)
 }

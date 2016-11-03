@@ -13,9 +13,7 @@
 #' @return A matrix with the fitted values.
 #' 
 #' @examples
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years,
-#'              ages.fit = 55:89)
+#' LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 #' matplot(LCfit$ages, fitted(LCfit), type = "l", lty = 1, 
 #'         col = rainbow(length(LCfit$years)), xlab = "year", 
 #'         ylab = "log death rate", main = "Fitted rates")

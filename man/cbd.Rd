@@ -28,11 +28,7 @@ where \eqn{\bar{x}} is the average age in the data.
 }
 \examples{
 CBD <- cbd()
-Dxt <- EWMaleData$Dxt
-Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
-CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext,
-            ages = EWMaleData$ages, years = EWMaleData$years,
-            ages.fit = 55:89)
+CBDfit <- fit(CBD, data = central2initial(EWMaleData), ages.fit = 55:89)
 plot(CBDfit, parametricbx = FALSE)
 }
 \references{
@@ -41,7 +37,7 @@ Stochastic Mortality with Parameter Uncertainty: Theory and Calibration.
 Journal of Risk and Insurance, 73(4), 687-718.
 }
 \seealso{
-\code{\link{StMoMo}}, \code{\link{m6}}, \code{\link{m7}},
-\code{\link{m8}}
+\code{\link{StMoMo}}, \code{\link{central2initial}},
+\code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
 }
 

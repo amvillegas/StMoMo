@@ -33,8 +33,7 @@
 #'   to \code{NULL}.}
 #'   
 #' @examples
-#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years)
+#' APCfit <- fit(apc(), data = EWMaleData)
 #' coef(APCfit) 
 #' @export
 coef.fitStMoMo <- function(object, ...) {

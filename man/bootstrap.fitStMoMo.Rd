@@ -57,8 +57,7 @@ Renshaw and Haberman (2008).
 \examples{
 #Long computing times
 \dontrun{
-LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-             ages = EWMaleData$ages, years = EWMaleData$years)
+LCfit <- fit(lc(), data = EWMaleData)
 
 LCResBoot <- bootstrap(LCfit, nBoot = 500, type = "residual")
 plot(LCResBoot)

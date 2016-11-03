@@ -19,9 +19,7 @@
 #' @seealso \code{\link{plot.resStMoMo}}
 #' 
 #' @examples
-#' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years,
-#'               ages.fit = 55:89)
+#' CBDfit <- fit(cbd(), data = central2initial(EWMaleData), ages.fit = 55:89)
 #' CBDres <- residuals(CBDfit)
 #' plot(CBDres)
 #' @export 
@@ -109,9 +107,7 @@ residuals.fitStMoMo <- function(object, scale = TRUE, ...) {
 #'  @seealso \code{\link{residuals.fitStMoMo}}
 #'   
 #' @examples
-#' CBDfit <- fit(cbd(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years,
-#'               ages.fit = 55:89)
+#' CBDfit <- fit(cbd(), data = central2intial(EWMaleData), ages.fit = 55:89)
 #' CBDres <- residuals(CBDfit)
 #' plot(CBDres)
 #' plot(CBDres, type = "signplot")

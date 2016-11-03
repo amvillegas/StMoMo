@@ -51,9 +51,7 @@
 #' @examples
 #' library(forecast)
 #' #Lee-Carter forecast using auto.arima
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years,
-#'              ages.fit = 55:89)
+#' LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 #' ktForLC <- forecast(auto.arima(as.vector(LCfit$kt)), h = 30) 
 #' mxtForLC <- predict(LCfit, years = 2012:2041, kt = ktForLC$mean, 
 #'                     type = "rates")
@@ -65,9 +63,7 @@
 #' points(1961:2011, mxt["80", ])
 #' 
 #' #Age-Period-Cohort forecast using auto.arima
-#' APCfit <- fit(apc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'               ages = EWMaleData$ages, years = EWMaleData$years,
-#'               ages.fit = 55:89)
+#' APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89)
 #' ktForAPC <- forecast(auto.arima(as.vector(APCfit$kt)), h = 30)
 #' gcForAPC <- forecast(auto.arima(as.vector(APCfit$gc), max.d = 1), h = 30)
 #' mxtForAPC <- predict(APCfit, years = 2012:2041, kt = ktForAPC$mean, 

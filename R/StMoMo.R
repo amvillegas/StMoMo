@@ -114,18 +114,14 @@
 #' LC <- StMoMo(link = "log", staticAgeFun = TRUE, periodAgeFun = "NP",
 #'              constFun = constLC)
 #' 
-#' plot(fit(LC, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext, 
-#'          ages = EWMaleData$ages, years = EWMaleData$years,
-#'          ages.fit = 55:89))
+#' plot(fit(LC, data = EWMaleData, ages.fit = 55:89))
 #'
 #' 
 #' #CBD model   
 #' f2 <- function(x, ages) x - mean(ages)
 #' CBD <- StMoMo(link = "logit", staticAgeFun = FALSE,
 #'               periodAgeFun = c("1", f2))
-#' plot(fit(CBD, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext, 
-#'          ages = EWMaleData$ages, years = EWMaleData$years, 
-#'          ages.fit = 55:89))
+#' plot(fit(CBD, data = EWMaleData, ages.fit = 55:89))
 #' 
 #' #Reduced Plat model (Plat, 2009)
 #' f2 <- function(x, ages) mean(ages) - x
@@ -153,9 +149,7 @@
 #'                periodAgeFun = c("1", f2), cohortAgeFun = "1",
 #'                constFun = constPlat)
 #' 
-#' plot(fit(PLAT, Dxt = EWMaleData$Dxt,Ext = EWMaleData$Ext, 
-#'          ages = EWMaleData$ages, years = EWMaleData$years, 
-#'          ages.fit = 55:89))
+#' plot(fit(PLAT, data = EWMaleData, ages.fit = 55:89))
 #' 
 #' #Models not supported
 #' \dontrun{

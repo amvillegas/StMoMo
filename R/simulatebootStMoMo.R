@@ -63,8 +63,7 @@
 #' \dontrun{
 #' #Lee-Carter: Compare projection with and without parameter uncertainty
 #' library(fanplot)
-#' LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
-#'              ages = EWMaleData$ages, years = EWMaleData$years)
+#' LCfit <- fit(lc(), data = EWMaleData)
 #' LCResBoot <- bootstrap(LCfit, nBoot = 500)
 #' LCResBootsim <- simulate(LCResBoot)
 #' LCsim <- simulate(LCfit, nsim = 500)#' 

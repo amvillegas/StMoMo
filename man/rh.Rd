@@ -43,14 +43,10 @@ By default \eqn{\beta^{(0)}_x = 1} as this model has shown to be more
 stable (see Haberman and Renshaw (2011) and Hunt and Villegas (2015)).
 }
 \examples{
-LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-               ages = EWMaleData$ages, years = EWMaleData$years,
-               ages.fit = 55:89)
+LCfit <-  fit(lc(), data = EWMaleData, ages.fit = 55:89)
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-              ages = EWMaleData$ages, years = EWMaleData$years,
-              ages.fit = 55:89, wxt = wxt, start.ax = LCfit$ax,
-              start.bx = LCfit$bx, start.kt = LCfit$kt)
+RHfit <- fit(rh(), data = EWMaleData, ages.fit = 55:89, wxt = wxt,
+             start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
 plot(RHfit)
 }
 \references{

@@ -32,8 +32,7 @@ stored in an object of class \code{"bootStMoMo"}.
 \examples{
 #Long computing times
 \dontrun{
-CBDfit <- fit(cbd(),Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-              ages = EWMaleData$ages, years = EWMaleData$years,
+CBDfit <- fit(cbd(), data = central2initial(EWMaleData),
               ages.fit = 55:89)
 CBDResBoot <- bootstrap(CBDfit, nBoot = 500)
 plot(CBDResBoot)

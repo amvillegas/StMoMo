@@ -35,11 +35,8 @@ constraint
 }
 \examples{
 M8 <- m8(xc = 89)
-Dxt <- EWMaleData$Dxt
-Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-M8fit <- fit(M8, Dxt = Dxt, Ext = Ext, ages = EWMaleData$ages,
-             years = EWMaleData$years, ages.fit = 55:89)
+M8fit <- fit(M8, data = central2initial(EWMaleData), ages.fit = 55:89)
 plot(M8fit, parametricbx = FALSE)
 }
 \references{
@@ -49,7 +46,7 @@ mortality models using data from England and Wales and the United States.
 North American Actuarial Journal, 13(1), 1-35.
 }
 \seealso{
-\code{\link{StMoMo}}, \code{\link{cbd}}, \code{\link{m6}},
-\code{\link{m7}}
+\code{\link{StMoMo}}, \code{\link{central2initial}},
+\code{\link{cbd}}, \code{\link{m6}}, \code{\link{m7}}
 }
 
