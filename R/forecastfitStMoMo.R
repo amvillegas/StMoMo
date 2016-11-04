@@ -242,6 +242,8 @@ print.forStMoMo <- function(x,...) {
   cat("\n\n")
   print(x$model$model)  
   cat(paste("\n\nJump-off method:", x$jumpchoice))
+  cat("\nData: ", x$model$data$label)
+  cat("\nSeries: ", x$model$data$series)
   cat(paste("\nYears in forecast:", min(x$years), "-", max(x$years)))
   cat(paste("\nAges in forecast:", min(x$ages), "-", max(x$ages), "\n"))  
 }

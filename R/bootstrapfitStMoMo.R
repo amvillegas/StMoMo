@@ -161,7 +161,11 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
               "deaths and based on\n"))        
   }
   print(x$model$model)  
-  cat(paste("\n\nNumber of bootstrap samples:", length(x$bootParameters), "\n"))  
+  cat(paste("\n\nNumber of bootstrap samples:", length(x$bootParameters)))
+  cat("\nData: ", x$model$data$label)
+  cat("\nSeries: ", x$model$data$series)
+  cat(paste("\nYears in bootstrap:", min(x$model$years), "-", max(x$model$years)))
+  cat(paste("\nAges in bootstrap:", min(x$model$ages), "-", max(x$model$ages), "\n"))
 }
 
 

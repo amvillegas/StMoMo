@@ -775,7 +775,10 @@ print.fitStMoMo <- function(x, ...) {
   cat(paste("\nCall:", deparse(x$call)))
   cat("\n\n")
   print(x$model)  
-  cat(paste("\n\nYears in fit:", min(x$years), "-", max(x$years)))
+  
+  cat("\n\nData: ", x$data$label)
+  cat("\nSeries: ", x$data$series)
+  cat(paste("\nYears in fit:", min(x$years), "-", max(x$years)))
   cat(paste("\nAges in fit:", min(x$ages), "-", max(x$ages), "\n"))
   
   cat(paste("\nLog-likelihood: ", round(x$loglik[1], 2)))
