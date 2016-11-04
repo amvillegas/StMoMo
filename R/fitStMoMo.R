@@ -197,7 +197,7 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
       stop("Either argument data or arguments Dxt and Ext need to be provided.")
     if (is.null(ages)) ages <- 1:nrow(Dxt)
     if (is.null(years)) years <- 1:ncol(Dxt)
-    structure(list(Dxt = Dxt, Ext = Ext, ages = ages, years = years, 
+    data <- structure(list(Dxt = Dxt, Ext = Ext, ages = ages, years = years, 
                    type = ifelse(object$link == "log", "central", "initial"), 
                    series = "unknown", label = "unknown"), class = "StMoMoData")
   }
