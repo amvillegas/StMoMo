@@ -769,15 +769,7 @@ processStartValues <- function(object, coefNames, ax, bx, kt, b0x, gc,
 }
 
 
-#' Print an object of class \code{"fitStMoMo"}
-#' 
-#' \code{print} method for class \code{"fitStMoMo"}. 
-#' @usage 
-#' \method{print}{fitStMoMo}(x, ...)
-#' @param x an object of class \code{"fitStMoMo"}.
-#' @param ... arguments to be passed to or from other methods.
 #' @export 
-#' @method print fitStMoMo
 print.fitStMoMo <- function(x, ...) {
   cat("Stochastic Mortality Model fit")
   cat(paste("\nCall:", deparse(x$call)))

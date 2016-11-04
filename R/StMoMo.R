@@ -251,20 +251,7 @@ StMoMo  <- function(link = c("log", "logit"), staticAgeFun = TRUE,
 }
 
 
-#' Print an object of class \code{"StMoMo"}
-#' 
-#' \code{print} method for class \code{"StMoMo"}.
-#' 
-#' \code{print.StMoMo} prints a description of the Stochastic Mortality
-#' Model 
-#' 
-#' @usage 
-#' \method{print}{StMoMo}(x, ...)
-#' 
-#' @param x an object of class \code{"StMoMo"}.
-#' @param ... arguments to be passed to or from other methods.
 #' @export 
-#' @method print StMoMo
 print.StMoMo <- function(x, ...) {
   if (x$link == "logit") {
     cat("Binomial model with predictor: ")

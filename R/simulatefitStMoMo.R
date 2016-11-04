@@ -257,15 +257,7 @@ simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50,
 }
 
 
-#' Print an object of class \code{"simStMoMo"}
-#' 
-#' \code{print} method for class \code{"simStMoMo"}. 
-#' @usage 
-#' \method{print}{simStMoMo}(x, ...)
-#' @param x an object of class \code{"simStMoMo"}.
-#' @param ... arguments to be passed to or from other methods.
 #' @export 
-#' @method print simStMoMo
 print.simStMoMo <- function(x, ...) {
   cat("Simulations of Stochastic Mortality Model")
   cat(paste("\nCall:", deparse(x$call)))

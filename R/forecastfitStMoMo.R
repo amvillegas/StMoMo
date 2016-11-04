@@ -235,15 +235,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
             class = "forStMoMo")
 }
 
-#' Print an object of class \code{"forStMoMo"}
-#' 
-#' \code{print} method for class \code{"forStMoMo"}. 
-#' @usage 
-#' \method{print}{forStMoMo}(x, ...)
-#' @param x an object of class \code{"forStMoMo"}.
-#' @param ... arguments to be passed to or from other methods.
 #' @export 
-#' @method print forStMoMo
 print.forStMoMo <- function(x,...) {
   cat("Stochastic Mortality Model forecast")
   cat(paste("\nCall:", deparse(x$call)))

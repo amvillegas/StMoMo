@@ -149,15 +149,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
             class = "bootStMoMo")  
 }
 
-#' Print an object of class \code{"bootStMoMo"}
-#' 
-#' \code{print} method for class \code{"bootStMoMo"}. 
-#' @usage 
-#' \method{print}{bootStMoMo}(x, ...)
-#' @param x an object of class \code{"bootStMoMo"}.
-#' @param ... arguments to be passed to or from other methods.
 #' @export 
-#' @method print bootStMoMo
  print.bootStMoMo <- function(x,...) {
   cat("Bootstrapped Stochastic Mortality Model")
   cat(paste("\nCall:", deparse(x$call)))
