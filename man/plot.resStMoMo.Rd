@@ -64,7 +64,7 @@ When \code{type = "signplot"} a two dimensional black and white map of the
  function \code{\link[graphics]{image.default}}.
 }
 \examples{
-CBDfit <- fit(cbd(), data = central2intial(EWMaleData), ages.fit = 55:89)
+CBDfit <- fit(cbd(), data = central2initial(EWMaleData), ages.fit = 55:89)
 CBDres <- residuals(CBDfit)
 plot(CBDres)
 plot(CBDres, type = "signplot")

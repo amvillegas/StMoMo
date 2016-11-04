@@ -27,6 +27,7 @@ Depends:
 License: GPL (>= 2)
 LazyData: true
 Suggests:
+    demography,
     knitr,
     xtable
 VignetteBuilder: knitr
