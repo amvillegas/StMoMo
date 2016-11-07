@@ -45,15 +45,15 @@
 #' \item{kt.f}{ forecasts of period indexes of the model. This is a list with 
 #' the \code{model} fitted to \eqn{\kappa_t}; the \code{mean}(central) 
 #' forecast, the \code{lower} and \code{upper} limits of the prediction 
-#' interval; the confidence \code{level} associated with the prediction 
-#' interval; and the \code{years} for which a forecast was produced. If the 
+#' intervals; the confidence \code{level} associated with the prediction 
+#' intervals; and the \code{years} for which a forecast was produced. If the 
 #' model does not have any age-period terms (i.e. \eqn{N=0}) this is set to 
 #' \code{NULL}.}
 #'   
 #' \item{gc.f}{ forecasts of cohort index of the model. This is a list with 
 #' the \code{model} fitted to \eqn{\gamma_c}; the \code{mean}(point) forecast,
-#' the \code{lower} and \code{upper} limits of the prediction interval; the
-#' confidence \code{level} associated with the prediction interval; and the 
+#' the \code{lower} and \code{upper} limits of the prediction intervals; the
+#' confidence \code{level} associated with the prediction intervals; and the 
 #' \code{cohorts} for which a forecast was produced. If the mortality model
 #' does not have a cohort effect this is set to \code{NULL}.} 
 #' 
@@ -130,7 +130,7 @@
 #'        "Fitted jump-off, 30 year look-back"), 
 #'        lty = 1:3, col = c("black", "blue", "red"))
 #' @export
-forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
+forecast.fitStMoMo <-function(object, h = 50, level = c(80, 95), oxt = NULL,
                               gc.order = c(1, 1, 0),
                               gc.include.constant = TRUE,
                               jumpchoice = c("fit", "actual"), 
@@ -138,11 +138,13 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
                               ...) {
   
   jumpchoice <- match.arg(jumpchoice)
-  level <- level[1]
-  if (level > 0 & level < 1) 
-    level <- 100 * level
-  else if (level < 0 | level > 99.99) 
-    stop("Confidence limit out of range")
+  for (i in 1:length(level)) { 
+    if (level[i] > 0 & level[i] < 1) 
+      level[i] <- 100 * level[i]
+    else if (level[i] < 0 | level[i] > 99.99) 
+      stop("Confidence limit out of range")
+  }
+  level <- sort(level)
   #forecast kt  
   kt <- object$kt
   years <- object$years
@@ -170,9 +172,8 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
       kt.h <-array(kt.h[, 1:kt.nNA], c(nrow(kt), kt.nNA))
       dimnames(kt.h)[[2]] <- years.h      
     }
-    kt.lower <- kt.upper <- kt.for$mean
-    kt.lower[, ] <- kt.for$lower
-    kt.upper[, ] <- kt.for$upper
+    kt.lower <- kt.for$lower
+    kt.upper <- kt.for$upper
     kt.f <- list(mean = kt.for$mean, lower = kt.lower, upper = kt.upper,
                  level = level, model = kt.model, years = years.f)    
   }  
@@ -203,11 +204,11 @@ forecast.fitStMoMo <-function(object, h = 50, level = 95, oxt = NULL,
       cohorts.f <- c(cohorts[(gc.nNA + 1):nCohorts], cohorts.f)
     }   
     gc.f <- list(mean = as.vector(gc.for$mean), 
-                 lower = as.vector(gc.for$lower), 
-                 upper = as.vector(gc.for$upper), level = level, 
+                 lower = gc.for$lower, 
+                 upper = gc.for$upper, level = level, 
                  model = gc.model, cohorts = cohorts.f)
     
-    names(gc.f$mean) <- names(gc.f$upper) <- names(gc.f$lower) <- cohorts.f
+    names(gc.f$mean) <- dimnames(gc.f$upper)[[1]] <- dimnames(gc.f$lower)[[1]] <- cohorts.f
   }  
   #Offset
   if (is.null(oxt)) oxt <- 0

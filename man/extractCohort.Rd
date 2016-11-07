@@ -39,9 +39,7 @@ calculations on a cohort basis using the output of several functions
 in \code{StMoMo}.
 }
 \examples{
-LCfit <- fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-             ages = EWMaleData$ages, years = EWMaleData$years,
-             ages.fit = 55:89)
+LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 #Plot forecast mortality rates for the 1950 cohort
 LCfor <- forecast(LCfit)
 plot(55:61, extractCohort(fitted(LCfit, type = "rates"), cohort = 1950),

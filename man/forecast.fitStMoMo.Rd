@@ -4,9 +4,10 @@
 \alias{forecast.fitStMoMo}
 \title{Forecast mortality rates using a Stochastic Mortality Model}
 \usage{
-\method{forecast}{fitStMoMo}(object, h = 50, level = 95, oxt = NULL,
-  gc.order = c(1, 1, 0), gc.include.constant = TRUE, jumpchoice = c("fit",
-  "actual"), kt.lookback = NULL, gc.lookback = NULL, ...)
+\method{forecast}{fitStMoMo}(object, h = 50, level = c(80, 95),
+  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
+  jumpchoice = c("fit", "actual"), kt.lookback = NULL, gc.lookback = NULL,
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted
@@ -58,15 +59,15 @@ A list of class \code{"forStMoMo"} with components:
 \item{kt.f}{ forecasts of period indexes of the model. This is a list with
 the \code{model} fitted to \eqn{\kappa_t}; the \code{mean}(central)
 forecast, the \code{lower} and \code{upper} limits of the prediction
-interval; the confidence \code{level} associated with the prediction
-interval; and the \code{years} for which a forecast was produced. If the
+intervals; the confidence \code{level} associated with the prediction
+intervals; and the \code{years} for which a forecast was produced. If the
 model does not have any age-period terms (i.e. \eqn{N=0}) this is set to
 \code{NULL}.}
 
 \item{gc.f}{ forecasts of cohort index of the model. This is a list with
 the \code{model} fitted to \eqn{\gamma_c}; the \code{mean}(point) forecast,
-the \code{lower} and \code{upper} limits of the prediction interval; the
-confidence \code{level} associated with the prediction interval; and the
+the \code{lower} and \code{upper} limits of the prediction intervals; the
+confidence \code{level} associated with the prediction intervals; and the
 \code{cohorts} for which a forecast was produced. If the mortality model
 does not have a cohort effect this is set to \code{NULL}.}
 
