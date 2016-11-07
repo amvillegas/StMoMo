@@ -1,7 +1,10 @@
 StMoMo v0.3.1.9000 
 ----------------------------------------------------------------
-
-
+* Upgrade plotting function of forecast models (plot.forStMoMo)
+  to include nice fan charts similar to those in the forecast
+  package 
+* Change inteface of fit function (fit.StMoMo) to allow 
+  simiplified calling using newly defined StMoMoData class
 
 StMoMo v0.3.1
 ----------------------------------------------------------------
