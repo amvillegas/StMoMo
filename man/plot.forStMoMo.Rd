@@ -5,7 +5,7 @@
 \title{Plot a forecast from a Stochastic Mortality Model}
 \usage{
 \method{plot}{forStMoMo}(x, nCol = 2, parametricbx = TRUE, only.kt = FALSE,
- only.gc = FALSE, ...)
+ only.gc = FALSE,  colour = "grey60", ...)
 }
 \arguments{
 \item{x}{an object of class \code{"forStMoMo"} with the forecast
@@ -21,6 +21,8 @@ plotted.}
 
 \item{only.gc}{If \code{TRUE} only the cohort index of the model is
 plotted. This argument is ignored if \code{only.kt} is \code{TRUE}.}
+
+\item{colour}{colour to use in the prediction intervals.}
 
 \item{...}{additional arguments to control graphical appearance.
 See \code{\link[graphics]{plot}}.}
