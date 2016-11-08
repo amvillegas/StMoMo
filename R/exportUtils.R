@@ -208,7 +208,7 @@ StMoMoData <- function(data, series = names(data$rate)[1],
   type <- match.arg(type)
   
   Ext <- data$pop[[series]]
-  Dxt <- data$pop[[series]]  
+  Dxt <- data$pop[[series]]  * data$rate[[series]]
   if (type == "initial") Ext <- Ext + 0.5 * Dxt
   
   rownames(Ext) <- rownames(Dxt) <- data$age
