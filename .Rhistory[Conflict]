@@ -1,0 +1,512 @@
+list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+}
+LCfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE,
+periodAgeFun = "NP", constFun =  constLCfix_ax)
+LCfix_axfit <- fit(LCfix_ax, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+ages = EWMaleData$ages, years = EWMaleData$years,
+oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
+plot(LCfix_axfit)
+LCfix_axfit <- fit(LCfix_ax, data= EWMaleData,
+oxt = rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)))
+plot(LCfix_axfit)
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?fit.StMoMo
+?apc
+APC <- apc()
+wxt <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3)
+APCfit <- fit(APC, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+ages = EWMaleData$ages, years = EWMaleData$years,
+wxt = wxt)
+plot(APCfit, parametricbx = FALSE, nCol = 3)
+APC <- apc()
+wxt <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3)
+APCfit <- fit(APC, data = EWMaleData, wxt = wxt)
+plot(APCfit, parametricbx = FALSE, nCol = 3)
+LCfit <- fit(lc(), data = EWMaleData)
+CBD <- cbd()
+Dxt <- EWMaleData$Dxt
+Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
+CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext,
+ages = EWMaleData$ages, years = EWMaleData$years,
+ages.fit = 55:89)
+plot(CBDfit, parametricbx = FALSE)
+CBD <- cbd()
+CBDfit <- fit(CBD, data = EWMaleData, ages.fit = 55:89)
+plot(CBDfit, parametricbx = FALSE)
+CBD <- cbd()
+CBDfit <- fit(CBD, data = central2initial(EWMaleData), ages.fit = 55:89)
+plot(CBDfit, parametricbx = FALSE)
+CBD <- cbd()
+Dxt <- EWMaleData$Dxt
+Ext <- EWMaleData$Ext + 0.5 * EWMaleData$Dxt
+CBDfit <- fit(CBD, Dxt = Dxt, Ext = Ext,
+ages = EWMaleData$ages, years = EWMaleData$years,
+ages.fit = 55:89)
+plot(CBDfit, parametricbx = FALSE)
+devtools::load_all(".")
+APC <- apc()
+wxt <- genWeightMat(EWMaleData$ages,  EWMaleData$years, clip = 3)
+APCfit <- fit(APC, data = EWMaleData, wxt = wxt)
+plot(APCfit, parametricbx = FALSE, nCol = 3)
+?fit.StMoMo
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?fit.StMoMo
+LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?apc
+library(StMoMo)
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?fit.StMoMo
+# Lee-Carter model only for older ages
+LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
+plot(LCfit)
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+?simulate.bootStMoMo
+library(fanplot)
+LCfit <- fit(lc(), data = EWMaleData)
+LCfor <- forecast(LCfit)
+LCResBoot <- bootstrap(LCfit, nBoot = 10)
+LCResBootsim <- simulate(LCResBoot)
+LCsim <- simulate(LCfit, nsim = 10)
+LCfit
+LCfor
+EWMaleData
+LCResBoot
+LCfit
+LCResBootsim
+LCfor
+LCsim
+LCResBoot
+LCfit
+LCfit$data$label
+devtools::load_all(".")
+LCfit
+LCfor
+LCfor$model$data
+devtools::load_all(".")
+LCfor
+LCResBoot
+LCfit
+LCResBoot
+devtools::load_all(".")
+LCResBoot
+devtools::load_all(".")
+LCResBoot
+LCsim
+LCfor
+devtools::load_all(".")
+LCsim
+LCResBootsim
+LCResBootsim$model$model$data
+LCResBootsim$model$bootParameters
+LCResBootsim$model$bootParameters[[1]]
+LCResBootsim$model$bootParameters[[1]]$ax
+devtools::load_all(".")
+LCResBootsim
+LCfor
+LCfit
+forecat(LCfit$kt)
+forecast(LCfit$kt)
+forecast(auto.arima(LCfit$kt))
+forecast(auto.arima(LCfit$kt[1,]))
+plot(forecast(auto.arima(LCfit$kt[1,])))
+LCfor$kt.f$level
+LCfor$kt.f$lower
+LCfor$kt.f$uper
+plot(LCfor, only.kt = TRUE)
+?forecast.fitStMoMo
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89, wxt = wxt)
+APCfit
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0))
+APCfor$gc.f$lower
+APCfor$gc.f$upper
+APCfor$gc.f$level
+ktFor <- forecast(auto.arima(LCfit$kt[1,]))
+ktFor$lower
+ktFor$upper
+plot(ktFor)
+?forecast
+?forecast.Arima
+ktFor <- forecast(auto.arima(LCfit$kt[1,]), level = level=c(80,95))
+ktFor <- forecast(auto.arima(LCfit$kt[1,]), level=c(75, 80,95))
+plot(ktFor)
+ktFor$upper
+ktFor <- forecast(auto.arima(LCfit$kt[1,]), level=c(95))
+plot(ktFor)
+ktFor <- forecast(auto.arima(LCfit$kt[1,]), level=c(75, 95))
+plot(ktFor)
+ktFor <- forecast(auto.arima(LCfit$kt[1,]), level=c(50, 80,95))
+plot(ktFor)
+forecast.Arima
+plot.forecast
+library(StMoMo)
+library(fanplot)
+LCfit <- fit(lc(), data = EWMaleData)
+ktFor <- forecast(auto.arima(LCfit$kt[1,]))
+ktFor$lower
+ktFor2 <- forecast(mrwd(LCfit$kt))
+ktFor2
+ktFor2$lower
+ktFor2$lower[,,1]
+CBDfit <- fit(cbd(), data = central2initial(EWMaleData), ages.fit = 55:89)
+ktFor2 <- forecast(mrwd(CBDfit$kt))
+ktFor2$lower[,,1]
+ktFor2$lower[,,]
+ktFor2 <- forecast(mrwd(CBDfit$kt))
+ktFor2$model$x
+?plotParameterFan
+ylim <- range(ktFor2$mean, ktFor2$lower, ktFor2$upper, CBDfit$kt)
+ylim
+CBDfor <- forecast(CBDfit)
+CBDfor$years
+xlim <- range(CBDfit$years, CBDfor$years)
+xlim <- range(CBDfit$years, CBDfor$years)
+plot(CBDfit$years, CBDfit$kt)
+plot(CBDfit$years, CBDfit$kt[1,])
+plot(CBDfit$years, CBDfit$kt[1,], type = "l")
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", xlim = ylim = ylim, xlim = xlim)
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", xlim =  ylim, xlim = xlim)
+xlim <- range(CBDfit$years, CBDfor$years)
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", xlim =  ylim, xlim = xlim)
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", ylim =  ylim, xlim = xlim)
+ylim <- range(ktFor2$mean[1, ], ktFor2$lower[1, ], ktFor2$upper[1, , ], CBDfit$kt[1, , ])
+ktFor2
+ktFor2$mean[1, ]
+ylim <- range(ktFor2$mean[1, ], ktFor2$lower[1, ,], ktFor2$upper[1, , ], CBDfit$kt[1,])
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", ylim =  ylim, xlim = xlim)
+CBDfit$kt[1,]
+ktFor2$upper[1, , ]
+ktFor2$lower[1, ,]
+plot(CBDfor)
+ktFor2 <- forecast(mrwd(CBDfit$kt). h = 50)
+ktFor2 <- forecast(mrwd(CBDfit$kt), h = 50)
+ylim <- range(ktFor2$mean[1, ], ktFor2$lower[1, ,], ktFor2$upper[1, , ], CBDfit$kt[1,])
+xlim <- range(CBDfit$years, CBDfor$years)
+plot(CBDfit$years, CBDfit$kt[1,], type = "l", ylim =  ylim, xlim = xlim)
+?fan
+ppktFor2[1,,]
+ktFor2[1,,]
+ktFor2$lower[1,,]
+cbind(ktFor2$lower[1,,], ktFor2$upper[1,,])
+cbind(ktFor2$lower[1,,2:1], ktFor2$upper[1,,])
+fanplot::fan(cbind(ktFor2$lower[1,,2:1], ktFor2$upper[1,,]), data.type = "values",
+start = 2012, probs = c(0.025, 0.1, 0.9, 0.975))
+fanplot::fan(t(cbind(ktFor2$lower[1,,2:1], ktFor2$upper[1,,])), data.type = "values",
+start = 2012, probs = c(0.025, 0.1, 0.9, 0.975))
+ktFor2
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89, wxt = wxt)
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0))
+APCfor$gc.f
+APCfit$gc
+forecast(APCfor$gc.f$model)
+forecast(APCfor$gc.f$model)
+gcFor <- forecast(APCfor$gc.f$model)
+gcFor$lower
+gcFor <- forecast(APCfor$gc.f$model, level = 90)
+gcFor$lower
+names(gcFor)
+names(gcFor$upper)
+rownames(gcFor$upper)
+colnames(gcFor$upper)
+dimnames(gcFor$upper)
+dimnames(gcFor$upper)[[1]]
+?forecast.fitStMoMo
+?forecast.Arima
+devtools::load_all(".")
+CBDfor <- forecast(CBDfit)
+CBDfor$kt.f$lower
+CBDfor$kt.f$upper
+length(1)
+devtools::load_all(".")
+CBDfor <- forecast(CBDfit)
+CBDfor$kt.f$upper
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0))
+APCforfor$kt.f$upper
+APCfor$kt.f$upper
+APCfor$gc.f$upper
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = 95)
+APCfor$gc.f$upper
+APCfor$kt.f$level
+devtools::load_all(".")
+CBDfor <- forecast(CBDfit)
+plot(CBDfor)
+devtools::load_all(".")
+plot(CBDfor)
+devtools::load_all(".")
+plot(CBDfor)
+devtools::load_all(".")
+plot(CBDfor)
+devtools::load_all(".")
+plot(CBDfor)
+plot.forecast
+CBDfor <- forecast(CBDfit, level = c(50,80,95))
+plot(CBDfor)
+CBDfor <- forecast(CBDfit, level = c(95))
+plot(CBDfor)
+plot(CBDfor, col = rgb(0 , 0, 0.5))
+plot(CBDfor, col = rgb(0 , 0, 1))
+plot(CBDfor, col = rgb(0 , 0, 0.2))
+plot(CBDfor, col = "blue")
+plot(CBDfor, col = "ligthblue")
+plot(CBDfor, col = "blue50")
+plot(CBDfor, col = "grey50")
+CBDfor <- forecast(CBDfit, level = c(80, 95))
+plot(CBDfor, col = "grey50")
+plot(CBDfor, col = "grey75")
+plot(CBDfor, col = "grey60")
+CBDfor <- forecast(CBDfit, level = c(50, 80, 95))
+plot(CBDfor, col = "grey60")
+devtools::load_all(".")
+plot(CBDfor)
+CBDfor <- forecast(CBDfit, level = c(80, 95))
+plot(CBDfor)
+LCfit <- fit(lc(), data = EWMaleData)
+LCfor <- forecast(LCfit)
+plot(LCfor)
+plot(LCfor, only.kt = TRUE)
+devtools::load_all(".")
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = 95)
+plot(APCfor, parametricbx = FALSE)
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = 95)
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+plot(APCfor, parametricbx = FALSE)
+gc.h
+cohorts.h
+cohorts.f
+devtools::load_all(".")
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = c(80, 95))
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+gcfor <- forecast(Arima(APCfit$gc, gc.order = c(1, 1, 0))
+plot(gcfor)
+gcfor <- forecast(Arima(APCfit$gc, gc.order = c(1, 1, 0))
+gcfor <- forecast(Arima(APCfit$gc, gc.order = c(1, 1, 0)))
+gcfor <- forecast(Arima(APCfit$gc, order = c(1, 1, 0)))
+plot(gcfor)
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+gcfor <- forecast(Arima(APCfit$gc, order = c(1, 1, 0), include.drift = TRUE))
+plot(gcfor)
+plot(gcfor)
+plot(APCfor, gc.only = TRUE)
+plot(APCfor, only.gc = TRUE)
+warnings()
+plot(APCfor, only.gc = TRUE)
+plot(gcfor)
+gcfor$mean
+APCfor$gc.f$mean
+APCfor$gc.f$model
+Arima(APCfit$gc, order = c(1, 1, 0), include.drift = TRUE)
+APCfit$gc
+devtools::load_all(".")
+plot(APCfor, parametricbx = FALSE)
+devtools::load_all(".")
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?forecast.fitStMoMo
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+library(StMoMo, lib.loc = "H:\R\win-library\3.2")
+library(StMoMo)
+?forecast.fitStMoMo
+wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
+APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89, wxt = wxt)
+APCfor <- forecast(APCfit)
+plot(APCfor)
+plot(APCfor, parametricbx = FALSE, nCol = 3)
+plot(APCfor, only.kt = TRUE)
+plot(APCfor, only.gc = TRUE, lwd = 2)
+CBDfor <- forecast(CBDfit, level = c(50, 80, 95))
+plot(CBDfor)
+CBDfor <- forecast(CBDfit, level = c(-50, 80, 95))
+CBDfor <- forecast(CBDfit, level = c(50, -80, 95))
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = c(20,80, 95))
+plot(APCfor, parametricbx = FALSE, nCol = 3)
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = c(80,20, 95))
+plot(APCfor, parametricbx = FALSE, nCol = 3)
+sort(c(80,20, 95))
+devtools::load_all(".")
+APCfor <- forecast(APCfit, gc.order = c(1, 1, 0), level = c(80,20, 95))
+plot(APCfor, parametricbx = FALSE, nCol = 3)
+APCfor$kt.f$level
+library(StMoMo)
+library(demography)
+FRdata <- hmd.mx(country = "FRATNP", username = "Andres.Villegas@Hymans.co.uk", password = "hmd",
+label = "France")
+FRStMoMo <- StMoMoData(NZdata, series = "male")
+FRStMoMo <- StMoMoData(FRdata, series = "male")
+?rh
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000)
+LCfit <-  fit(lc(), data = EWMaleData, ages.fit = 65:95, years.fit = 1954:2000)
+LCfit <-  fit(lc(), data = EWMaleData, ages.fit = 65:95, years.fit = 1961:2000)
+devtools::load_all(".")
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000)
+devtools::load_all(".")
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000)
+FRStMoMo$Dxt
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2010)
+head(FRStMoMo$Dxt)
+devtools::load_all(".")
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2010)
+FRStMoMo$Ext
+FRStMoMo$Dxt
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2010)
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 65:90, years.fit = 1954:2010)
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 60:90, years.fit = 1954:2010)
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 60:90, years.fit = 1954:2010)
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 60:90, years.fit = 1954:2010)
+newLinkPred
+oldLinkPred
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 60:90, years.fit = 1954:2010)
+plot(LCfit)
+FRStMoMo$Dxt
+FRStMoMo$Ext
+FRdata$rate
+devtools::load_all(".")
+FRStMoMo <- StMoMoData(FRdata, series = "male")
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000)
+plot(LCfit)
+wxt <- genWeightMat(65:95,  1954:2000, clip = 3)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000, wxt = wxt,
+start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
+plot(RHfit)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000, wxt = wxt)#,
+plot(RHfit)
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000)
+wxt <- genWeightMat(65:95,  1950:2000, clip = 3)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1954:2000, wxt = wxt,
+start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000, wxt = wxt,
+start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
+plot(RHfit)
+FRStMoMo <- StMoMoData(FRdata, series = "total")
+LCfit <-  fit(lc(const = "first"), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000)
+wxt <- genWeightMat(65:95,  1950:2000, clip = 3)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000, wxt = wxt,
+start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
+plot(RHfit)
+APCfit <-  fit(apc(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000)
+RHfit <- fit(rh(), data = FRStMoMo, ages.fit = 65:95, years.fit = 1950:2000, wxt = wxt,
+start.ax = APCfit$ax, start.bx = APCfit$bx, start.kt = APCfit$kt,
+start.b0x = APCfit$b0x, start.gc = APCfit$gc)
+plot(RHfit)
+plot(APCfit)
+ax <- rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)[as.character(ages.fit), as.character(years.fit)])
+ages.fit <- 65:95
+years.fit <- 1950:2000
+ax <- rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)[as.character(ages.fit), as.character(years.fit)])
+Ext <-FRdata$pop$male
+Dxt <-FRdata$rata$male * Ext
+ages <- FRdata$age
+years <- FRdata$year
+Ext <-FRdata$pop$male
+Dxt <-FRdata$rata$male * Ext
+ages <- FRdata$age
+years <- FRdata$year
+constRHfix_ax <- function(ax, bx, kt, b0x, gc, wxt, ages){
+c1 <- sum(bx, na.rm = TRUE)
+bx <- bx / c1
+kt <- kt * c1
+list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+}
+RHfix_ax <- StMoMo(link = "log", staticAgeFun = FALSE,
+periodAgeFun = "NP", cohortAgeFun = "1",
+constFun =  constRHfix_ax)
+ages.fit <- 65:95
+years.fit <- 1950:2000
+ax <- rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)[as.character(ages.fit), as.character(years.fit)])
+wxt <- genWeightMat(ages.fit,  years.fit, clip = 3)
+RHfix_axfit <- fit(RHfix_ax, Dxt = Dxt, Ext = Ext,
+ages =ages, years = years,
+ages.fit = ages.fit, yyears.fit = years.fit,
+oxt = ax, wxt = wxt)
+Ext <-FRdata$pop$male
+Dxt <-FRdata$rata$male * Ext
+ages <- FRdata$age
+years <- FRdata$year
+Dxt <-FRdata$rate$male * Ext
+ages <- FRdata$age
+years <- FRdata$year
+ages.fit <- 65:95
+years.fit <- 1950:2000
+ax <- rowMeans(log(EWMaleData$Dxt / EWMaleData$Ext)[as.character(ages.fit), as.character(years.fit)])
+ax <- rowMeans(log(Dxt / Ext)[as.character(ages.fit), as.character(years.fit)])
+wxt <- genWeightMat(ages.fit,  years.fit, clip = 3)
+RHfix_axfit <- fit(RHfix_ax, Dxt = Dxt, Ext = Ext,
+ages =ages, years = years,
+ages.fit = ages.fit, yyears.fit = years.fit,
+oxt = ax, wxt = wxt)
+wxt <- genWeightMat(ages.fit,  years.fit, clip = 3)
+RHfix_axfit <- fit(RHfix_ax, Dxt = Dxt, Ext = Ext,
+ages =ages, years = years,
+ages.fit = ages.fit, years.fit = years.fit,
+oxt = ax, wxt = wxt)
+plot(RHfix_axfit)
+FRStMoMo <- StMoMoData(FRdata, series = "male")
+LCfit <-  fit(LC(), data = FRStMoMo, ages.fit = ages.fit, years.fit = years.fit)
+LCfit <-  fit(lc(), data = FRStMoMo, ages.fit = ages.fit, years.fit = years.fit)
+plot(LCfit)
+ages.fit <- 65:95
+years.fit <- 1954:2000
+ax <- rowMeans(log(Dxt / Ext)[as.character(ages.fit), as.character(years.fit)])
+wxt <- genWeightMat(ages.fit,  years.fit, clip = 3)
+RHfix_axfit <- fit(RHfix_ax, Dxt = Dxt, Ext = Ext,
+ages =ages, years = years,
+ages.fit = ages.fit, years.fit = years.fit,
+oxt = ax, wxt = wxt)
+plot(RHfix_axfit)
+library(parallel)
+detectCores()
+?"parLapply"
+?boot
+library(boot)
+?boot
+boot
+getOption("boot.ncpus",
+1L)
+.Platform$OS.type
+?seq_len
+seq_len(10)
+seq_len(10.01)
+1:10.01
+RNGkind()
+?parallel::makePSOCKcluster
+get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
+NROW
+nrow
+library(vars)
+vars::predict.varest
+vars:::predict.varest
+vars:::".fecov"
+?crossprod
+vars:::Phi
+vars:::Phi.varest
+vars:::fanchart
+library(forecast)
+?Arima
+?ar
+?VAR
+VAR
+?Arima
+library(StMoMo)
