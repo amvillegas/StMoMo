@@ -91,7 +91,7 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
     for (i in 1:N) {      
       #bx
       if (!only.kt && !only.gc) {
-        if (parametricbx == TRUE || is.nonparametric(x$model$periodAgeFun[[i]])) {
+        if (parametricbx == TRUE || is.nonparametric(x.h$model$periodAgeFun[[i]])) {
           plot(x = ages, y = bx[, i], ylab = "", xlab = "age", 
                main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
                                  list(i = i)), type = "l", ...)

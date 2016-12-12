@@ -48,7 +48,7 @@ computeLogLikPoisson <- function(obs, fit, weight) {
   res <- array(NA, dim = dim(weight))
   res[ind] <- weight[ind] * (obs[ind] * log(fit[ind]) - 
                           fit[ind] - lfactorial(obs[ind]))
-  sum(res, na.rm=T)
+  sum(res, na.rm=TRUE)
 }
 
 #' Compute Binomial loglikelihod
@@ -78,7 +78,7 @@ computeDeviancePoisson <- function(obs, fit, weight) {
   dev <- array(NA, dim = dim(weight))
   dev[ind] <- 2 * weight[ind] * (obs[ind] * log(obs[ind] / fit[ind])
                                  - (obs[ind] - fit[ind]))
-  sum(dev, na.rm = T)
+  sum(dev, na.rm = TRUE)
 }
 
 #' Binomial deviance
@@ -94,7 +94,7 @@ computeDevianceBinomial <- function(obs, fit, exposure, weight) {
   dev[ind] <- 2 * weight[ind] * exposure[ind] * 
              (obs[ind] * log(obs[ind] / fit[ind]) + 
         (1 - obs[ind]) * log((1 - obs[ind]) / (1 - fit[ind])))
-  sum(dev, na.rm = T)
+  sum(dev, na.rm = TRUE)
 }
 
 #'Logit function
