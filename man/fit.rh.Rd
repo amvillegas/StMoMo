@@ -8,7 +8,7 @@
   ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL,
   oxt = NULL, wxt = NULL, start.ax = NULL, start.bx = NULL,
   start.kt = NULL, start.b0x = NULL, start.gc = NULL, verbose = TRUE,
-  tolerance = 1e-05, iterMax = 10000, ...)
+  tolerance = 1e-04, iterMax = 10000, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"rh"} created with function
