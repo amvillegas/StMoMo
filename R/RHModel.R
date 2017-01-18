@@ -312,10 +312,6 @@ fit.rh <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                   " missing values which have been zero weighted\n", sep = ""))
   }
   
-  
-  wxtDF <- (reshape2::melt(wxt, value.name = "w", varnames = c("x", "t")))
-  wxtDF <- transform(wxtDF, c = t - x)
-  
   # Identify the data ages, years or cohorts with 0 weight 
   wxtDF <- (reshape2::melt(wxt, value.name = "w", varnames = c("x", "t")))
   wxtDF <- transform(wxtDF, c = t - x)
