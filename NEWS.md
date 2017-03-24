@@ -1,5 +1,7 @@
 StMoMo v0.3.1.9000 
 ----------------------------------------------------------------
+* Add new estimation function for the Renshaw and Haberman model
+  implementing the approximate constraint Hunt and Villegas (2015)
 * Upgrade plotting function of forecast models (plot.forStMoMo)
   to include nice fan charts similar to those in the forecast
   package 
