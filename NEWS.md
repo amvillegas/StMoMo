@@ -1,12 +1,15 @@
 StMoMo v0.3.1.9000 
 ----------------------------------------------------------------
-* Add new estimation function for the Renshaw and Haberman model
-  implementing the approximate constraint Hunt and Villegas (2015)
 * Upgrade plotting function of forecast models (plot.forStMoMo)
   to include nice fan charts similar to those in the forecast
   package 
 * Change inteface of fit function (fit.StMoMo) to allow 
   simiplified calling using newly defined StMoMoData class
+* Add the possibility of using general arima models (beyond the
+  random walk with drift) for the forecasting and simulation of
+  the period indexes
+* Add new estimation function for the Renshaw and Haberman model
+  implementing the approximate constraint Hunt and Villegas (2015)
 
 StMoMo v0.3.1
 ----------------------------------------------------------------

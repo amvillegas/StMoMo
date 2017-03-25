@@ -7,8 +7,9 @@ Mortality Model}
 \usage{
 \method{simulate}{bootStMoMo}(object, nsim = 1, seed = NULL, h = 50,
   oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), kt.lookback = NULL, gc.lookback = NULL,
-  ...)
+  jumpchoice = c("fit", "actual"), kt.method = c("mrwd", "iarima"),
+  kt.order = NULL, kt.include.constant = TRUE, kt.lookback = NULL,
+  gc.lookback = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"bootStMoMo"} with the bootstrapped 
@@ -28,9 +29,9 @@ The default, \code{NULL} will not change the random generator state.}
 added in the simulations. This can be used to specify any a priori known 
 component to be added to the simulated predictor.}
 
-\item{gc.order}{a specification of the ARIMA model: the three components 
-\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA 
-order. The default is an ARIMA\eqn{(1, 1, 0)}.}
+\item{gc.order}{a specification of the ARIMA model for the cohort effect: 
+the three components \eqn{(p, d, q)} are the AR order, the degree of 
+differencing, and the MA. The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
@@ -40,9 +41,24 @@ from the final year of observation, to use in projections of mortality
 rates. \code{"fit"}(default) uses the fitted rates and \code{"actual"} 
 uses the actual rates from the final year.}
 
+\item{kt.method}{optional forecasting method for the period index. 
+The alternatives are \code{"mrwd"}(default) and \code{"iarima"}. See details.}
+
+\item{kt.order}{an optional matrix with one row per period index
+specifying the ARIMA models: for the ith row (ith period index) the three 
+components \eqn{(p, d, q)} are the AR order, the degree of  differencing, 
+and the MA order. If absent the arima models are fitted using 
+\code{\link[forecast]{auto.arima}}. This argument is only used when
+\code{kt.method} is \code{"iarima"}.}
+
+\item{kt.include.constant}{an optional vector of logical values 
+indicating if the ARIMA model for the ith period index should include a 
+constant value. The default is \code{TRUE}.  This argument is only used 
+when \code{kt.method} is \code{"iarima"}.}
+
 \item{kt.lookback}{optional argument to specify the look-back window to use
-in the estimation of the MRWD for period indexes. By default all the 
-estimated values are used in estimating the MRWD. If 
+in the estimation of the time serires model for the period indexes. By 
+default all the estimated values are used. If 
 \code{kt.lookback} is provided then the last \code{kt.lookback} 
 years of \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
 
@@ -86,15 +102,18 @@ model for the years for which the mortality model was fitted
  
  \item{jumpchoice}{Jump-off method used in the simulation.}
  
+\item{kt.method}{method used in the modelling of the period index.}
+ 
  \item{model}{the bootstrapped model from which the simulations were 
  produced.}
 }
 \description{
 Simulate future sample paths from a Bootstrapped Stochastic Mortality Model.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
-using a Multivariate Random Walk with Drift. The cohort index 
-\eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
-an ARIMA\eqn{(1, 1, 0)} with a constant is used.
+using ether a Multivariate Random Walk with Drift (MRWD) or 
+\eqn{N} independent ARIMA\eqn{(p, d, q)} models. The cohort index 
+\eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. 
+By default an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
 \details{
 For further details see \code{\link{simulate.fitStMoMo}}.
@@ -107,7 +126,7 @@ library(fanplot)
 LCfit <- fit(lc(), data = EWMaleData)
 LCResBoot <- bootstrap(LCfit, nBoot = 500)
 LCResBootsim <- simulate(LCResBoot)
-LCsim <- simulate(LCfit, nsim = 500)#' 
+LCsim <- simulate(LCfit, nsim = 500) 
 plot(LCfit$years, log(LCfit$Dxt / LCfit$Ext)["10", ], 
      xlim = range(LCfit$years, LCsim$years),
      ylim = range(log(LCfit$Dxt / LCfit$Ext)["10", ], 

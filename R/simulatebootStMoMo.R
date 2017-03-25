@@ -4,9 +4,10 @@
 #'
 #' Simulate future sample paths from a Bootstrapped Stochastic Mortality Model.
 #' The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
-#' using a Multivariate Random Walk with Drift. The cohort index 
-#' \eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
-#' an ARIMA\eqn{(1, 1, 0)} with a constant is used.
+#' using ether a Multivariate Random Walk with Drift (MRWD) or 
+#' \eqn{N} independent ARIMA\eqn{(p, d, q)} models. The cohort index 
+#' \eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. 
+#' By default an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 #' 
 #' @param object an object of class \code{"bootStMoMo"} with the bootstrapped 
 #' parameters of a stochastic mortality model.
@@ -50,6 +51,8 @@
 #'  
 #'  \item{jumpchoice}{Jump-off method used in the simulation.}
 #'  
+#' \item{kt.method}{method used in the modelling of the period index.}
+#'  
 #'  \item{model}{the bootstrapped model from which the simulations were 
 #'  produced.}
 #'  
@@ -66,7 +69,7 @@
 #' LCfit <- fit(lc(), data = EWMaleData)
 #' LCResBoot <- bootstrap(LCfit, nBoot = 500)
 #' LCResBootsim <- simulate(LCResBoot)
-#' LCsim <- simulate(LCfit, nsim = 500)#' 
+#' LCsim <- simulate(LCfit, nsim = 500) 
 #' plot(LCfit$years, log(LCfit$Dxt / LCfit$Ext)["10", ], 
 #'      xlim = range(LCfit$years, LCsim$years),
 #'      ylim = range(log(LCfit$Dxt / LCfit$Ext)["10", ], 
@@ -87,9 +90,13 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50,
                                oxt = NULL, gc.order = c(1, 1, 0), 
                                gc.include.constant = TRUE,
                                jumpchoice = c("fit", "actual"), 
+                               kt.method = c("mrwd", "iarima"),
+                               kt.order = NULL,
+                               kt.include.constant = TRUE,
                                kt.lookback = NULL, gc.lookback = NULL,
                                ...) {  
   jumpchoice <- match.arg(jumpchoice)
+  kt.method <- match.arg(kt.method)
   ages <- object$model$ages
   nAges <- length(ages)
   nBoot <- length(object$bootParameters)
@@ -123,9 +130,12 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50,
                                 nsim = nsim, seed = NULL, h = h, 
                                 oxt = oxt.s[, , 1], gc.order = gc.order, 
                                 gc.include.constant = gc.include.constant, 
-                                jumpchoice = jumpchoice, 
+                                jumpchoice = jumpchoice,
+                                kt.method = kt.method,
+                                kt.order = kt.order,
+                                kt.include.constant = kt.include.constant,
                                 kt.lookback = kt.lookback, 
-                                gc.lookback = gc.lookback)
+                                gc.lookback = gc.lookback, ...)
   rates <- array(NA, c(dim(tempSim$rates)[1:2], nPath), 
                  list(dimnames(tempSim$rates)[[1]], 
                       dimnames(tempSim$rates)[[2]], 1:nPath))
@@ -167,15 +177,18 @@ simulate.bootStMoMo <-function(object, nsim = 1, seed = NULL, h = 50,
                               oxt = oxt.s[, , i], gc.order = gc.order, 
                               gc.include.constant = gc.include.constant,                               
                               jumpchoice = jumpchoice,
+                              kt.method = kt.method,
+                              kt.order = kt.order,
+                              kt.include.constant = kt.include.constant,
                               kt.lookback = kt.lookback, 
-                              gc.lookback = gc.lookback)
+                              gc.lookback = gc.lookback, ...)
     
     }    
   }  
   structure(list(rates = rates, ages = tempSim$ages, 
                  years = tempSim$years, kt.s = kt.s, gc.s = gc.s, 
                  oxt.s = oxt.s, fitted = fitted, jumpchoice = jumpchoice,
-                 model = object, call = match.call()), 
+                 kt.method = kt.method, model = object, call = match.call()), 
             class = "simStMoMo")
 }
 

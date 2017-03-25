@@ -6,8 +6,9 @@
 \usage{
 \method{forecast}{fitStMoMo}(object, h = 50, level = c(80, 95),
   oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), kt.lookback = NULL, gc.lookback = NULL,
-  ...)
+  jumpchoice = c("fit", "actual"), kt.method = c("mrwd", "iarima"),
+  kt.order = NULL, kt.include.constant = TRUE, kt.lookback = NULL,
+  gc.lookback = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 
@@ -22,9 +23,9 @@ period and cohort indices.}
 added in the forecasting. This can be used to specify any a priori 
 known component to be added to the forecasted predictor.}
 
-\item{gc.order}{a specification of the ARIMA model: the three components 
-\eqn{(p, d, q)} are the AR order, the degree of differencing, and the MA 
-order. The default is an ARIMA\eqn{(1, 1, 0)}.}
+\item{gc.order}{a specification of the ARIMA model for the cohort effect: 
+the three components \eqn{(p, d, q)} are the AR order, the degree of 
+differencing, and the MA. The default is an ARIMA\eqn{(1, 1, 0)}.}
 
 \item{gc.include.constant}{a logical value indicating if the ARIMA model
 should include a constant value. The default is \code{TRUE}.}
@@ -34,9 +35,24 @@ from the final year of observation, to use in projections of mortality
 rates. \code{"fit"}(default) uses the fitted rates and \code{"actual"} 
 uses the actual rates from the final year.}
 
+\item{kt.method}{optional forecasting method for the period index. 
+The alternatives are \code{"mrwd"}(default) and \code{"iarima"}. See details.}
+
+\item{kt.order}{an optional matrix with one row per period index
+specifying the ARIMA models: for the ith row (ith period index) the three 
+components \eqn{(p, d, q)} are the AR order, the degree of  differencing, 
+and the MA order. If absent the arima models are fitted using 
+\code{\link[forecast]{auto.arima}}. This argument is only used when
+\code{kt.method} is \code{"iarima"}.}
+
+\item{kt.include.constant}{an optional vector of logical values 
+indicating if the ARIMA model for the ith period index should include a 
+constant value. The default is \code{TRUE}.  This argument is only used 
+when \code{kt.method} is \code{"iarima"}.}
+
 \item{kt.lookback}{optional argument to specify the look-back window to use
-in the estimation of the MRWD for period indexes. By default all the 
-estimated values are used in estimating the MRWD. If 
+in the estimation of the time serires model for the period indexes. By 
+default all the estimated values are used. If 
 \code{kt.lookback} is provided then the last \code{kt.lookback} 
 years of \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
 
@@ -46,7 +62,7 @@ default all the estimated values are used in estimating the ARIMA
 model. If \code{gc.lookback} is provided then the last 
 \code{gc.lookback} years of \eqn{\gamma_{t-x}} are used.}
 
-\item{...}{other arguments.}
+\item{...}{other arguments for \code{\link{iarima}}.}
 }
 \value{
 A list of class \code{"forStMoMo"} with components:
@@ -79,38 +95,64 @@ the years for which the mortality model was fitted.}
 \item{model}{the model fit from which the forecast was produced.}
 
 \item{jumpchoice}{Jump-off method used in the forecast.}
+
+\item{kt.method}{method used in the forecast of the period index.}
 }
 \description{
 Forecast mortality rates using a Stochastic Mortality Model fit.
 The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are forecasted
-using a Multivariate Random Walk with Drift (MRWD). The cohort index 
-\eqn{\gamma_{t-x}} is forecasted using an ARIMA\eqn{(p, d, q)}. By default
-an ARIMA\eqn{(1, 1, 0)} with a constant is used.
+using ether a Multivariate Random Walk with Drift (MRWD) or 
+\eqn{N} independent ARIMA\eqn{(p, d, q)} models. The cohort index 
+\eqn{\gamma_{t-x}} is forecasted using an ARIMA\eqn{(p, d, q)}. 
+By default an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 }
 \details{
-Fitting and forecasting of the Multivariate Random Walk with Drift
-for the period indexes use the function \code{\link{mrwd}}.
+If \code{kt.method} is \code{"mrwd"}, fitting and forecasting of 
+the time series model for the  period indexes is done with a 
+Multivariate Random Walk with Drift using the function 
+\code{\link{mrwd}}.
+
+If \code{kt.method} is \code{"iarima"}, fitting and forecasting of 
+the time series model for the  period indexes is done with \eqn{N} 
+indepedent arima models using the function \code{\link{iarima}}. 
+See this latter function for details on input arguments 
+\code{kt.order} and \code{kt.include.constant}.  
+
 Fitting and forecasting of the ARIMA model for the cohort index
 is done with function \code{\link[forecast]{Arima}} from package 
 \pkg{forecast}. See the latter function for further details on 
 input arguments \code{gc.order} and \code{gc.include.constant}. 
 
-Note that in some cases forecast of the 
-cohort effects may be needed for a horizon longer than \code{h}.
-This is the case when in the fitted model the most recent cohorts 
-have been zero weighted. The forecasted cohorts can be seen in 
-\code{gc.f$cohorts}.
+Note that in some cases forecast of the cohort effects may be
+needed for a horizon longer than \code{h}. This is the case when 
+in the fitted model the most recent cohorts have been zero weighted. 
+The forecasted cohorts can be seen in \code{gc.f$cohorts}.
 }
 \examples{
-#Lee-Carter
+#Lee-Carter (random walk with drift)
 LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
 LCfor <- forecast(LCfit)
 plot(LCfor)
 
-#CBD
-CBDfit <- fit(cbd(), data = EWMaleData, ages.fit = 55:89)
+#Lee-Carter (forecast with ARIMA(1,1,2) with drift )
+LCfor.iarima1 <- forecast(LCfit, kt.method = "iarima", kt.order = c(1, 1 , 2))
+plot(LCfor.iarima1)
+
+#Lee-Carter (forecast with auto.arima)
+LCfor.iarima2 <- forecast(LCfit, kt.method = "iarima")
+plot(LCfor.iarima2)
+
+#CBD (Multivariate random walk with drift)
+CBDfit <- fit(cbd(), data = central2initial(EWMaleData), ages.fit = 55:89)
 CBDfor <- forecast(CBDfit)
 plot(CBDfor, parametricbx = FALSE)
+
+#CBD (Independent Arima models)
+kt.order <- matrix(c(1, 1, 2,  #ARIMA(1, 1, 2) for k[1]
+                     0, 1, 1), #ARIMA(0, 1, 1) for k[2]
+                   nrow = 2, ncol = 3, byrow = TRUE)
+CBDfor.iarima <- forecast(CBDfit, kt.method = "iarima", kt.order = kt.order)
+plot(CBDfor.iarima, parametricbx = FALSE)
 
 #APC: Compare forecast with different models for the cohort index
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)

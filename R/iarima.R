@@ -11,12 +11,11 @@
 #' components \eqn{(p, d, q)} are the AR order, the degree of 
 #' differencing, and the MA order. If absent the arima models 
 #' are fitted using \code{\link[forecast]{auto.arima}}.
-#' @param include.constant a vector of logical values indicating 
-#' if the ARIMA model for the ith series should include a constant 
-#' value. The default is \code{TRUE}. This parameter is ignored
+#' @param include.constant an optional vector of logical values 
+#' indicating if the ARIMA model for the ith series should include a 
+#' constant value. The default is \code{TRUE}. This parameter is ignored
 #' if \code{order} is \code{NULL}. 
-#' @param ... additional paramters for 
-#' \code{\link[forecast]{Arima}} or \code{\link[forecast]{auto.arima}}
+#' @param ... additional paramters for \code{\link[forecast]{auto.arima}}
 #' 
 #' @return an object of class \code{"iarima"} with components:
 #' \item{models}{a list with the arima models fitted to each time 
@@ -55,12 +54,12 @@ iarima <- function(x, order = NULL, include.constant = TRUE, ...) {
   models <- list()
   if(is.null(order)){
     for (i in 1:N)  {
-      models[[i]] <- auto.arima(x[i, ], ...)    
+      models[[i]] <- forecast::auto.arima(x[i, ], ...)    
     }
   } else {
     for (i in 1:N)  {
-      models[[i]] <- Arima(x[i, ], order = order[i, ], 
-                           include.constant = include.constant[i], ...)    
+      models[[i]] <- forecast::Arima(x[i, ], order = order[i, ], 
+                           include.constant = include.constant[i])    
     }
   }
   structure(list(models = models, x = x), class = "iarima")

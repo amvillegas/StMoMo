@@ -2,9 +2,10 @@
 #'
 #' Simulate future sample paths from a Stochastic Mortality Model.
 #' The period indexes \eqn{\kappa_t^{(i)}, i = 1,..N,} are modelled
-#' using a Multivariate Random Walk with Drift. The cohort index 
-#' \eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. By default
-#' an ARIMA\eqn{(1, 1, 0)} with a constant is used.
+#' using ether a Multivariate Random Walk with Drift (MRWD) or 
+#' \eqn{N} independent ARIMA\eqn{(p, d, q)} models. The cohort index 
+#' \eqn{\gamma_{t-x}} is modelled using an ARIMA\eqn{(p, d, q)}. 
+#' By default an ARIMA\eqn{(1, 1, 0)} with a constant is used.
 #' 
 #' @param object an object of class \code{"fitStMoMo"} with the fitted 
 #' parameters of a stochastic mortality model.
@@ -44,12 +45,23 @@
 #' the model for the years for which the mortality model was fitted.}
 #'  
 #' \item{jumpchoice}{Jump-off method used in the simulation.}
+#' 
+#' \item{kt.method}{method used in the modelling of the period index.}
 #'  
 #' \item{model}{ the model fit from which the simulations were produced.}
 #' 
 #' @details
-#' Fitting and simulation of the Multivariate Random Walk with Drift
-#' for the period indexes is done using the function \code{\link{mrwd}}.
+#' If \code{kt.method} is \code{"mrwd"}, fitting and simulation of 
+#' the time series model for the  period indexes is done with a 
+#' Multivariate Random Walk with Drift using the function 
+#' \code{\link{mrwd}}.
+#' 
+#' If \code{kt.method} is \code{"iarima"}, fitting and simulation of 
+#' the time series model for the  period indexes is done with \eqn{N} 
+#' indepedent arima models using the function \code{\link{iarima}}. 
+#' See this latter function for details on input arguments 
+#' \code{kt.order} and \code{kt.include.constant}.  
+#' 
 #' Fitting and simulation of the ARIMA model for the cohort index
 #' is done with function \code{\link[forecast]{Arima}} from package 
 #' \pkg{forecast}. See the latter function for further details on 
@@ -66,21 +78,36 @@
 #'@examples
 #' #Lee-Carter
 #' LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
-#' LCsim <- simulate(LCfit, nsim = 100)
+#' LCsim.mrwd <- simulate(LCfit, nsim = 100)
+#' LCsim.iarima <- simulate(LCfit, nsim = 100, kt.method = "iarima", 
+#'                          kt.order = c(1, 1, 2))
 #' 
-#' par(mfrow=c(1, 2))
+#' par(mfrow=c(2, 2))
 #' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
-#'      ylim = range(LCfit$kt, LCsim$kt.s$sim), type = "l", 
+#'      ylim = range(LCfit$kt, LCsim.mrwd$kt.s$sim), type = "l", 
 #'      xlab = "year", ylab = "kt", 
-#'      main = "Lee-Carter: Simulated paths of the period index kt")
-#' matlines(LCsim$kt.s$years, LCsim$kt.s$sim[1, , ], type = "l", lty = 1)
+#'      main = "Lee-Carter: Simulated paths of the period index kt (mrwd)")
+#' matlines(LCsim.mrwd$kt.s$years, LCsim.mrwd$kt.s$sim[1, , ], type = "l", lty = 1)
 #' 
 #' plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)["65", ], 
-#'      xlim = range(LCfit$years, LCsim$years),
-#'      ylim = range((LCfit$Dxt / LCfit$Ext)["65", ], LCsim$rates["65", , ]), 
+#'      xlim = range(LCfit$years, LCsim.mrwd$years),
+#'      ylim = range((LCfit$Dxt / LCfit$Ext)["65", ], LCsim.mrwd$rates["65", , ]), 
 #'      type = "l", xlab = "year", ylab = "rate", 
 #'      main = "Lee-Carter: Simulated mortality rates at age 65")
-#' matlines(LCsim$years, LCsim$rates["65", , ], type = "l", lty = 1)
+#' matlines(LCsim.mrwd$years, LCsim.mrwd$rates["65", , ], type = "l", lty = 1)
+#' 
+#' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
+#'      ylim = range(LCfit$kt, LCsim.iarima$kt.s$sim), type = "l", 
+#'      xlab = "year", ylab = "kt", 
+#'      main = "Lee-Carter: Simulated paths of the period index kt (ARIMA(1, 1, 2))")
+#' matlines(LCsim.iarima$kt.s$years, LCsim.iarima$kt.s$sim[1, , ], type = "l", lty = 1)
+#' 
+#' plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)["65", ], 
+#'      xlim = range(LCfit$years, LCsim.iarima$years),
+#'      ylim = range((LCfit$Dxt / LCfit$Ext)["65", ], LCsim.iarima$rates["65", , ]), 
+#'      type = "l", xlab = "year", ylab = "rate", 
+#'      main = "Lee-Carter: Simulated mortality rates at age 65 (ARIMA(1, 1, 2))")
+#' matlines(LCsim.iarima$years, LCsim.iarima$rates["65", , ], type = "l", lty = 1)
 #' 
 #' #APC
 #' par(mfrow=c(1, 3))
@@ -129,10 +156,14 @@ simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50,
                                oxt = NULL, gc.order = c(1, 1, 0), 
                                gc.include.constant = TRUE,
                                jumpchoice = c("fit", "actual"),
+                               kt.method = c("mrwd", "iarima"),
+                               kt.order = NULL,
+                               kt.include.constant = TRUE,
                                kt.lookback = NULL, gc.lookback = NULL, 
                                ...) {
   
   jumpchoice <- match.arg(jumpchoice)
+  kt.method <- match.arg(kt.method)
   #Handle generato seed
   if (!exists(".Random.seed", envir = .GlobalEnv)) 
     runif(1)
@@ -166,7 +197,12 @@ simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50,
   if (N > 0) {    
     kt.nNA <- max(which(!is.na(kt[1, ])))
     kt.hNA <- nYears - kt.nNA
-    kt.model <- mrwd(kt[, (1 + nYears - kt.lookback):kt.nNA]) 
+    if (kt.method == "mrwd")
+      kt.model <- mrwd(kt[, (1 + nYears - kt.lookback):kt.nNA])
+    else if (kt.method == "iarima") 
+      kt.model <- iarima(kt[, (1 + nYears - kt.lookback):kt.nNA], 
+                         order = kt.order, 
+                         include.constant = kt.include.constant, ...)
     if (kt.hNA > 0) {
       years.h <- years[-((kt.nNA+1):nYears)]
       years.s <- c(years[(kt.nNA+1):nYears], years.s)
@@ -220,7 +256,7 @@ simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50,
   
   for (i in 1:nsim) {
     if (!is.null(kt.model)) {
-      kt.path <- simulate(kt.model,h + kt.hNA)
+      kt.path <- simulate(kt.model, h + kt.hNA)
       kt.sim[, , i] <- kt.path
     }
     if (!is.null(gc.model)) {
@@ -251,7 +287,7 @@ simulate.fitStMoMo <- function(object, nsim = 1000, seed = NULL, h = 50,
     structure(list(rates = forcastRates, ages = ages, 
                  years = yearsSim, kt.s = kt.s, gc.s = gc.s, oxt.s = oxt.s, 
                  fitted = fittedRates, jumpchoice = jumpchoice,
-                 model = object, call = match.call()), 
+                 kt.method = kt.method,  model = object, call = match.call()), 
             class ="simStMoMo")  
   
 }
@@ -264,7 +300,18 @@ print.simStMoMo <- function(x, ...) {
   cat("\n\nSimulation based on")
   
   cat(paste("\nCall:", deparse(x$model$call)))  
-  cat(paste("\n\nJump-off method:", x$jumpchoice))
+  cat(paste("\n\nkt model:", x$kt.method))
+  if (x$kt.method == "iarima") {
+    if (x$model$model$N > 0 && !is.null(x$kt.s$model)) {
+      for ( i in 1:x$model$model$N){
+        cat(paste("\n   kt[",i,"]: ", 
+                  arima.string(x$kt.s$model$models[[i]]), sep = ""))
+      }
+    }
+  }
+  if (!is.null(x$gc.s))
+    cat(paste("\ngc model: ", arima.string(x$gc.s$model), sep = ""))
+  cat(paste("\nJump-off method:", x$jumpchoice))
   cat(paste("\nYears in simulation:", min(x$years), "-", max(x$years)))
   cat(paste("\nAges in simulation:", min(x$ages), "-", max(x$ages), "\n"))  
   cat(paste("\nNumber of paths:", dim(x$rates)[3], "\n"))  
