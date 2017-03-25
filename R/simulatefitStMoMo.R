@@ -83,7 +83,7 @@
 #'                          kt.order = c(1, 1, 2))
 #' 
 #' par(mfrow=c(2, 2))
-#' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
+#' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim.mrwd$kt.s$years),
 #'      ylim = range(LCfit$kt, LCsim.mrwd$kt.s$sim), type = "l", 
 #'      xlab = "year", ylab = "kt", 
 #'      main = "Lee-Carter: Simulated paths of the period index kt (mrwd)")
@@ -96,7 +96,7 @@
 #'      main = "Lee-Carter: Simulated mortality rates at age 65")
 #' matlines(LCsim.mrwd$years, LCsim.mrwd$rates["65", , ], type = "l", lty = 1)
 #' 
-#' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim$kt.s$years),
+#' plot(LCfit$years, LCfit$kt[1, ], xlim = range(LCfit$years, LCsim.iarima$kt.s$years),
 #'      ylim = range(LCfit$kt, LCsim.iarima$kt.s$sim), type = "l", 
 #'      xlab = "year", ylab = "kt", 
 #'      main = "Lee-Carter: Simulated paths of the period index kt (ARIMA(1, 1, 2))")
@@ -140,11 +140,11 @@
 #' library(fanplot)
 #' par(mfrow=c(1, 1))
 #' plot(LCfit$years, (LCfit$Dxt / LCfit$Ext)["65", ], 
-#'      xlim = range(LCfit$years, LCsim$years),
-#'      ylim = range((LCfit$Dxt / LCfit$Ext)["65", ], LCsim$rates["65", , ], 
+#'      xlim = range(LCfit$years, LCsim.mrwd$years),
+#'      ylim = range((LCfit$Dxt / LCfit$Ext)["65", ], LCsim.mrwd$rates["65", , ], 
 #'      APCsim$rates["65", , ]), type = "l", xlab = "year", ylab = "rate", 
 #'      main = "Fan chart of mortality rates at age 65 (LC vs. APC)")
-#' fan(t(LCsim$rates["65", , ]), start = LCsim$years[1], 
+#' fan(t(LCsim.mrwd$rates["65", , ]), start = LCsim.mrwd$years[1], 
 #'     probs = c(2.5, 10, 25, 50, 75, 90, 97.5), n.fan = 4,
 #'     fan.col = colorRampPalette(c(rgb(1, 0, 0), rgb(1, 1, 1))), ln = NULL)
 #' fan(t(APCsim$rates["65", 1:(length(APCsim$years) - 3), ]), 
