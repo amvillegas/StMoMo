@@ -1,4 +1,4 @@
-StMoMo v0.3.1.9000 
+StMoMo v0.4.0 
 ----------------------------------------------------------------
 * Upgrade plotting function of forecast models (plot.forStMoMo)
   to include nice fan charts similar to those in the forecast
