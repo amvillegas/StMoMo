@@ -35,7 +35,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% almost as usual
-\author{Andr\'es M. Villegas\\ UNSW Business School \\ UNSW Sydney \And Pietro Millossovich\\ Cass Business School \\ City, University of London  \And 
+\author{Andr\'es M. Villegas\\ UNSW Business School \\ UNSW Sydney \And Pietro Millossovich\\ Cass Business School \\ City, University of London  \\ DEAM, University of Trieste \And 
         Vladimir K. Kaishev\\ Cass Business School \\ City, University of London}
 \title{\pkg{StMoMo}: An \proglang{R} Package for Stochastic Mortality Modeling}
 
@@ -514,7 +514,7 @@ From this code we note the following:
   \item The first and last three cohorts years are excluded from the fitting via the argument \code{wxt}. The appropriate 0-1 weighting matrix, \code{wxt}, is constructed using the utility function \code{genWeightMat} of package \pkg{StMoMo}.
 \end{itemize}
 
-The fitting of the RH model requires some care as it is well known that fitting cohort extensions of the Lee-Carter models is problematic \citep{Hunt2014a}. In particular, \cite{Currie2014} has encountered convergence issues when using package \pkg{gnm} to fit the RH model. As a possible way to circumvent these issues, \cite{Currie2014} suggests the use of appropriate starting values when fitting model RH. This can be achieved in the function \code{fit} via input arguments \code{start.ax}, \code{start.bx}, \code{start.kt}, \code{start.b0x}, and \code{start.gc}. Using the parameters of the Lee-Carter model as starting values, model RH can be fitted with the code:\footnote{\rev{\pkg{StMoMo} also implements the fitting method suggested by \citet{Hunt2014a} to solve the convergence issues of the RH model. This can be acomplished by setting argument \code{approxConst=TRUE} when defining the RH model, that is, \code{rh(approxConst=TRUE).}}}
+The fitting of the RH model requires some care as it is well known that fitting cohort extensions of the Lee-Carter models is problematic \citep{Hunt2014a}. In particular, \cite{Currie2014} has encountered convergence issues when using package \pkg{gnm} to fit the RH model. As a possible way to circumvent these issues, \cite{Currie2014} suggests the use of appropriate starting values when fitting model RH. This can be achieved in the function \code{fit} via input arguments \code{start.ax}, \code{start.bx}, \code{start.kt}, \code{start.b0x}, and \code{start.gc}. Using the parameters of the Lee-Carter model as starting values, model RH can be fitted with the code:\footnote{\rev{\pkg{StMoMo} also implements the fitting method suggested by \citet{Hunt2014a} to solve the convergence issues of the RH model. This can be acomplished by setting argument \code{approxConst = TRUE} when defining the RH model, that is, \code{rh(approxConst=TRUE).}}}
   
 <<fitRH, eval=TRUE, cache=TRUE, results=hide, dependson="defineAPC_RH_M7">>=
 RHfit <- fit(RH, data = EWMaleIniData,  ages.fit = ages.fit, wxt = wxt, 
@@ -705,7 +705,7 @@ xtable(BICdf, dec = 1, caption = "Number of parameters, AIC and BIC values (with
 \section{Forecasting and simulation with stochastic mortality models}\label{sec:Forecasting}
 In the family of GAPC stochastic mortality models the dynamics of mortality are driven by the period indexes $\kappa^{(i)}_t$, $i=1,\ldots, N$, and the cohort index $\gamma_{t-x}$. Therefore, the forecasting and simulation of mortality rates requires the modeling of these indexes using time series techniques.\\
 
-\rev{For the period indexes we consider two alternative modelling approaches.  A first alternative is to use the standard approach in the actuarial literature \citep{Cairns2006a, Cairns2011a, Haberman2011a, Lovasz2011} and assume that the period indexes follow a multivariate random walk with drift. That is,}
+\rev{For the period indexes we consider two alternative modelling approaches.  A first possibility is to use the standard approach in the actuarial literature \citep{Cairns2006a, Cairns2011a, Haberman2011a, Lovasz2011} and assume that the period indexes follow a multivariate random walk with drift. That is,}
 
 %For the period indexes we follow the standard approach \citep{Cairns2006a, Cairns2011a, Haberman2011a, Lovasz2011} and use a multivariate random walk with drift. Specifically, we assume that
 \begin{equation}\label{eq:GAPCPeriodIndex}
@@ -723,7 +723,7 @@ where {$\boldsymbol{\delta}$} is an $N$-dimension vector of drift parameters and
 \rev{A second alternative is to assume that the individual period indexes, $\kappa_t^{(i)}$, $i=1,\ldots,N$, follow a general univariate ARIMA model. Under this approach, the $i$-th period index, $\kappa_t^{(i)}$, is assumed to follow  an ARIMA$(p_i,q_i,d_i)$ with drift, so that}
 
 \begin{equation}\label{eq:GAPCPeriodArima}
-\Delta^{d_i}\kappa_t^{(i)} =  \delta_{0}^{(i)} + \phi_1^{(i)}\Delta^{d_i}\kappa^{(i)}_{t-1} +\cdots+ \phi_{p_i}\Delta^{d_i}\kappa^{(i)}_{t-p_i}+\xi^{(i)}_{t}+\delta^{(i)}_1\xi^{(i)}_{t-1}+\cdots+\delta^{(i)}_{q_i}\xi^{(i)}_{t-q_i},
+\Delta^{d_i}\kappa_t^{(i)} =  \delta_{0}^{(i)} + \phi_1^{(i)}\Delta^{d_i}\kappa^{(i)}_{t-1} +\cdots+ \phi^{(i)}_{p_i}\Delta^{d_i}\kappa^{(i)}_{t-p_i}+\xi^{(i)}_{t}+\delta^{(i)}_1\xi^{(i)}_{t-1}+\cdots+\delta^{(i)}_{q_i}\xi^{(i)}_{t-q_i},
 \end{equation}
 \rev{where $\Delta$ is the difference operator, $\delta_0^{(i)}$ is the drift parameter, $\phi_1^{(i)},\dots,\phi^{(i)}_{p_i}$ are the autoregressive coefficients with $\phi_{p_i}\neq 0$,  $\delta_1^{(i)},\dots,\delta^{(i)}_{q_i}$ are the moving average coefficients with $\delta^{(i)}_{q_i}\neq 0$ and $\xi^{(i)}_t$ is a Gaussian white noise process with variance $\sigma_{\xi}^{(i)}$.}\\ 
 
@@ -766,12 +766,13 @@ RHfor <- forecast(RHfit, h = 50, gc.order = c(1, 1, 0))
 M7for <- forecast(M7fit, h = 50, gc.order = c(2, 0, 0))
 PLATfor <- forecast(PLATfit, h = 50, gc.order = c(2, 0, 0))
 @ 
-\rev{Alternatively, we could assumme that the period indexes follow univariate ARIMA models. This is achieved in funcion \code{forecast} be setting setting the argument \code{method = "iarima"}. For example, projections of the Lee-Carter model under the assumption that $\kappa_t^{(1)}$ follows an ARIMA(1,1,2) with drift are produced with the code:}
+\rev{Alternatively, we could assume that the period indexes follow independent univariate ARIMA models. This is achieved in function \code{forecast} by setting the argument \code{method = "iarima"}. For example, projections of the Lee-Carter model under the assumption that $\kappa_t^{(1)}$ follows an ARIMA(1,1,2) with drift are produced with the code:}
 
 <<forLCArima, cache=TRUE, dependson="fit1">>=
 LCforArima <- forecast(LCfit, h = 50, kt.method = "iarima", 
   kt.order = c(1, 1, 2))
 @ 
+\rev{By setting \code{kt.order = NULL} the function \code{auto.arima} from package \pkg{forecast} selects the best ARIMA process for each period index.}
 
 The output from the function \code{forecast} is an object of {the} class \code{"forStMoMo"} including, among other things, the following information:
 \begin{itemize}  
@@ -1321,7 +1322,7 @@ Finally, the increasing attention that multiple population mortality models are 
 
 
 \section*{Acknowledgements}\label{sec:Acknowledgements}
-This work stems from research funded by the Institute \& Faculty of Actuaries and the Life \& Longevity Markets Association. \rev{Andr\'es M. Villegas acknowledges support by the Australian Research Council Centre of Excellence in Population Ageing Research (project number CE110001029).} We thank Sveinn Gunnlaugsson and Mario Sison for their assistance in the development and testing of the preliminary code underlying \pkg{StMoMo}. We are indebted to Steven Haberman for his encouragement in developing this project and for commenting on a previous version of this paper.  We also thank Anastasios Bardoutsos for his suggestions on the structure of the package and Andrew Hunt for many useful discussions which have helped improved this work. Andr\'es Villegas thanks Ana Deb\'on for first showing him the great things that can be done with the \R package \pkg{gnm} and selflessly sharing her code and knowledge. This paper has been presented at the 19th congress on Insurance: Mathematics and Economics in Liverpool, the \R in Insurance 2015 conference in Amsterdam, the Longevity 11 conference in Lyon, and the 7th Australasian Actuarial Education and Research Symposium in the Gold Coast. We thank conference participants for their comments and suggestions.   
+This work stems from research funded by the Institute \& Faculty of Actuaries and the Life \& Longevity Markets Association. \rev{Andr\'es M. Villegas acknowledges support by the Australian Research Council Centre of Excellence in Population Ageing Research (project number CE110001029).} We thank Sveinn Gunnlaugsson and Mario Sison for their assistance in the development and testing of the preliminary code underlying \pkg{StMoMo}. We are indebted to Steven Haberman for his encouragement in developing this project and for commenting on a previous version of this paper.  We also thank Anastasios Bardoutsos for his suggestions on the structure of the package and Andrew Hunt for many useful discussions which have helped improved this work. Andr\'es Villegas thanks Ana Deb\'on for first showing him the great things that can be done with the \R package \pkg{gnm} and selflessly sharing her code and knowledge. This paper has been presented at the 19th congress on Insurance: Mathematics and Economics in Liverpool, the \R in Insurance 2015 conference in Amsterdam, the Longevity 11 conference in Lyon, the 7th Australasian Actuarial Education and Research Symposium in the Gold Coast, and the Polytechnic University of Valencia. We thank conference participants for their comments and suggestions.   
 
 
 \bibliography{StMoMo}

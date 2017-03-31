@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission. In this version I have
+added in the DESCRIPTION relevant references to the
+methods implemented in the package. There is no reference
+available for the family of generalised age-period-cohort
+as this is a new framework we introduced for this package, 
+but I have addedd references to the Lee-Carter and
+Cairns-Blake-Dowd models.
+
 ## Submission summary
 This new release improves the interface of
 the main fitting function and provides new
