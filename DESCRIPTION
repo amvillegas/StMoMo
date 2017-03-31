@@ -7,10 +7,11 @@ Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
 Maintainer: Andres Villegas <andresmauriciovillegas@gmail.com>
 Description: Implementation of the family of generalised age-period-cohort
     stochastic mortality models. This family of models encompasses many models
-    proposed in the actuarial and demographic literature including the Lee-Carter
-    model and the Cairns-Blake-Dowd model. It includes functions for fitting
-    mortality models, analysing their goodness-of-fit and performing mortality
-    projections and simulations.
+    proposed in the actuarial and demographic literature including the 
+    Lee-Carter (1992) <doi:10.2307/2290201> and
+    the Cairns-Blake-Dowd (2006) <doi:10.1111/j.1539-6975.2006.00195.x> models. 
+    It includes functions for fitting mortality models, analysing their 
+    goodness-of-fit and performing mortality projections and simulations.
 URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
 Imports:
