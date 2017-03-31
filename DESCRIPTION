@@ -31,5 +31,5 @@ Suggests:
     knitr,
     xtable,
     MTS
-VignetteBuilder: knitr
+VignetteBuilder: knitr, utils
 RoxygenNote: 6.0.1
