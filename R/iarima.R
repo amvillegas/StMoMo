@@ -136,7 +136,8 @@ forecast.iarima <- function(object, h = 10, level = c(80,95), fan = FALSE, ...) 
 #' 
 #' @export
 simulate.iarima <- function(object, nsim = 10, seed = NULL, ...) {
-  
+  #Hack to remove notes in CRAN check
+  x <- NULL
   if (!exists(".Random.seed", envir = .GlobalEnv)) 
     runif(1)
   if (is.null(seed)) 

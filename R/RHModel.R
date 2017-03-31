@@ -64,6 +64,13 @@
 #'              start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
 #' plot(RHfit)
 #' 
+#' #Impose approximate constraint as in Hunt and Villegas (2015)    
+#' \dontrun{
+#' RHapprox <- rh(approxConst = TRUE)
+#' RHapproxfit <- fit(RHapprox, data = EWMaleData, ages.fit = 55:89, 
+#'                     wxt = wxt)
+#' plot(RHapproxfit) 
+#' }
 #' 
 #' 
 #' @export
@@ -199,13 +206,10 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP"),
 #' 
 #' @examples 
 #'
-#' LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-#' ages = EWMaleData$ages, years = EWMaleData$years,\
-#' ages.fit = 55:89)
+#' LCfit <-  fit(lc(), data = EWMaleData, ages.fit = 55:89)
 #' wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-#' RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
-#'              ages = EWMaleData$ages, years = EWMaleData$years,
-#'              ages.fit = 55:89, wxt = wxt, start.ax = LCfit$ax,
+#' RHfit <- fit(rh(), data = EWMaleData, ages.fit = 55:89, 
+#'              wxt = wxt, start.ax = LCfit$ax,
 #'              start.bx = LCfit$bx, start.kt = LCfit$kt)
 #' plot(RHfit)
 #'  
@@ -225,6 +229,9 @@ fit.rh <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                        start.b0x = NULL, start.gc = NULL, verbose = TRUE,
                        tolerance = 1e-04, iterMax = 10000,
                        ...) {
+  
+  #Hack to remove notes in CRAN check
+  x <- NULL
   
   # Select data from data or from Dxt, Ext, ages, years
   

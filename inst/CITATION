@@ -11,7 +11,7 @@ citEntry(entry="Manual",
                         as.person("Vladimir K. Kaishev")),
     year = year,
     note = note,
-    url = "http://CRAN.R-project.org/package=StMoMo",
+    url = "https://CRAN.R-project.org/package=StMoMo",
     textVersion = paste(
       "Andres M. Villegas,  Pietro Millossovich and Vladimir K. Kaishev", 
       sprintf("(%s).", year),

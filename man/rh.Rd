@@ -63,6 +63,13 @@ RHfit <- fit(rh(), data = EWMaleData, ages.fit = 55:89, wxt = wxt,
              start.ax = LCfit$ax, start.bx = LCfit$bx, start.kt = LCfit$kt)
 plot(RHfit)
 
+#Impose approximate constraint as in Hunt and Villegas (2015)    
+\dontrun{
+RHapprox <- rh(approxConst = TRUE)
+RHapproxfit <- fit(RHapprox, data = EWMaleData, ages.fit = 55:89, 
+                    wxt = wxt)
+plot(RHapproxfit) 
+}
 
 
 }
