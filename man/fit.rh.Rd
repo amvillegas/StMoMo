@@ -141,10 +141,23 @@ with cohort-effects.
 }
 \examples{
 
-RH <- rh(approxConst = TRUE)
+LCfit <-  fit(lc(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+ages = EWMaleData$ages, years = EWMaleData$years,\\
+ages.fit = 55:89)
 wxt <- genWeightMat(55:89,  EWMaleData$years, clip = 3)
-RHfit <- fit(RH, data = EWMaleData, ages.fit = 55:89, wxt = wxt)
-plot(RHfit) 
+RHfit <- fit(rh(), Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext,
+             ages = EWMaleData$ages, years = EWMaleData$years,
+             ages.fit = 55:89, wxt = wxt, start.ax = LCfit$ax,
+             start.bx = LCfit$bx, start.kt = LCfit$kt)
+plot(RHfit)
+ 
+#Impose approximate constraint as in Hunt and Villegas (2015)    
+\dontrun{
+RHapprox <- rh(approxConst = TRUE)
+RHapproxfit <- fit(RHapprox, data = EWMaleData, ages.fit = 55:89, 
+                    wxt = wxt)
+plot(RHapproxfit) 
+}
 
 }
 \references{

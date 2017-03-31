@@ -16,7 +16,7 @@ citEntry(entry="Manual",
       "Andres M. Villegas,  Pietro Millossovich and Vladimir K. Kaishev", 
       sprintf("(%s).", year),
       "StMoMo: An R Package for Stochastic Mortality Modelling.",
-      sprintf("%s.", note), "URL http://CRAN.R-project.org/package=StMoMo")
+      sprintf("%s.", note), "URL https://CRAN.R-project.org/package=StMoMo")
 )
 
 
