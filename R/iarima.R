@@ -149,7 +149,7 @@ simulate.iarima <- function(object, nsim = 10, seed = NULL, ...) {
     on.exit(assign(".Random.seed", R.seed, envir = .GlobalEnv))
   }
   
-  sim <- t(simplify2array(lapply(object$models, FUN = simulate.Arima, nsim = nsim)))
+  sim <- t(simplify2array(lapply(object$models, FUN = simulate, nsim = nsim)))
   rownames(sim) <- rownames(object$x)
   x <- object$x
   nYear <- ncol(x)
