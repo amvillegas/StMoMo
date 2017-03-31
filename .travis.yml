@@ -20,11 +20,8 @@ install:
   - sudo apt-get -qq update
   - ./travis-tool.sh aptget_install texlive-base
   - ./travis-tool.sh aptget_install biblatex
-  - ./travis-tool.sh aptget_install texlive-latex-base
   - ./travis-tool.sh aptget_install texlive-latex-recommended
   - ./travis-tool.sh aptget_install texlive-latex-extra
-  - ./travis-tool.sh aptget_install texlive-fonts-recommended
-  - ./travis-tool.sh aptget_install texlive-fonts-extra
   - ./travis-tool.sh aptget_install texlive-science
 
 script: ./travis-tool.sh run_tests
