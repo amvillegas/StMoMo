@@ -23,7 +23,7 @@
 #' \item{x}{the original time series.}
 #' 
 #' @details 
-#' The fitting of the ARIMA models for each time seies is done with 
+#' The fitting of the ARIMA models for each time series is done with 
 #' function \code{\link[forecast]{Arima}} from package 
 #' \pkg{forecast}. See the latter function for further details on 
 #' input arguments \code{kt.order} and \code{kt.include.constant}.

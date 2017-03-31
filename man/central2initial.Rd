@@ -17,6 +17,13 @@ A StMoMoData object of type "initial".
 Transform StMoMoData from central to initial exposures. Initial exposures
 are computed by adding one half of the deaths to the central exposures.
 }
+\examples{
+
+CBD <- cbd()
+CBDfit <- fit(CBD, data = central2initial(EWMaleData), ages.fit = 55:89)
+plot(CBDfit, parametricbx = FALSE)
+
+}
 \seealso{
 \code{\link{initial2central}}
 }

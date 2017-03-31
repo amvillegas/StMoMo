@@ -248,6 +248,13 @@ summary.StMoMoData <- function(object, ...)
 #' 
 #' @seealso \code{\link{initial2central}}
 #' 
+#' @examples
+#' 
+#' CBD <- cbd()
+#' CBDfit <- fit(CBD, data = central2initial(EWMaleData), ages.fit = 55:89)
+#' plot(CBDfit, parametricbx = FALSE)
+#' 
+
 #' @export
 central2initial <- function(data){
   if (class(data) != "StMoMoData")
