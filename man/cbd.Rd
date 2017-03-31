@@ -42,4 +42,3 @@ Journal of Risk and Insurance, 73(4), 687-718.
 \code{\link{StMoMo}}, \code{\link{central2initial}}, 
 \code{\link{m6}}, \code{\link{m7}}, \code{\link{m8}}
 }
-

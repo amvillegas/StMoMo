@@ -40,4 +40,3 @@ Weigth vectors wx, wx, wc are used to identify parameters that
 cannot be estimated because all the data is weighted out.
 }
 \keyword{internal}
-

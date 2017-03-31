@@ -35,4 +35,3 @@ plot(CBDres)
 \seealso{
 \code{\link{plot.resStMoMo}}
 }
-

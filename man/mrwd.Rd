@@ -33,4 +33,3 @@ Haberman, S., & Renshaw, A. (2011). A comparative study of parametric
 mortality projection models. Insurance: Mathematics and Economics, 
 48(1), 35-55.
 }
-

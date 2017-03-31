@@ -17,4 +17,3 @@ computeDeviancePoisson(obs, fit, weight)
 Compute Poisson deviance
 }
 \keyword{internal}
-

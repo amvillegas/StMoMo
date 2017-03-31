@@ -42,4 +42,3 @@ plot(APCfor, only.gc = TRUE, lwd = 2)
 \seealso{
 \code{\link{plot.fitStMoMo}}
 }
-

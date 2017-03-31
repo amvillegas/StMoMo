@@ -48,4 +48,3 @@ Extract coefficients from a fitted Stochastic Mortality Model
 APCfit <- fit(apc(), data = EWMaleData)
 coef(APCfit) 
 }
-

@@ -23,4 +23,3 @@ risk measurement in mortality with specific reference to Poisson Lee-Carter
 modelling. Insurance: Mathematics and Economics, 42(2), 797-816.
 }
 \keyword{internal}
-

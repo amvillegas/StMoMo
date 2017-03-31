@@ -12,4 +12,3 @@ Invers Logit function
 \code{invlogit} computes the inverse logit function
 }
 \keyword{internal}
-

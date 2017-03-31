@@ -24,4 +24,3 @@ the class of the first argument.
 strategies can be added for particular stochastic mortality models. See 
 for instance \code{\link{bootstrap.fitStMoMo}}.
 }
-

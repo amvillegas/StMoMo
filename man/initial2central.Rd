@@ -20,4 +20,3 @@ are computed by substracting one half of the deaths from the initial exposures.
 \seealso{
 \code{\link{central2initial}}
 }
-

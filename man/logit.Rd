@@ -12,4 +12,3 @@ Logit function
 \code{logit} computes the logit function
 }
 \keyword{internal}
-

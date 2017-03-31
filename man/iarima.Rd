@@ -39,4 +39,3 @@ function \code{\link[forecast]{Arima}} from package
 \pkg{forecast}. See the latter function for further details on 
 input arguments \code{kt.order} and \code{kt.include.constant}.
 }
-

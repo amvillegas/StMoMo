@@ -43,4 +43,3 @@ plot(CBDResBoot, parametricbx = FALSE, probs = seq(2.5, 97.5, 2.5))
 \seealso{
 \code{\link{plot.fitStMoMo}}
 }
-

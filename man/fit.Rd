@@ -22,4 +22,3 @@ first argument.
 can be added for particular stochastic mortality models. See for instance 
 \code{\link{fit.StMoMo}}.
 }
-

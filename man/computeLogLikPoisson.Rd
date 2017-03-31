@@ -17,4 +17,3 @@ computeLogLikPoisson(obs, fit, weight)
 Compute Poisson loglikelihod
 }
 \keyword{internal}
-

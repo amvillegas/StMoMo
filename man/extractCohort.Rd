@@ -64,4 +64,3 @@ matlines(62:89, mSim, lty = 2)
 \code{\link{fitted.fitStMoMo}}, \code{\link{forecast.fitStMoMo}},
 \code{\link{simulate.fitStMoMo}}, \code{\link{simulate.bootStMoMo}}
 }
-

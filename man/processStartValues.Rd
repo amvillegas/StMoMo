@@ -36,4 +36,3 @@ Convert the initial parameters supplied by the user into parameters
 suitable for use within \code{gnm}
 }
 \keyword{internal}
-

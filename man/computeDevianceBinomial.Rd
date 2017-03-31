@@ -19,4 +19,3 @@ computeDevianceBinomial(obs, fit, exposure, weight)
 Binomial deviance
 }
 \keyword{internal}
-

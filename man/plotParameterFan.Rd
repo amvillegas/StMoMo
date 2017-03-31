@@ -34,4 +34,3 @@ the data with non missing values need to be found. Otherwise fanplot::fan
 doesn't work.
 }
 \keyword{internal}
-

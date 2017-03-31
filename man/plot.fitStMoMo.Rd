@@ -39,4 +39,3 @@ plot(CBDfit, parametricbx = FALSE)
 plot(CBDfit, nCol = 1, parametricbx = FALSE, lwd = 2)
 
 }
-

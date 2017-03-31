@@ -44,4 +44,3 @@ plot(APCfit2, parametricbx = FALSE, nCol = 3)
 \seealso{
 \code{\link{fit.StMoMo}}
 }
-

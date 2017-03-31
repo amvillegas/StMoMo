@@ -146,4 +146,3 @@ fan(t(log(LCsim$rates["10", 1:(length(LCsim$years) - 3), ])),
 \seealso{
 \code{\link{bootstrap.fitStMoMo}}, \code{\link{simulate.fitStMoMo}}
 }
-

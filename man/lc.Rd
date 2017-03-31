@@ -63,4 +63,3 @@ Journal of the American Statistical Association, 87(419), 659-671.
 \seealso{
 \code{\link{StMoMo}}
 }
-

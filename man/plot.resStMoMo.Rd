@@ -73,4 +73,3 @@ plot(CBDres, type = "signplot")
 plot(CBDres, type = "colourmap")
   
 }
-

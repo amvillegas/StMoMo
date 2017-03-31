@@ -27,4 +27,3 @@ lifetime and annuities. Insurance: Mathematics and Economics,
 47(3), 327-336.
 }
 \keyword{internal}
-

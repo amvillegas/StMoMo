@@ -184,4 +184,3 @@ APCfit <- fit(apc(), data = EWMaleData,  wxt = wxt,
   plot(LCfix_axfit)
 }
 }
-

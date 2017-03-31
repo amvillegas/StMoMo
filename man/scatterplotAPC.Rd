@@ -32,4 +32,3 @@ should be plotted.}
 Do a scatter plot of a matrix according to age-period-cohorts
 }
 \keyword{internal}
-

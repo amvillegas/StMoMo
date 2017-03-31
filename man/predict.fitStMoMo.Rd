@@ -60,32 +60,66 @@ mortality rates using time series models different to those available
 in \code{\link{forecast.fitStMoMo}} (See examples below).
 }
 \examples{
-library(forecast)
-#Lee-Carter forecast using auto.arima
-LCfit <- fit(lc(), data = EWMaleData, ages.fit = 55:89)
-ktForLC <- forecast(auto.arima(as.vector(LCfit$kt)), h = 30) 
-mxtForLC <- predict(LCfit, years = 2012:2041, kt = ktForLC$mean, 
-                    type = "rates")
-mxthatLC <- fitted(LCfit, type = "rates")
-mxt <- LCfit$Dxt / LCfit$Ext
-plot(1961:2041, (cbind(mxthatLC, mxtForLC))["80", ], type = "l", 
-     xlab = "year", ylab = "death rate", 
-     main = "Fitted vs. Observed rates at age 80")
-points(1961:2011, mxt["80", ])
 
-#Age-Period-Cohort forecast using auto.arima
-APCfit <- fit(apc(), data = EWMaleData, ages.fit = 55:89)
-ktForAPC <- forecast(auto.arima(as.vector(APCfit$kt)), h = 30)
-gcForAPC <- forecast(auto.arima(as.vector(APCfit$gc), max.d = 1), h = 30)
-mxtForAPC <- predict(APCfit, years = 2012:2041, kt = ktForAPC$mean, 
-                     gc = c(tail(APCfit$gc, 34), gcForAPC$mean), 
-                     type = "rates")
-mxthatAPC <- fitted(APCfit, type = "rates")
-lines(1961:2041 , (cbind(mxthatAPC, mxtForAPC))["80", ], type = "l", 
-      col = "blue")
+\dontrun{
+##M6 Forecast using VARIMA(1,1) model
+library(MTS)
 
+# fit m6
+years <- EWMaleData$years
+ages.fit <- 55:89
+M6 <- m6(link = "log")
+M6fit <- fit(M6, data = EWMaleData, ages.fit = ages.fit)
+
+# Forecast kt using VARIMA(1,1) model from MTS
+h <- 50
+kt.M6 <- t(M6fit$kt) 
+kt.M6.diff <- apply(kt.M6, 2, diff)
+fit.kt.M6.11 <- VARMA(kt.M6.diff, p = 1, q = 1)
+pred.ktdiff.M6.11 <- VARMApred(fit.kt.M6.11, h = h)
+pred.kt.M6.11 <- apply(rbind(tail(kt.M6, n = 1),
+                             pred.ktdiff.M6.11$pred), 
+                       2, cumsum)[-1, ]
+
+# set row names
+years.forecast <- seq(tail(years, 1) + 1, length.out = h)
+rownames(pred.kt.M6.11) <- years.forecast
+
+# plot kt1
+plot(x = c(years, years.forecast),
+     y = c(kt.M6[, 1], pred.kt.M6.11[, 1]),
+     col = rep(c("black", "red"), times = c(length(years), h)),
+     xlab = "time",
+     ylab = "k1")
+
+plot(x = c(years, years.forecast),
+     y = c(kt.M6[, 2], pred.kt.M6.11[, 2]),
+     col = rep(c("black", "red"), times = c(length(years), h)),
+     xlab = "time",
+     ylab = "k2")
+
+# forecast cohort effect
+# the following cohorts are required:
+# from 2012 - 89 = 1923
+# to 2061 - 55 = 2006
+pred.gc.M6 <- forecast(auto.arima(M6fit$gc, max.d = 1), h = h)
+
+# use predict to get rates
+pred.qxt.M6.11 <- predict(object = M6fit,
+                          years = years.forecast,
+                          kt = t(pred.kt.M6.11),
+                          gc = c(tail(M6fit$gc, 34), pred.gc.M6$mean),
+                          type = "rates")
+
+qxthatM6 <- fitted(M6fit, type = "rates")
+
+# plot mortality profile at age 60, 70 and 80
+matplot(1961 : 2061,
+        t(cbind(qxthatM6, pred.qxt.M6.11)[c("60", "70", "80"), ]),
+        type = "l", col = "black", xlab = "years", ylab = "rates",
+        lwd = 1.5)
+}
 }
 \seealso{
 \code{\link{forecast.fitStMoMo}}
 }
-

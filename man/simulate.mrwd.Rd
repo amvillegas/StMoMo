@@ -21,4 +21,3 @@ The default, \code{NULL} will not change the random generator state.}
 Returns one simulated path of the Multivariate 
 Random Walk with Drift model in \code{object}.
 }
-

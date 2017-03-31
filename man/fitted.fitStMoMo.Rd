@@ -35,4 +35,3 @@ plot(LCfit$years, uxt["65", ], xlab = "year", ylab = "death rate",
      main = "fitted vs. observed rates at age 65")
 lines(LCfit$years, uxthat["65", ])
 }
-

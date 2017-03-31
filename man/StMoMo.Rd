@@ -3,6 +3,7 @@
 \docType{package}
 \name{StMoMo}
 \alias{StMoMo}
+\alias{StMoMo}
 \alias{StMoMo-package}
 \title{Create a new Stochastic Mortality Model}
 \usage{
@@ -170,4 +171,3 @@ Mortality Models Mortality Models. Pension Institute Working Paper.
 \code{\link{apc}}, \code{\link{rh}}, \code{\link{m6}}, \code{\link{m7}}, 
 \code{\link{m8}}
 }
-

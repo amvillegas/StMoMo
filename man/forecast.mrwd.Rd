@@ -35,4 +35,3 @@ An object of class \code{"mrwdForecast"} with components:
 Returns forecasts and other information for a Multivariate 
 Random Walk with Drift model.
 }
-

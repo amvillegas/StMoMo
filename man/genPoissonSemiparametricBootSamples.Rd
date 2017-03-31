@@ -24,4 +24,3 @@ Poisson log-bilinear model for mortality forecasting.
 Scandinavian Actuarial Journal, 2005(3), 212-224.
 }
 \keyword{internal}
-

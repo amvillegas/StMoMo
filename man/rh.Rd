@@ -82,4 +82,3 @@ Insurance: Mathematics and Economics, 38(3), 556-570.
 \seealso{
 \code{\link{fit.rh}}, \code{\link{StMoMo}}, \link{lc}, \link{apc}
 }
-

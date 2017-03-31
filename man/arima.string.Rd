@@ -10,4 +10,3 @@ arima.string(object, padding = FALSE)
 Copy of unexported function arima.string from forecast
 }
 \keyword{internal}
-

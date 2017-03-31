@@ -10,4 +10,3 @@ predictLink(ax, bx, kt, b0x, gc, oxt, ages, years)
 Compute the link for a given mortality models
 }
 \keyword{internal}
-

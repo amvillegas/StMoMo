@@ -152,4 +152,3 @@ Hunt, A., & Villegas, A. M. (2015). Robustness and convergence in the
 Lee-Carter model with cohorts. Insurance: Mathematics and Economics, 
 64, 186-202.
 }
-

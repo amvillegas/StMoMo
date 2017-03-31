@@ -86,4 +86,3 @@ modelling. Insurance: Mathematics and Economics, 42(2), 797-816.
 \seealso{
 \code{\link{simulate.bootStMoMo}}, \code{\link{plot.bootStMoMo}}
 }
-

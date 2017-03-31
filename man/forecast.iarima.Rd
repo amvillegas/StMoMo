@@ -35,4 +35,3 @@ An object of class \code{"iarimaForecast"} with components:
 Returns forecasts and other information for a group of
 independent arima series.
 }
-

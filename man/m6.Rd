@@ -56,4 +56,3 @@ mortality projection models. Insurance: Mathematics and Economics,
 \code{\link{StMoMo}}, \code{\link{central2initial}}, 
 \code{\link{cbd}}, \code{\link{m7}}, \code{\link{m8}}
 }
-

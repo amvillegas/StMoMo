@@ -19,4 +19,3 @@ computeLogLikBinomial(obs, fit, exposure, weight)
 Compute Binomial loglikelihod
 }
 \keyword{internal}
-

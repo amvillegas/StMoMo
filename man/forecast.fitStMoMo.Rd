@@ -193,4 +193,3 @@ legend("topright",legend = c("Fitted jump-off", "Actual jump-off",
        "Fitted jump-off, 30 year look-back"), 
        lty = 1:3, col = c("black", "blue", "red"))
 }
-

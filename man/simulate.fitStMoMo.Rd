@@ -213,4 +213,3 @@ fan(t(APCsim$rates["65", 1:(length(APCsim$years) - 3), ]),
 \seealso{
 \code{\link{forecast.fitStMoMo}}
 }
-

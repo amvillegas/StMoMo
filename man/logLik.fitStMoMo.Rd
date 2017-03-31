@@ -18,4 +18,3 @@ The log-likelihood of the fitted model.
 \description{
 Returns the log-likelihood of a fitted Stochastic Mortality Model.
 }
-
