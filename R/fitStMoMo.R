@@ -277,7 +277,7 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
   } 
   rownames(wxt) <- ages
   colnames(wxt) <- years
-  if (any(Ext <= 0)) { #Non-positive exposures
+  if (any(Ext <= 0, na.rm = TRUE)) { #Non-positive exposures
     indExt <- (Ext <= 0)
     wxt[indExt] <- 0
     warning(paste("StMoMo: ", sum(indExt), " data points have 
