@@ -1,16 +1,9 @@
-## Resubmission
-This is a resubmission. In this version I have
-added in the DESCRIPTION relevant references to the
-methods implemented in the package. There is no reference
-available for the family of generalised age-period-cohort
-as this is a new framework we introduced for this package, 
-but I have addedd references to the Lee-Carter and
-Cairns-Blake-Dowd models.
-
 ## Submission summary
-This new release improves the interface of
-the main fitting function and provides new
-forecasting methods.
+This new release fixes minor bugs and adds
+a citation file for a new JSS publication.
+The DOI in the CITATION is for a new JSS 
+publication that will be registered after 
+publication on CRAN.
 
 ## Test environments
 * local Windows 10 install, R 3.3.2
