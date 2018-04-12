@@ -40,8 +40,8 @@ predictLink <- function(ax, bx, kt, b0x, gc, oxt, ages, years) {
 #' Compute Poisson loglikelihod
 #' 
 #' @param obs observed number of deaths
-#' @param fit fitted numberd of deaths
-#' @param weight weigths given to each observation#' 
+#' @param fit fitted number of deaths
+#' @param weight weights given to each observation#' 
 #' @keywords internal
 computeLogLikPoisson <- function(obs, fit, weight) {
   ind <- (weight > 0)
@@ -56,7 +56,7 @@ computeLogLikPoisson <- function(obs, fit, weight) {
 #' @param obs observed rates
 #' @param fit fitted rates
 #' @param exposure observed exposure
-#' @param weight weigths given to each observation#' 
+#' @param weight weights given to each observation#' 
 #' @keywords internal
 computeLogLikBinomial <- function(obs, fit, exposure, weight) {
   ind <- (weight > 0)
@@ -70,8 +70,8 @@ computeLogLikBinomial <- function(obs, fit, exposure, weight) {
 #' Compute Poisson deviance
 #' 
 #' @param obs observed number of deaths
-#' @param fit fitted numberd of deaths
-#' @param weight weigths given to each observation#' 
+#' @param fit fitted number of deaths
+#' @param weight weights given to each observation#' 
 #' @keywords internal
 computeDeviancePoisson <- function(obs, fit, weight) {
   ind <- (weight > 0)
@@ -85,7 +85,7 @@ computeDeviancePoisson <- function(obs, fit, weight) {
 #' @param obs observed rates
 #' @param fit fitted rates
 #' @param exposure observed exposure
-#' @param weight weigths given to each observation#' 
+#' @param weight weights given to each observation#' 
 #' @keywords internal
 computeDevianceBinomial <- function(obs, fit, exposure, weight) {
   ind <- (weight > 0)
@@ -102,7 +102,7 @@ computeDevianceBinomial <- function(obs, fit, exposure, weight) {
 #' @keywords internal
 logit <- function(x) log(x / (1 - x))
 
-#' Invers Logit function
+#' Inverse Logit function
 #' \code{invlogit} computes the inverse logit function
 #' @keywords internal
 invlogit <- function(x) {

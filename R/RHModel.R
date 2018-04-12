@@ -32,9 +32,9 @@
 #'   term or \code{"1"} for \eqn{\beta_x^{(0)}=1} (the default). 
 #'   
 #' @param approxConst defines if the approximate identifiability constraint of 
-#' Hunt and Villegas (2015) is applied or not. If \code{TRUE}, the ouput object 
+#' Hunt and Villegas (2015) is applied or not. If \code{TRUE}, the output object 
 #' is of class \code{rh} and subsequent model fitting is performed with 
-#' \code{\link{fit.rh}}. If \code{FALSE}, the ouput object is of class 
+#' \code{\link{fit.rh}}. If \code{FALSE}, the output object is of class 
 #' \code{StMoMo} and subsequent model fitting is performed with 
 #' \code{\link{fit.StMoMo}}. 
 #' 

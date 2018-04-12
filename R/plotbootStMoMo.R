@@ -139,7 +139,7 @@ plot.bootStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
 #' @param fan.col palette of colours used in the fan chart
 #' @param n.fan the number of colour to use in the fan
 #' 
-#' @details In order for the plotting to look appropiately the intervals of 
+#' @details In order for the plotting to look appropriately the intervals of 
 #' the data with non missing values need to be found. Otherwise fanplot::fan 
 #' doesn't work.
 #' 

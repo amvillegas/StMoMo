@@ -36,7 +36,7 @@ Extract the model coefficient of a stochastic mortality model from
 a gnm fit of the model
 }
 \details{
-Weigth vectors wx, wx, wc are used to identify parameters that
+Weight vectors wx, wx, wc are used to identify parameters that
 cannot be estimated because all the data is weighted out.
 }
 \keyword{internal}

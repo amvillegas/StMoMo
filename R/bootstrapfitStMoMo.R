@@ -206,16 +206,16 @@ poissonRes2death <- function(dhat, res) {
   d  
 }
 
-#' Generate poisson residual bootstrap sample
+#' Generate Poisson residual bootstrap sample
 #' 
-#' Generate poisson bootstrap samples using the procedure
+#' Generate Poisson bootstrap samples using the procedure
 #' described in Renshaw and Haberman (2008)
 #' 
 #' @param devRes Matrix of deviance residuals
-#' @param dhat Marix of fitted deaths
+#' @param dhat Matrix of fitted deaths
 #' @inheritParams bootstrap
 #' 
-#' @return a list of length \code{nBoot} of marices with matching sampled 
+#' @return a list of length \code{nBoot} of matrices with matching sampled 
 #' deaths
 #' 
 #' @references

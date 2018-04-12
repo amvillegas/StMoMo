@@ -163,7 +163,7 @@ plot.resStMoMo <- function(x, type = c("scatter", "colourmap", "signplot"),
 #' should be produced.
 #' @param plotCohort logical value indicating if the cohort scatter plot 
 #' should be produced.
-#' @param zeroLine logical valae indicating if a horizontal line at zero
+#' @param zeroLine logical value indicating if a horizontal line at zero
 #' should be plotted.
 #' @param ... other arguments to pass to the plot function.
 #' @keywords internal

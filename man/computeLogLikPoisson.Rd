@@ -9,9 +9,9 @@ computeLogLikPoisson(obs, fit, weight)
 \arguments{
 \item{obs}{observed number of deaths}
 
-\item{fit}{fitted numberd of deaths}
+\item{fit}{fitted number of deaths}
 
-\item{weight}{weigths given to each observation#'}
+\item{weight}{weights given to each observation#'}
 }
 \description{
 Compute Poisson loglikelihod

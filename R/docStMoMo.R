@@ -35,7 +35,7 @@ NULL
 #' #'   \item{ages}{ vector of ages.}
 #' #'   \item{years}{ vector of years.}
 #' #'   \item{type}{ the type of exposure in the data (central).}
-#' #'   \item{series}{ name of the extracted seriesin this case males.}
+#' #'   \item{series}{ name of the extracted series in this case males.}
 #' #'   \item{label}{ label of the data.}
 #' #' }
 #' #' @seealso \code{\link{StMoMoData}}

@@ -2,23 +2,23 @@
 % Please edit documentation in R/bootstrapfitStMoMo.R
 \name{genPoissonResBootSamples}
 \alias{genPoissonResBootSamples}
-\title{Generate poisson residual bootstrap sample}
+\title{Generate Poisson residual bootstrap sample}
 \usage{
 genPoissonResBootSamples(devRes, dhat, nBoot)
 }
 \arguments{
 \item{devRes}{Matrix of deviance residuals}
 
-\item{dhat}{Marix of fitted deaths}
+\item{dhat}{Matrix of fitted deaths}
 
 \item{nBoot}{number of bootstrap samples to produce.}
 }
 \value{
-a list of length \code{nBoot} of marices with matching sampled 
+a list of length \code{nBoot} of matrices with matching sampled 
 deaths
 }
 \description{
-Generate poisson bootstrap samples using the procedure
+Generate Poisson bootstrap samples using the procedure
 described in Renshaw and Haberman (2008)
 }
 \references{

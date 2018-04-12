@@ -13,7 +13,7 @@ computeLogLikBinomial(obs, fit, exposure, weight)
 
 \item{exposure}{observed exposure}
 
-\item{weight}{weigths given to each observation#'}
+\item{weight}{weights given to each observation#'}
 }
 \description{
 Compute Binomial loglikelihod
