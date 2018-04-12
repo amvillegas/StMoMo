@@ -21,7 +21,7 @@ indicating if the ARIMA model for the ith series should include a
 constant value. The default is \code{TRUE}. This parameter is ignored
 if \code{order} is \code{NULL}.}
 
-\item{...}{additional paramters for \code{\link[forecast]{auto.arima}}}
+\item{...}{additional parameters for \code{\link[forecast]{auto.arima}}}
 }
 \value{
 an object of class \code{"iarima"} with components:

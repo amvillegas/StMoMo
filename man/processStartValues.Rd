@@ -29,7 +29,7 @@ mortality model.}
 \item{cohorts}{cohorts in the fitting data.}
 }
 \value{
-a vector of intitial parameter estimates
+a vector of initial parameter estimates
 }
 \description{
 Convert the initial parameters supplied by the user into parameters 

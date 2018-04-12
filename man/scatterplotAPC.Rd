@@ -23,7 +23,7 @@ should be produced.}
 \item{plotCohort}{logical value indicating if the cohort scatter plot 
 should be produced.}
 
-\item{zeroLine}{logical valae indicating if a horizontal line at zero
+\item{zeroLine}{logical value indicating if a horizontal line at zero
 should be plotted.}
 
 \item{...}{other arguments to pass to the plot function.}

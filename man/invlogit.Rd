@@ -2,13 +2,13 @@
 % Please edit documentation in R/internalUtils.R
 \name{invlogit}
 \alias{invlogit}
-\title{Invers Logit function
+\title{Inverse Logit function
 \code{invlogit} computes the inverse logit function}
 \usage{
 invlogit(x)
 }
 \description{
-Invers Logit function
+Inverse Logit function
 \code{invlogit} computes the inverse logit function
 }
 \keyword{internal}
