@@ -1,22 +1,21 @@
-citHeader("To cite package 'StMoMo' in publications use:")
+bibentry(bibtype = "Article",
+  title        = "{StMoMo}: An {R} Package for Stochastic Mortality Modeling",
+  author       = c(person(given = c("Andr\\'es", "M."),
+                          family = "Villegas",
+                          email = "a.villegas@unsw.edu.au"),
+                   person(given = c("Vladimir", "K."),
+                          family = "Kaishev",
+                          email = "Vladimir.Kaishev.1@city.ac.uk"),
+                   person(given = "Pietro",
+                          family = "Millossovich",
+                          email = "Pietro.Millossovich.1@city.ac.uk")),
+  journal      = "Journal of Statistical Software",
+  year         = "2018",
+  volume       = "84",
+  number       = "3",
+  pages        = "1--38",
+  doi          = "10.18637/jss.v084.i03",
 
-if(!exists("meta") || is.null(meta)) meta <- packageDescription("gnm")
-year <- 2017
-note <- sprintf("R package version %s", meta$Version) 
-
-citEntry(entry="Manual",
-    title = {"StMoMo: An R Package for Stochastic Mortality Modelling"},
-    author = personList(as.person("Andres M. Villegas"),
-                        as.person("Pietro Millossovich"),
-                        as.person("Vladimir K. Kaishev")),
-    year = year,
-    note = note,
-    url = "https://CRAN.R-project.org/package=StMoMo",
-    textVersion = paste(
-      "Andres M. Villegas,  Pietro Millossovich and Vladimir K. Kaishev", 
-      sprintf("(%s).", year),
-      "StMoMo: An R Package for Stochastic Mortality Modelling.",
-      sprintf("%s.", note), "URL https://CRAN.R-project.org/package=StMoMo")
+  header       = "To cite StMoMo in publications use:"
 )
-
 
