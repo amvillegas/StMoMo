@@ -58,7 +58,7 @@
 #' 
 #' If \code{kt.method} is \code{"iarima"}, fitting and simulation of 
 #' the time series model for the  period indexes is done with \eqn{N} 
-#' indepedent arima models using the function \code{\link{iarima}}. 
+#' independent arima models using the function \code{\link{iarima}}. 
 #' See this latter function for details on input arguments 
 #' \code{kt.order} and \code{kt.include.constant}.  
 #' 

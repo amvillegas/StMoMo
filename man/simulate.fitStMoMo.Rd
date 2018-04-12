@@ -54,7 +54,7 @@ constant value. The default is \code{TRUE}.  This argument is only used
 when \code{kt.method} is \code{"iarima"}.}
 
 \item{kt.lookback}{optional argument to specify the look-back window to use
-in the estimation of the time serires model for the period indexes. By 
+in the estimation of the time series model for the period indexes. By 
 default all the estimated values are used. If 
 \code{kt.lookback} is provided then the last \code{kt.lookback} 
 years of \eqn{\kappa_t^{(i)}, i = 1,..N,} are used.}
@@ -118,7 +118,7 @@ Multivariate Random Walk with Drift using the function
 
 If \code{kt.method} is \code{"iarima"}, fitting and simulation of 
 the time series model for the  period indexes is done with \eqn{N} 
-indepedent arima models using the function \code{\link{iarima}}. 
+independent arima models using the function \code{\link{iarima}}. 
 See this latter function for details on input arguments 
 \code{kt.order} and \code{kt.include.constant}.  
 

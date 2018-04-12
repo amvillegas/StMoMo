@@ -242,7 +242,7 @@ genPoissonResBootSamples <- function(devRes, dhat, nBoot) {
 
 #' Map Binomial deviance residuals into deaths
 #' 
-#' This funciont uses the procedure described in 
+#' This funcion uses the procedure described in 
 #' Debon et al. (2010, section 3)
 #' 
 #' @param dhat fitted number of deaths (scalar)
