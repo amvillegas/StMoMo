@@ -15,7 +15,7 @@ poissonRes2death(dhat, res)
 matching observed deaths
 }
 \description{
-This funciont uses the procedure described in Renshaw and Haberman (2008)
+This function uses the procedure described in Renshaw and Haberman (2008)
 }
 \references{
 Renshaw, A. E., & Haberman, S. (2008). On simulation-based approaches to 

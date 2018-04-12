@@ -171,7 +171,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
 
 #' Map poisson deviance residuals into deaths
 #' 
-#' This funciont uses the procedure described in Renshaw and Haberman (2008)
+#' This function uses the procedure described in Renshaw and Haberman (2008)
 #' 
 #' @param dhat fitted number of deaths (scalar)
 #' @param res deviance residual (scalar)
@@ -242,7 +242,7 @@ genPoissonResBootSamples <- function(devRes, dhat, nBoot) {
 
 #' Map Binomial deviance residuals into deaths
 #' 
-#' This funcion uses the procedure described in 
+#' This function uses the procedure described in 
 #' Debon et al. (2010, section 3)
 #' 
 #' @param dhat fitted number of deaths (scalar)

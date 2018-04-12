@@ -17,7 +17,7 @@ binomRes2q(dhat, e, res)
 matching observed deaths
 }
 \description{
-This funcion uses the procedure described in 
+This function uses the procedure described in 
 Debon et al. (2010, section 3)
 }
 \references{
