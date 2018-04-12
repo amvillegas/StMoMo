@@ -1,36 +1,5 @@
-# Sample .travis.yml for R projects from https://github.com/craigcitro/r-travis
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: c
-
-env:
-   global:
-     - WARNINGS_ARE_ERRORS=1
-     - R_BUILD_ARGS="--no-build-vignettes --no-manual"
-     - R_CHECK_ARGS="--no-build-vignettes --no-manual --as-cran"
-     - BOOTSTRAP_LATEX="1"
-
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-
-install:
-  - ./travis-tool.sh install_deps
-  - sudo add-apt-repository -y ppa:texlive-backports/ppa
-  - sudo apt-get -qq update
-  - ./travis-tool.sh aptget_install texlive-base
-  - ./travis-tool.sh aptget_install biblatex
-  - ./travis-tool.sh aptget_install texlive-latex-recommended
-  - ./travis-tool.sh aptget_install texlive-latex-extra
-  - ./travis-tool.sh aptget_install texlive-science
-
-script: ./travis-tool.sh run_tests
-
-after_failure:
-  - ./travis-tool.sh dump_logs
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change
+language: R
+sudo: false
+cache: packages

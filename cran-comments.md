@@ -1,17 +1,25 @@
 ## Submission summary
 This new release fixes minor bugs and adds
 a citation file for a new JSS publication.
-The DOI in the CITATION is for a new JSS 
-publication that will be registered after 
-publication on CRAN.
 
 ## Test environments
 * local Windows 10 install, R 3.3.2
 * ubuntu 12.04 (on travis-ci), R 3.2.5
-* win-builder, 3.4.0 alpha (2017-03-30 r72444)
+* win-builder, 3.5.0 alpha (2018-04-10 r74581)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.
+
+There was the follwoing comment.
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.18637/jss.v084.i03
+    From: inst/CITATION
+    Status: Not Found
+    Message: 404
+    
+    The DOI in the CITATION is for a new JSS publication 
+    that will be registered after publication on CRAN.
 
 There was one NOTE.
 
