@@ -27,6 +27,6 @@ To install the latest development version:
 License:
 ========
 
-This package is free and open source software, licensed under GPL (\>= 2)
+This package is free and open source software, licensed under GPL (&gt;= 2)
 
-If you are interested in the package feel free to email <andresmauriciovillegas@gmail.com> or track development at <https://github.com/amvillegas/StMoMo>
+If you are interested in the package feel free to email <andresmauriciovillegas@gmail.com> or track development at <http://github.com/amvillegas/StMoMo>
