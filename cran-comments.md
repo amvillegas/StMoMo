@@ -1,3 +1,7 @@
+## Resubmission
+This is a resubmission. I have fixed the problems 
+with the vignette.
+
 ## Submission summary
 This new release fixes a minor bug and adds
 a citation file for a new JSS publication.
