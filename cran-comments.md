@@ -1,6 +1,7 @@
 ## Resubmission
-This is a resubmission. I have fixed the problems 
-with the vignette.
+This is a resubmission. I have updated link 
+in README file to point to the pdf of the 
+package documentation .
 
 ## Submission summary
 This new release fixes a minor bug and adds
