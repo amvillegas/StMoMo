@@ -1,7 +1,7 @@
 ## Resubmission
 This is a resubmission. I have updated link 
 in README file to point to the pdf of the 
-package documentation .
+package working paper.
 
 ## Submission summary
 This new release fixes a minor bug and adds
