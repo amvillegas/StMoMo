@@ -28,6 +28,14 @@ multivariate time series.
 For further information on the Multivariate Random Walk with
 drift see Appendix B in Haberman and Renshaw (2011).
 }
+\examples{
+mxt <- with(EWMaleData, log(Dxt/Ext))    # data
+R   <- mrwd(mxt)  
+P   <- forecast(R, h = 20)
+
+forecast.values <- exp(P$mean)
+matplot(forecast.values, type = "l", log = "y")
+}
 \references{
 Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
 mortality projection models. Insurance: Mathematics and Economics, 

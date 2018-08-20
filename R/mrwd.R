@@ -1,4 +1,12 @@
 
+#' Generic for forecasting a Stochastic Mortality Model or Random-Walk with drift model.
+#' @inheritParams fit
+#' @keywords internal
+#' @export
+forecast = function(object, ...)
+  UseMethod("forecast")
+
+
 #' Fit a Multivariate Random Walk with Drift
 #' 
 #' Fits a Multivariate Random Walk with Drift to \code{x}, a
@@ -23,7 +31,13 @@
 #' Haberman, S., & Renshaw, A. (2011). A comparative study of parametric 
 #' mortality projection models. Insurance: Mathematics and Economics, 
 #' 48(1), 35-55. 
+#' @examples 
+#' mxt <- with(EWMaleData, log(Dxt/Ext))    # data
+#' R   <- mrwd(mxt)  
+#' P   <- forecast(R, h = 20)
 #' 
+#' forecast.values <- exp(P$mean)
+#' matplot(forecast.values, type = "l", log = "y")
 #' @export
 mrwd <- function(x) {  
   x <- as.matrix(x)
@@ -39,6 +53,7 @@ mrwd <- function(x) {
   structure(list(drift = d, sigma = sigma, fitted = fits, residuals = res, 
                  x = x), class = "mrwd")  
 }
+
 
 #' Forecast a Multivariate Random Walk with Drift
 #' 
@@ -61,7 +76,7 @@ mrwd <- function(x) {
 #'  intervals.}
 #'  \item{level}{ the confidence values associated with the prediction 
 #'  intervals.}
-#'  @export
+#' @export
 forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...) {
   
   x <- object$x
@@ -93,9 +108,9 @@ forecast.mrwd <- function(object, h = 10, level = c(80,95), fan = FALSE, ...) {
     lower[, , i] <- mean - z[i] * se
     upper[, , i] <- mean + z[i] * se
   }
-      
+  
   structure(list(model = object, level = level, mean = mean, lower = lower, 
-                 upper = upper), class = "mrwdForecast")    
+                 upper = upper), class = "mrwdForecast")     
 }
 
 #' Simulate a Multivariate Random Walk with Drift

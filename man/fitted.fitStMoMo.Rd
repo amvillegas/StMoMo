@@ -4,7 +4,8 @@
 \alias{fitted.fitStMoMo}
 \title{Compute fitted values for a Stochastic Mortality Model}
 \usage{
-\method{fitted}{fitStMoMo}(object, type = c("link", "rates", "deaths"), ...)
+\method{fitted}{fitStMoMo}(object, type = c("link", "rates", "deaths"),
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 
