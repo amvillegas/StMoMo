@@ -4,8 +4,8 @@
 \alias{forecast.mrwd}
 \title{Forecast a Multivariate Random Walk with Drift}
 \usage{
-\method{forecast}{mrwd}(object, h = 10, level = c(80, 95), fan = FALSE,
-  ...)
+\method{forecast}{mrwd}(object, h = 10, level = c(80, 95),
+  fan = FALSE, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"mrwd"}.}
@@ -29,7 +29,6 @@ An object of class \code{"mrwdForecast"} with components:
  intervals.}
  \item{level}{ the confidence values associated with the prediction 
  intervals.}
- @export
 }
 \description{
 Returns forecasts and other information for a Multivariate 

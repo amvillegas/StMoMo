@@ -3,7 +3,6 @@
 #' @name StMoMo
 #' @docType package
 #' @importFrom gnm gnm
-#' @importFrom gnm Mult
 #' @importFrom forecast forecast
 #' @importFrom stats simulate
 #' @importFrom rootSolve multiroot

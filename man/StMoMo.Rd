@@ -3,13 +3,13 @@
 \docType{package}
 \name{StMoMo}
 \alias{StMoMo}
-\alias{StMoMo}
 \alias{StMoMo-package}
 \title{Create a new Stochastic Mortality Model}
 \usage{
-StMoMo(link = c("log", "logit"), staticAgeFun = TRUE, periodAgeFun = "NP",
-  cohortAgeFun = NULL, constFun = function(ax, bx, kt, b0x, gc, wxt, ages)
-  list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc))
+StMoMo(link = c("log", "logit"), staticAgeFun = TRUE,
+  periodAgeFun = "NP", cohortAgeFun = NULL, constFun = function(ax,
+  bx, kt, b0x, gc, wxt, ages) list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc
+  = gc))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
@@ -66,8 +66,6 @@ A list with class \code{"StMoMo"} with components:
 \description{
 Initialises a StMoMo object which represents a Generalised 
 Age-Period-Cohort Stochastic Mortality Model.
-
-StMoMo.
 }
 \details{
 R implementation of the family of Generalised Age-Period-Cohort 

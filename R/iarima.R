@@ -111,7 +111,7 @@ forecast.iarima <- function(object, h = 10, level = c(80,95), fan = FALSE, ...) 
                                           paste(level, "%", sep = "")))
   
   for(i in 1:N){
-    kt.for <- forecast(object$models[[i]], h = h, level = level)
+    kt.for <- forecast::forecast(object$models[[i]], h = h, level = level)
     mean[i, ] <- kt.for$mean
     lower[i, ,] <- kt.for$lower 
     upper[i, ,] <- kt.for$upper

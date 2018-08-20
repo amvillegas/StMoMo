@@ -4,11 +4,12 @@
 \alias{simulate.fitStMoMo}
 \title{Simulate future sample paths from a Stochastic Mortality Model}
 \usage{
-\method{simulate}{fitStMoMo}(object, nsim = 1000, seed = NULL, h = 50,
-  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), kt.method = c("mrwd", "iarima"),
-  kt.order = NULL, kt.include.constant = TRUE, kt.lookback = NULL,
-  gc.lookback = NULL, ...)
+\method{simulate}{fitStMoMo}(object, nsim = 1000, seed = NULL,
+  h = 50, oxt = NULL, gc.order = c(1, 1, 0),
+  gc.include.constant = TRUE, jumpchoice = c("fit", "actual"),
+  kt.method = c("mrwd", "iarima"), kt.order = NULL,
+  kt.include.constant = TRUE, kt.lookback = NULL, gc.lookback = NULL,
+  ...)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 

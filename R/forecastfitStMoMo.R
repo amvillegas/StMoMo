@@ -212,7 +212,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = c(80, 95), oxt = NULL,
       kt.model <- iarima(kt[, (1 + nYears - kt.lookback):kt.nNA], 
                          order = kt.order, 
                          include.constant = kt.include.constant, ...)
-    kt.for <- forecast(kt.model, h = h + kt.hNA, level = level)
+    kt.for <- forecast::forecast(kt.model, h = h + kt.hNA, level = level)
     if (kt.hNA > 0) {
       years.h <- years[-((kt.nNA+1):nYears)]
       years.f <- c(years[(kt.nNA+1):nYears], years.f)
@@ -243,7 +243,7 @@ forecast.fitStMoMo <-function(object, h = 50, level = c(80, 95), oxt = NULL,
     gc.model <- forecast::Arima(gc[(1 + nCohorts - gc.lookback):gc.nNA], 
                                 order = gc.order, 
                                 include.constant = gc.include.constant) 
-    gc.for <- forecast(gc.model, h = h + gc.hNA, level = level) 
+    gc.for <- forecast::forecast(gc.model, h = h + gc.hNA, level = level) 
     
   if (gc.hNA > 0) {      
       gc.h <- gc[-((gc.nNA+1):nCohorts)]

@@ -1,6 +1,6 @@
 Package: StMoMo
 Title: Stochastic Mortality Modelling
-Version: 0.4.1.9000
+Version: 0.4.2
 Author: Andres Villegas <andresmauriciovillegas@gmail.com>,
     Pietro Millossovich <Pietro.Millossovich.1@city.ac.uk>,
     Vladimir Kaishev <Vladimir.Kaishev.1@city.ac.uk>
@@ -14,17 +14,17 @@ Description: Implementation of the family of generalised age-period-cohort
     goodness-of-fit and performing mortality projections and simulations.
 URL: http://github.com/amvillegas/StMoMo
 BugReports: http://github.com/amvillegas/StMoMo/issues
+Depends:
+    R (>= 3.2.0)
 Imports:
     MASS,
     rootSolve (>= 1.6.5.1),
     fanplot (>= 3.4),
     reshape2 (>= 1.4.1),
     fields (>= 8.2),
-    RColorBrewer
-Depends:
-    R (>= 3.2.0),
-    gnm (>= 1.0),
-    forecast(>= 6.1)
+    RColorBrewer,
+    forecast(>= 6.1),
+    gnm (>= 1.0)
 License: GPL (>= 2)
 LazyData: true
 Suggests:
@@ -33,4 +33,4 @@ Suggests:
     xtable,
     MTS
 VignetteBuilder: knitr, utils
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
