@@ -1,4 +1,3 @@
-
 #'Generate call functions
 #'
 #'Generates a list of call functions given a vector of strikes.
