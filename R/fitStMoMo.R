@@ -326,15 +326,15 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
   
   if (verbose) {
     if (length(zeroWeigthAges) > 0) {
-      cat("StMoMo: The following ages have been zero weigthed:", 
+      cat("StMoMo: The following ages have been zero weighted:", 
           zeroWeigthAges, "\n")
     }
     if (length(zeroWeigthYears) > 0) {
-      cat("StMoMo: The following years have been zero weigthed:", 
+      cat("StMoMo: The following years have been zero weighted:", 
           zeroWeigthYears, "\n")
     }
     if (length(zeroWeigthCohorts) > 0) {
-      cat("StMoMo: The following cohorts have been zero weigthed:", 
+      cat("StMoMo: The following cohorts have been zero weighted:", 
           zeroWeigthCohorts, "\n")
     }    
   }  
