@@ -4,13 +4,15 @@
 \alias{apc}
 \title{Create an Age-Period-Cohort mortality model}
 \usage{
-apc(link = c("log", "logit"))
+apc(link = c("log", "logit", "log-Gaussian"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would assume 
-that deaths follow a Binomial distribution and a logit link.}
+Poisson distribution and use a log link.  \code{"logit"} would assume 
+that deaths follow a Binomial distribution and a logit link. 
+\code{"log-Gaussian"} would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link.}
 }
 \value{
 An object of class \code{"StMoMo"}.
@@ -20,8 +22,8 @@ Utility function to initialise a \code{StMoMo} object representing an
 Age-Period-Cohort mortality model.
 }
 \details{
-The created model is either a log-Poisson or a logit-Binomial version of 
-the classical age-period-cohort mortality model which has predictor 
+The created model is either a log-Poisson, a logit-Binomial or a log-Gaussian
+version of the classical age-period-cohort mortality model which has predictor 
 structure 
 \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 

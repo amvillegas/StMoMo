@@ -4,8 +4,8 @@
 #' Renshaw and Haberman (Lee-Carter with cohorts) mortality model introduced
 #' in Renshaw and Haberman (2006).
 #' 
-#' The created model is either a log-Poisson or a  logit-Binomial version 
-#' of the Renshaw and Haberman model which has predictor structure   
+#' The created model is either a log-Poisson, a  logit-Binomial, or a log-Gaussian
+#'  version of the Renshaw and Haberman model which has predictor structure   
 #' \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \beta^{(0)} \gamma_{t-x}.}
 #' or
 #' \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \gamma_{t-x}.}
@@ -36,7 +36,8 @@
 #' is of class \code{rh} and subsequent model fitting is performed with 
 #' \code{\link{fit.rh}}. If \code{FALSE}, the output object is of class 
 #' \code{StMoMo} and subsequent model fitting is performed with 
-#' \code{\link{fit.StMoMo}}. 
+#' \code{\link{fit.StMoMo}}. This functionality is not yet implemented for the
+#' \code{"log-Gaussian"} link.
 #' 
 #' @return An object of class \code{"StMoMo"} or \code{"rh"}.
 #' 
@@ -74,7 +75,7 @@
 #' 
 #' 
 #' @export
-rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP"), 
+rh <- function(link = c("log", "logit", "log-Gaussian"), cohortAgeFun = c("1", "NP"), 
                approxConst = FALSE) {
   link <- match.arg(link)
   cohortAgeFun <- match.arg(cohortAgeFun)
@@ -107,6 +108,9 @@ rh <- function(link = c("log", "logit"), cohortAgeFun = c("1", "NP"),
          cohortAgeFun = cohortAgeFun, constFun = constRH)
   if (!is.logical(approxConst)) {
     stop( "approxConst should be a logical variable")
+  }
+  if (approxConst && link == "log-Gaussian") {
+    stop( "approxConst fitting not yet available for the log-Gaussian link")
   }
   out$approxConst <- approxConst
   if(approxConst)  class(out) <- c("rh", "StMoMo")

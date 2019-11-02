@@ -56,7 +56,7 @@ computeLogLikPoisson <- function(obs, fit, weight) {
 #' @param obs observed rates
 #' @param fit fitted rates
 #' @param exposure observed exposure
-#' @param weight weights given to each observation#' 
+#' @param weight weights given to each observation 
 #' @keywords internal
 computeLogLikBinomial <- function(obs, fit, exposure, weight) {
   ind <- (weight > 0)
@@ -66,6 +66,24 @@ computeLogLikBinomial <- function(obs, fit, exposure, weight) {
                    lchoose(round(exposure[ind]), round(obs[ind] * exposure[ind])))
   sum(res, na.rm = TRUE)
 }
+
+
+#' Compute Gaussian loglikelihod
+#' 
+#' @param obs observed log rates
+#' @param fit fitted log rates
+#' @param sigma2 estimated vairance
+#' @param weight weights given to each observation 
+#' @keywords internal
+computeLogLikGaussian <- function(obs, fit, weight) {
+  ind <- (weight > 0)
+  res <- array(NA, dim = dim(weight))
+  res[ind] <- weight[ind] * (obs[ind] - fit[ind])^2
+  sigma2 <- sum(res[ind]) / sum(weight[ind])
+  res[ind] <- weight[ind] * (-res[ind]/(2*sigma2) - log(sqrt(2*pi*sigma2)))
+  sum(res, na.rm = TRUE)
+}
+
 
 #' Compute Poisson deviance
 #' 
@@ -96,6 +114,22 @@ computeDevianceBinomial <- function(obs, fit, exposure, weight) {
         (1 - obs[ind]) * log((1 - obs[ind]) / (1 - fit[ind])))
   sum(dev, na.rm = TRUE)
 }
+
+
+#' Gaussian deviance
+#' @param obs observed log rates
+#' @param fit fitted log rates
+#' @param sigma2 estimated vairance
+#' @param weight weights given to each observation 
+#' @keywords internal
+computeDevianceGaussian <- function(obs, fit, weight) {
+  ind <- (weight > 0)
+  dev <- array(NA, dim = dim(weight))
+  
+  dev[ind] <- weight[ind] * (obs[ind] - fit[ind])^2 
+  sum(dev, na.rm = TRUE)
+}
+
 
 #'Logit function
 #' \code{logit} computes the logit function

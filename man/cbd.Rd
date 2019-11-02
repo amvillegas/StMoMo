@@ -4,13 +4,15 @@
 \alias{cbd}
 \title{Create a Cairns-Blake-Dowd mortality model}
 \usage{
-cbd(link = c("logit", "log"))
+cbd(link = c("logit", "log", "log-Gaussian"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would 
-assume that deaths follow a Binomial distribution and a logit link. 
+Poisson distribution and use a log link, \code{"logit"} would 
+assume that deaths follow a Binomial distribution and a logit link, and 
+\code{"log-Gaussian"}  would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link. 
 Note that the default is the logit link.}
 }
 \value{
@@ -21,8 +23,9 @@ Utility function to initialise a \code{StMoMo} object representing a
 Cairns-Blake-Dowd mortality model.
 }
 \details{
-The created model is either a logit-Binomial or a log-Poisson version of 
-the Cairns-Blake-Dowd mortality model which has predictor structure 
+The created model is either a logit-Binomial, a log-Poisson  or a 
+log-Gaussian  version of the Cairns-Blake-Dowd mortality model 
+which has predictor structure 
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
 where \eqn{\bar{x}} is the average age in the data.
 }

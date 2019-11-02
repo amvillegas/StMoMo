@@ -6,7 +6,7 @@
 \alias{StMoMo-package}
 \title{Create a new Stochastic Mortality Model}
 \usage{
-StMoMo(link = c("log", "logit"), staticAgeFun = TRUE,
+StMoMo(link = c("log", "logit", "log-Gaussian"), staticAgeFun = TRUE,
   periodAgeFun = "NP", cohortAgeFun = NULL, constFun = function(ax,
   bx, kt, b0x, gc, wxt, ages) list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc
   = gc))
@@ -14,8 +14,10 @@ StMoMo(link = c("log", "logit"), staticAgeFun = TRUE,
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would assume 
-that deaths follow a Binomial distribution and a logit link.}
+Poisson distribution and use a log link.  \code{"logit"} would assume 
+that deaths follow a Binomial distribution and a logit link. 
+\code{"log-Gaussian"} would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link.}
 
 \item{staticAgeFun}{logical value indicating if a static age function 
 \eqn{\alpha_x} is to be included.}
@@ -77,9 +79,9 @@ Lee-Carter model, CBD model and APC model.
 Age-Period-Cohort (GAPC) Stochastic model that fits within the 
 general class of generalised non-linear models defined as follows 
 \deqn{D_{xt} \sim Poisson(E_{xt}\mu_{xt}), D_{xt} \sim 
-Binomial(E_{xt},q_{xt})} 
+Binomial(E_{xt},q_{xt}), \log E_{xt}/D_{xt} \sim Normal(\log \mu_{xt}, \sigma)} 
 \deqn{\eta_{xt} = \log \mu_{xt}, \eta_{xt} = \mathrm{logit}\,
-q_{xt}} \deqn{\eta_{xt} = \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)}
+q_{xt}, \eta_{xt} = \log \mu_{xt}} \deqn{\eta_{xt} = \alpha_x + \sum_{i=1}^N \beta_x^{(i)}\kappa_t^{(i)}
 + \beta_x^{(0)}\gamma_{t-x}} \deqn{v: \{\alpha_{x}, \beta_x^{(1)},..., 
 \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, \beta_x^{(0)}, \gamma_{t-x}\} \mapsto 
 \{\alpha_{x}, \beta_x^{(1)},..., \beta_x^{(N)}, \kappa_t^{(1)},..., \kappa_t^{(N)}, 
@@ -115,6 +117,11 @@ LC <- StMoMo(link = "log", staticAgeFun = TRUE, periodAgeFun = "NP",
 
 plot(fit(LC, data = EWMaleData, ages.fit = 55:89))
 
+#Lee-Carter model (log-Gaussian)
+
+LCgaussian <- StMoMo(link = "log-Gaussian", staticAgeFun = TRUE, periodAgeFun = "NP",
+             constFun = constLC) 
+plot(fit(LCgaussian, data = EWMaleData, ages.fit = 55:89))
 
 #CBD model   
 f2 <- function(x, ages) x - mean(ages)

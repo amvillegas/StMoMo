@@ -165,6 +165,7 @@ predict.fitStMoMo <- function(object, years, kt = NULL, gc = NULL, oxt = NULL,
   link <- predictLink(ax = object$ax, bx = object$bx, kt = kt, 
                       b0x = object$b0x, gc = gc, oxt = oxt, 
                       ages = ages, years = years)
-  rates <- switch(object$model$link, log = exp(link), logit = invlogit(link))
+  rates <- switch(object$model$link, log = exp(link), logit = invlogit(link), 
+                  `log-Gaussian` = exp(link))
   switch(type, rates = rates, link = link)  
 }

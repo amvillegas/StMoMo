@@ -228,6 +228,8 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
     warning( "logit-Binomial model fitted to central exposure data\n")
   if (data$type == "initial" && object$link == "log")
     warning( "log-Poisson model fitted to initial exposure data\n")
+  if (data$type == "initial" && object$link == "log-Gaussian")
+    warning( "log-Gaussian model fitted to initial exposure data\n")
   
   #Extract the specific ages and years for fitting 
   if (length(ages.fit) != length(which(ages.fit %in% ages))) {
@@ -345,11 +347,16 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                      family = binomial(link = "logit"), 
                      weights = fitData$E * fitData$w, start = start, 
                      method = "coefNames")
-  } else {        
+  } else if (object$link == "log") {        
     coefNames <- gnm(formula = as.formula(object$gnmFormula), data = fitData,
                      family = poisson(link = "log"), 
                      weights = fitData$w, start = start, 
                      method = "coefNames")
+  }  else if (object$link == "log-Gaussian") {        
+  coefNames <- gnm(formula = as.formula(object$gnmFormula), data = fitData,
+                   family = gaussian(link = "identity"), 
+                   weights = fitData$w, start = start, 
+                   method = "coefNames")
   }  
   if (is.null(start.ax)) start.ax <- rep(NA, nAges)
   if (is.null(start.bx)) start.bx <- array(NA, c(nAges, N))
@@ -368,12 +375,17 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                         data = fitData, family = binomial(link = "logit"),
                         weights = fitData$E * fitData$w, start = startCoef, 
                         verbose = verbose, ...)
-  } else {        
+  } else if (object$link == "log") {        
     fittingModel <- gnm(formula = as.formula(object$gnmFormula), 
                         data = fitData, family= poisson(link = "log"), 
                         weights = fitData$w, start = startCoef, 
                         verbose = verbose, ...)
-  }  
+  } else if (object$link == "log-Gaussian") {        
+    fittingModel <- gnm(formula = as.formula(object$gnmFormula), 
+                        data = fitData, family= gaussian(link = "identity"), 
+                        weights = fitData$w, start = startCoef, 
+                        verbose = verbose, ...)
+  }    
   if (verbose) 
     cat("StMoMo: Finish fitting with gnm\n")  
   fail <- is.null(fittingModel$conv)
@@ -451,7 +463,12 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
     Dhatxt <- exp(newLinkPred) * Ext
     loglik <- computeLogLikPoisson(obs = Dxt, fit = Dhatxt, weight = wxt)
     deviance <- computeDeviancePoisson(obs = Dxt, fit = Dhatxt, weight = wxt)
+    
+  } else if (object$link == "log-Gaussian") {
+    loglik <- computeLogLikGaussian(obs = log(Dxt / Ext), fit = newLinkPred, weight = wxt)
+    deviance <- computeDevianceGaussian(obs = log(Dxt / Ext), fit = newLinkPred, weight = wxt)
   }
+  
   
   out <- list(model = object, ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc, 
               data = data, Dxt = Dxt, Ext = Ext, oxt = oxt , wxt = wxt, 

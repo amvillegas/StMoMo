@@ -132,6 +132,8 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
                                                           E = object$Ext,
                                                           nBoot)      
     }
+  } else if (link == "log-Gaussian") {
+    stop("Bootstrap not yet implemented for the log-Gaussian family")
   }
 
   #Fit the model to each of 

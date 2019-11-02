@@ -4,13 +4,16 @@
 \alias{lc}
 \title{Create a Lee-Carter model}
 \usage{
-lc(link = c("log", "logit"), const = c("sum", "last", "first"))
+lc(link = c("log", "logit", "log-Gaussian"), const = c("sum", "last",
+  "first"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would assume 
-that deaths follow a Binomial distribution and a logit link.}
+Poisson distribution and use a log link.  \code{"logit"} would assume 
+that deaths follow a Binomial distribution and a logit link. 
+\code{"log-Gaussian"} would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link.}
 
 \item{const}{defines the constraint to impose to the period index of the
 model to ensure identifiability. The alternatives are 
@@ -26,8 +29,9 @@ Utility function to initialise a \code{StMoMo} object representing a
 Lee-Carter model.
 }
 \details{
-The created model is either a log-Poisson (see Brouhns et al (2002)) or a 
-logit-Binomial version of the Lee-Carter model which has predictor structure   
+The created model is either a log-Poisson (see Brouhns et al (2002)), a 
+logit-Binomial, or a log-Gaussian version of the Lee-Carter model which 
+has predictor structure   
 \deqn{\eta_{xt} = \alpha_x + \beta_x\kappa_t.}
 To ensure identifiability one of the  following constraints is imposed
 \deqn{\sum_t\kappa_t = 0,\,\kappa_1 = 0,\, \kappa_n = 0}
@@ -41,15 +45,20 @@ LC1 <- lc()
 LCfit1<-fit(LC1, data = EWMaleData, ages.fit = 55:89)
 plot(LCfit1)
 
-#kt[1] = 0 and log link
-LC2 <- lc(const = "first")
-LCfit2<-fit(LC2, data = EWMaleData, ages.fit = 55:89)
+#sum(kt) = 0 and log-Gaussian link
+LC2 <- lc(link = "log-Gaussian")
+LCfit2 <- fit(LC2, data = EWMaleData, ages.fit = 55:89)
 plot(LCfit2)
 
-#kt[n] = 0 and logit link
-LC3 <- lc("logit", "last")
-LCfit3<-fit(LC3, data = EWMaleData, ages.fit = 55:89)
+#kt[1] = 0 and log link
+LC3 <- lc(const = "first")
+LCfit3 <- fit(LC3, data = EWMaleData, ages.fit = 55:89)
 plot(LCfit3)
+
+#kt[n] = 0 and logit link
+LC4 <- lc("logit", "last")
+LCfit4 <- fit(LC4, data = EWMaleData, ages.fit = 55:89)
+plot(LCfit4)
 
 }
 \references{

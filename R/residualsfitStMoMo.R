@@ -40,7 +40,14 @@ residuals.fitStMoMo <- function(object, scale = TRUE, ...) {
     res[ind] <- 2 * W[ind] * E[ind] *(qx[ind] * log(qx[ind] / qxhat[ind]) + 
           (1 - qx[ind]) * log((1 - qx[ind]) / (1 - qxhat[ind]))) 
     signRes <- sign(qx - qxhat)
+  } else if (object$model$link == "log-Gaussian") {
+    E <- object$Ext
+    logmxhat <- fitted(object, type = "link")
+    logmx <- log(D / E)
+    res[ind] <-  W[ind] * (logmxhat[ind] - logmx[ind])^2
+    signRes <- sign(logmx - logmxhat)
   }
+  
   if (scale) 
     phi <- sum(res[ind]) / (object$nobs - object$npar)
   else 

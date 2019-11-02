@@ -4,13 +4,15 @@
 \alias{m8}
 \title{Create an M8 type extension of the Cairns-Blake-Dowd mortality model}
 \usage{
-m8(link = c("logit", "log"), xc)
+m8(link = c("logit", "log", "log-Gaussian"), xc)
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would 
-assume that deaths follow a Binomial distribution and a logit link. 
+Poisson distribution and use a log link, \code{"logit"} would 
+assume that deaths follow a Binomial distribution and a logit link, and 
+\code{"log-Gaussian"}  would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link. 
 Note that the default is the logit link.}
 
 \item{xc}{constant defining the cohort age-modulating parameter.}
@@ -24,8 +26,8 @@ M8 extension of the Cairns-Blake-Dowd mortality model introduced
 in Cairns et al (2009).
 }
 \details{
-The created model is either a logit-Binomial or a log-Poisson version of 
-the M8 model which has predictor structure 
+The created model is either a logit-Binomial, a log-Poisson or log-Gaussian
+version of the M8 model which has predictor structure 
 \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
 where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a
 predefined constant. 

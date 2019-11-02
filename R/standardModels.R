@@ -3,8 +3,9 @@
 #' Utility function to initialise a \code{StMoMo} object representing a 
 #' Lee-Carter model.
 #' 
-#' The created model is either a log-Poisson (see Brouhns et al (2002)) or a 
-#' logit-Binomial version of the Lee-Carter model which has predictor structure   
+#' The created model is either a log-Poisson (see Brouhns et al (2002)), a 
+#' logit-Binomial, or a log-Gaussian version of the Lee-Carter model which 
+#' has predictor structure   
 #' \deqn{\eta_{xt} = \alpha_x + \beta_x\kappa_t.}
 #' To ensure identifiability one of the  following constraints is imposed
 #' \deqn{\sum_t\kappa_t = 0,\,\kappa_1 = 0,\, \kappa_n = 0}
@@ -37,18 +38,23 @@
 #' LCfit1<-fit(LC1, data = EWMaleData, ages.fit = 55:89)
 #' plot(LCfit1)
 #' 
-#' #kt[1] = 0 and log link
-#' LC2 <- lc(const = "first")
-#' LCfit2<-fit(LC2, data = EWMaleData, ages.fit = 55:89)
+#' #sum(kt) = 0 and log-Gaussian link
+#' LC2 <- lc(link = "log-Gaussian")
+#' LCfit2 <- fit(LC2, data = EWMaleData, ages.fit = 55:89)
 #' plot(LCfit2)
 #' 
-#' #kt[n] = 0 and logit link
-#' LC3 <- lc("logit", "last")
-#' LCfit3<-fit(LC3, data = EWMaleData, ages.fit = 55:89)
+#' #kt[1] = 0 and log link
+#' LC3 <- lc(const = "first")
+#' LCfit3 <- fit(LC3, data = EWMaleData, ages.fit = 55:89)
 #' plot(LCfit3)
 #' 
+#' #kt[n] = 0 and logit link
+#' LC4 <- lc("logit", "last")
+#' LCfit4 <- fit(LC4, data = EWMaleData, ages.fit = 55:89)
+#' plot(LCfit4)
+#' 
 #' @export
-lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")) {
+lc <- function(link = c("log", "logit", "log-Gaussian"), const = c("sum", "last", "first")) {
   link <- match.arg(link)
   const <- match.arg(const)  
   constLC <- function(ax, bx, kt, b0x, gc, wxt, ages) {    
@@ -70,15 +76,18 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")) {
 #' Utility function to initialise a \code{StMoMo} object representing a 
 #' Cairns-Blake-Dowd mortality model.
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of 
-#' the Cairns-Blake-Dowd mortality model which has predictor structure 
+#' The created model is either a logit-Binomial, a log-Poisson  or a 
+#' log-Gaussian  version of the Cairns-Blake-Dowd mortality model 
+#' which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)},}
 #' where \eqn{\bar{x}} is the average age in the data.
 #' 
 #' @param link defines the link function and random component associated with 
 #'   the mortality model. \code{"log"} would assume that deaths follow a 
-#'   Poisson distribution and use a log link while \code{"logit"} would 
-#'   assume that deaths follow a Binomial distribution and a logit link. 
+#'   Poisson distribution and use a log link, \code{"logit"} would 
+#'   assume that deaths follow a Binomial distribution and a logit link, and 
+#'   \code{"log-Gaussian"}  would assume that log death rates follow a 
+#'   normal (Gaussian) distribution and an identity link. 
 #'   Note that the default is the logit link.
 #' @return An object of class \code{"StMoMo"}.
 #' 
@@ -97,7 +106,7 @@ lc <- function(link = c("log", "logit"), const = c("sum", "last", "first")) {
 #' plot(CBDfit, parametricbx = FALSE)
 #' 
 #' @export
-cbd <- function(link = c("logit", "log")) {
+cbd <- function(link = c("logit", "log", "log-Gaussian")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   StMoMo(link = link, staticAgeFun = FALSE, periodAgeFun=c("1", f1))
@@ -109,8 +118,8 @@ cbd <- function(link = c("logit", "log")) {
 #' Utility function to initialise a \code{StMoMo} object representing an 
 #' Age-Period-Cohort mortality model.
 #' 
-#' The created model is either a log-Poisson or a logit-Binomial version of 
-#' the classical age-period-cohort mortality model which has predictor 
+#' The created model is either a log-Poisson, a logit-Binomial or a log-Gaussian
+#' version of the classical age-period-cohort mortality model which has predictor 
 #' structure 
 #' \deqn{\eta_{xt} = \alpha_x + \kappa_t + \gamma_{t-x}.}
 #' 
@@ -137,7 +146,7 @@ cbd <- function(link = c("logit", "log")) {
 #' plot(APCfit, parametricbx = FALSE, nCol = 3)
 #' 
 #' @export
-apc <- function(link = c("log", "logit")) {
+apc <- function(link = c("log", "logit", "log-Gaussian")) {
   link <- match.arg(link)
   constAPC <- function(ax, bx, kt, b0x, gc, wxt, ages) {    
     nYears <- dim(kt)[2]  
@@ -168,8 +177,8 @@ apc <- function(link = c("log", "logit")) {
 #' M6 (CBD with cohorts) extension of the Cairns-Blake-Dowd mortality model 
 #' introduced in Cairns et al (2009).
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of the 
-#' M6 model which has predictor structure 
+#' The created model is either a logit-Binomial, a log-Poisson or a log-Gaussian
+#' version of the M6 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + \gamma_{t-x},} 
 #' where \eqn{\bar{x}} is the average age in the data.
 #' 
@@ -205,7 +214,7 @@ apc <- function(link = c("log", "logit")) {
 #' plot(M6fit, parametricbx = FALSE)
 #' 
 #' @export
-m6 <- function(link = c("logit", "log")) {
+m6 <- function(link = c("logit", "log", "log-Gaussian")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   constM6 <- function(ax, bx, kt, b0x, gc, wxt, ages) {
@@ -236,8 +245,8 @@ m6 <- function(link = c("logit", "log")) {
 #' M7 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of 
-#' the M7 model which has predictor structure 
+#' The created model is either a logit-Binomial, a log-Poisson or a log-Gaussian
+#'  version of the M7 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + 
 #'                            ((x-\bar{x})^2 - \hat{\sigma}^2_x)\kappa_t^{(2)} +  \gamma_{t-x},} 
 #' where \eqn{\bar{x}} is the average age in the data and \eqn{\hat{\sigma}^2_x} 
@@ -275,7 +284,7 @@ m6 <- function(link = c("logit", "log")) {
 #' plot(M7fit, parametricbx = FALSE)
 #' 
 #' @export
-m7 <- function(link = c("logit", "log")) {
+m7 <- function(link = c("logit", "log", "log-Gaussian")) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   f2 <- function(x,ages) {
@@ -313,8 +322,8 @@ m7 <- function(link = c("logit", "log")) {
 #' M8 extension of the Cairns-Blake-Dowd mortality model introduced
 #' in Cairns et al (2009).
 #' 
-#' The created model is either a logit-Binomial or a log-Poisson version of 
-#' the M8 model which has predictor structure 
+#' The created model is either a logit-Binomial, a log-Poisson or log-Gaussian
+#' version of the M8 model which has predictor structure 
 #' \deqn{\eta_{xt} = \kappa_t^{(1)} + (x-\bar{x})\kappa_t^{(2)} + (x_c-x)\gamma_{t-x}}
 #' where \eqn{\bar{x}} is the average age in the data and \eqn{x_c} is a
 #' predefined constant. 
@@ -345,7 +354,7 @@ m7 <- function(link = c("logit", "log")) {
 #' plot(M8fit, parametricbx = FALSE)
 #' 
 #' @export
-m8 <- function(link = c("logit", "log"), xc) {
+m8 <- function(link = c("logit", "log", "log-Gaussian"), xc) {
   link <- match.arg(link)
   f1 <- function(x,ages) x - mean(ages)
   f3 <- function(x,ages) xc - x

@@ -4,14 +4,16 @@
 \alias{rh}
 \title{Create a Renshaw and Haberman (Lee-Carter with cohorts) mortality model}
 \usage{
-rh(link = c("log", "logit"), cohortAgeFun = c("1", "NP"),
-  approxConst = FALSE)
+rh(link = c("log", "logit", "log-Gaussian"), cohortAgeFun = c("1",
+  "NP"), approxConst = FALSE)
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 
 the mortality model. \code{"log"} would assume that deaths follow a 
-Poisson distribution and use a log link while \code{"logit"} would assume 
-that deaths follow a Binomial distribution and a logit link.}
+Poisson distribution and use a log link.  \code{"logit"} would assume 
+that deaths follow a Binomial distribution and a logit link. 
+\code{"log-Gaussian"} would assume that log death rates follow a 
+normal (Gaussian) distribution and an identity link.}
 
 \item{cohortAgeFun}{defines the cohort age modulating parameter 
 \eqn{\beta_x^{(0)}}. It can take values: \code{"NP"} for a non-parametric age
@@ -22,7 +24,8 @@ Hunt and Villegas (2015) is applied or not. If \code{TRUE}, the output object
 is of class \code{rh} and subsequent model fitting is performed with 
 \code{\link{fit.rh}}. If \code{FALSE}, the output object is of class 
 \code{StMoMo} and subsequent model fitting is performed with 
-\code{\link{fit.StMoMo}}.}
+\code{\link{fit.StMoMo}}. This functionality is not yet implemented for the
+\code{"log-Gaussian"} link.}
 }
 \value{
 An object of class \code{"StMoMo"} or \code{"rh"}.
@@ -33,8 +36,8 @@ Renshaw and Haberman (Lee-Carter with cohorts) mortality model introduced
 in Renshaw and Haberman (2006).
 }
 \details{
-The created model is either a log-Poisson or a  logit-Binomial version 
-of the Renshaw and Haberman model which has predictor structure   
+The created model is either a log-Poisson, a  logit-Binomial, or a log-Gaussian
+ version of the Renshaw and Haberman model which has predictor structure   
 \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \beta^{(0)} \gamma_{t-x}.}
 or
 \deqn{\eta_{xt} = \alpha_x + \beta^{(1)}_x\kappa_t + \gamma_{t-x}.}

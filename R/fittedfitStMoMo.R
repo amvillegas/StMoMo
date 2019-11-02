@@ -30,7 +30,7 @@ fitted.fitStMoMo<-function(object, type = c("link", "rates", "deaths"), ...) {
   link <- with(object, predictLink(ax = ax, bx = bx, kt = kt, b0x = b0x, 
                                    gc = gc, oxt = oxt, ages = ages, 
                                    years = years))
-  rates <- switch(object$model$link, log = exp(link), logit = invlogit(link))
+  rates <- switch(object$model$link, log = exp(link), logit = invlogit(link), `log-Gaussian` = exp(link))
   deaths <- object$Ext * rates
   switch(type, rates = rates, deaths = deaths, link = link)  
 }
