@@ -1,6 +1,8 @@
 #'Generate call functions
 #'
 #'Generates a list of call functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form#'
+#' \deqn{f(x) = \max(x-k,0)} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -15,7 +17,8 @@ genCall <- function(strikes) {
     ifelse((x-k)<0, 0, (x-k))
   }
   for (i in strikes) {
-    vector_of_functions = c(vector_of_functions, eval(substitute(function(x, ages) call(x=x, ages=ages, k=i), list(i=i))))
+    vector_of_functions = c(vector_of_functions, eval(substitute(function(x, ages) call(x=x, ages=ages, k=i), 
+                                                                 list(i=i))))
   }
   return(vector_of_functions)
 }
@@ -23,6 +26,8 @@ genCall <- function(strikes) {
 #'Generate put functions
 #'
 #'Generates a list of put functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form
+#' \deqn{f(x) = \max(k-x,0)}  
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -45,6 +50,8 @@ genPut <- function(strikes) {
 #'Generate call squared functions
 #'
 #'Generates a list of call squared functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form
+#' \deqn{f(x) = \max(x-k,0)^2} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -67,6 +74,8 @@ genCallSq <- function(strikes) {
 #'Generate put squared functions
 #'
 #'Generates a list of put squared functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form
+#' \deqn{f(x) = \max(k-x,0)^2} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -89,6 +98,8 @@ genPutSq <- function(strikes) {
 #'Generate above indicator functions
 #'
 #'Generates a list of above indicator functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form
+#' \deqn{f(x) = I_{x>k}} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -111,6 +122,8 @@ genAbove <- function(strikes) {
 #'Generate below indicator functions
 #'
 #'Generates a list of above indicator functions given a vector of strikes.
+#'For each strike \eqn{k}, the functions are of the form
+#' \deqn{f(x) = I_{x<k}} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'
@@ -133,6 +146,8 @@ genBelow <- function(strikes) {
 #'Generate polynomial functions
 #'
 #'Generates a list of polynomial functions given a vector of exponents.
+#'For each exponent \eqn{j}, the functions are of the form
+#' \deqn{f(x) = (x-\bar{x})^j} 
 #'This is useful for constructing a large abstract Stochastic
 #'Mortality Model to be fitted using the group lasso.
 #'

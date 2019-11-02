@@ -14,6 +14,8 @@ A list of above indicator functions for the given vector of strikes.
 }
 \description{
 Generates a list of above indicator functions given a vector of strikes.
+For each strike \eqn{k}, the functions are of the form
+\deqn{f(x) = I_{x>k}} 
 This is useful for constructing a large abstract Stochastic
 Mortality Model to be fitted using the group lasso.
 }

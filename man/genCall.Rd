@@ -14,6 +14,8 @@ A list of call functions for the given vector of strikes.
 }
 \description{
 Generates a list of call functions given a vector of strikes.
+For each strike \eqn{k}, the functions are of the form#'
+\deqn{f(x) = \max(x-k,0)} 
 This is useful for constructing a large abstract Stochastic
 Mortality Model to be fitted using the group lasso.
 }
