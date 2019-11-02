@@ -58,10 +58,10 @@
 #'   
 #'   \item{Ext}{ matrix of exposures used in the training.}
 #'   
-#'   \item{qxt}{ matrix of mortality rates (\eqn{D_{x,t}/E_{x,t}}) 
+#'   \item{rates}{ matrix of mortality rates (\eqn{D_{x,t}/E_{x,t}}) 
 #'   used in the training.} 
 #'    
-#'   \item{Lqxt}{ matrix of log mortality rates (\eqn{log(q_{x,t})}) 
+#'   \item{logrates}{ matrix of log mortality rates (\eqn{log(D_{x,t}/E_{x,t})}) 
 #'   used in the training.} 
 #'   
 #'   \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
@@ -143,7 +143,8 @@ cvStMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
          if (min(k, na.rm = TRUE) == max(k, na.rm = TRUE)){
            drift <- 0
          } else {
-           arima.k <- tryCatch( Arima(k, order = c(0,1,0), include.drift = TRUE), error = function( err ) FALSE, warning = function( err ) FALSE )
+           arima.k <- tryCatch( Arima(k, order = c(0,1,0), include.drift = TRUE), error = function( err ) FALSE, 
+                                warning = function( err ) FALSE )
            if(!is.logical(arima.k)) {
              drift <- arima.k$coef
            } else {
@@ -191,7 +192,7 @@ cvStMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
    cv.Lmse <- mean(cv.Lerror[!is.na(cv.Lerror)])
    
    # Return output
-   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, qxt = qxt, Lqxt = Lqxt)
+   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, logrates = Lqxt)
    
    if (returnY == TRUE) {
      out$cv.rates = cv.rates
