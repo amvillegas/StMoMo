@@ -30,16 +30,16 @@
 #' @param years.train optional vector of years to include in the 
 #' training. Must be a subset of \code{years}.
 #' 
-#' @param returnY a logical value. If \code{TRUE}, \code{cvStMoMo}
+#' @param returnY a logical value. If \code{TRUE}, \code{cv.StMoMo}
 #' returns the fitted mortality rates for the cross validation
 #' folds. 
 #' 
 #' @param type the type of the predicted values that the cross 
 #' validation is performed with respect to. The alternatives are 
-#' \code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cvStMoMo}
+#' \code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cv.StMoMo}
 #' returns the mean squared error using the deviation between
 #' realised and predicted mortality rates. If \code{"logrates"}, 
-#' \code{cvStMoMo} returns the mean squared error using the 
+#' \code{cv.StMoMo} returns the mean squared error using the 
 #' deviation between realised and predicted log mortality rates.    
 #' 
 #' @param verbose a logical value. If \code{TRUE} progress 
@@ -47,7 +47,7 @@
 #' \code{verbose = FALSE} to silent the fitting and avoid 
 #' progress messages.
 #' 
-#' @return A list with class \code{"cvStMoMo"} with components:
+#' @return A list with class \code{"cv.StMoMo"} with components:
 #'   
 #'   \item{model}{ the object of class \code{"StMoMo"} defining 
 #'   the fitted stochastic mortality model.}
@@ -75,14 +75,14 @@
 #' @examples
 #' 
 #' # Lee-Carter model only for one year forecasting horizon based on log-rates
-#' LCcv <- cvStMoMo(lc(), h = 1, data = EWMaleData, ages.train = 55:89, type = "logrates")
+#' LCcv <- cv.StMoMo(lc(), h = 1, data = EWMaleData, ages.train = 55:89, type = "logrates")
 #' 
 #' # APC model using arguments Dxt, Ext, ages, years to pass fitting data, based on rates
-#' APCcv <- cvStMoMo(apc(), h = 10, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+#' APCcv <- cv.StMoMo(apc(), h = 10, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 #' ages = EWMaleData$ages, years = EWMaleData$years, ages.train = 55:89, type = "rates")
 #'             
 #' @export 
-cvStMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL, 
+cv.StMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL, 
                      ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, 
                      returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
 
@@ -204,7 +204,7 @@ cvStMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
      out$cv.mse = cv.Lmse
    } 
    
-   class(out) <- "cvStMoMo"
+   class(out) <- "cv.StMoMo"
    return(out)
       
  }
