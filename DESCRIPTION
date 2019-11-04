@@ -20,7 +20,8 @@ Imports:
     fanplot (>= 3.4),
     reshape2 (>= 1.4.1),
     fields (>= 8.2),
-    RColorBrewer
+    RColorBrewer,
+    grpreg (>= 3.2-1)
 Depends:
     R (>= 3.2.0),
     gnm (>= 1.0),

@@ -108,6 +108,8 @@ glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NU
                        ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, index = NULL, 
                        returnY = FALSE, type = c("rates", "logrates"), verbose = TRUE) {
   
+  
+  type <- match.arg(type)  
   # Determine fitting ages and years are specified
   if(!is.null(data)) {
     if (class(data) != "StMoMoData") {

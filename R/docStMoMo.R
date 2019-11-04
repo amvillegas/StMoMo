@@ -16,6 +16,7 @@
 #' @importFrom stats rpois runif start
 #' @importFrom utils head tail
 #' @importFrom RColorBrewer brewer.pal
+#' @importFrom grpreg grpreg
 NULL
 
 

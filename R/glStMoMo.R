@@ -1,14 +1,15 @@
 #' Fit a Group Lasso Stochastic Mortality Model
 #' 
-#' Fit a Group Lasso Stochastic Mortality Model to a given data set. The fitting is done using package \code{grpreg}.
+#' Fit a Group Lasso Stochastic Mortality Model to a given data set. 
+#' The fitting is done using package \code{grpreg}.
 #' 
 #' Fitting is done using function \code{\link[grpreg]{grpreg}} within package 
 #' \code{grpreg}. This is achieved by minimising the residual sum of squares subject 
-#' to the minimax concave penalty (MCP). This function is not yet supported for  
-#' logit-Binomial or log-Poisson models. Ages and years in the data should be of 
-#' type numeric. Data points with zero exposure are assigned a zero weight 
-#' and are ignored in the fitting process. Similarly, \code{NA} are assigned a
-#' zero weight and ignored in the fitting process.
+#' to the minimax concave penalty (MCP). This function is only supported for 
+#' log-Gaussian models and is not yet supported for logit-Binomial or log-Poisson 
+#' models. Ages and years in the data should be of type numeric. Data points with 
+#' zero exposure are assigned a zero weight and are ignored in the fitting process. 
+#' Similarly, \code{NA} are assigned a zero weight and ignored in the fitting process.
 #' 
 #' @param object an object of class \code{"StMoMo"} defining the stochastic
 #' mortality model, with only parametric age-period and age-cohort terms.
@@ -99,14 +100,16 @@
 #' glCBD <- glStMoMo(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    
 #' 
 #' @export 
-glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, index = NULL, verbose = TRUE) {
+glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
+                     ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, 
+                     index = NULL, verbose = TRUE) {
   
   # Group lasso not yet supported for Binomial/Poisson models, and parametric models
 
   if (object$link == "logit" || object$link == "log")
     stop("Group lasso not yet supported for logit-Binomial or log-Poisson models.\n")
   if ("NP" %in% object$periodAgeFun || "NP" %in% object$cohortAgeFun)
-    stop("Group lasso not yet supported for parametric models.\n")
+    stop("Group lasso not yet supported for non-parametric models.\n")
   
   # Select data from data or from Dxt, Ext, ages, years
   
@@ -124,7 +127,8 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
       stop("Either argument data or arguments Dxt and Ext need to be provided.")
     if (is.null(ages)) ages <- 1:nrow(Dxt)
     if (is.null(years)) years <- 1:ncol(Dxt)
-    data <- structure(list(Dxt = Dxt, Ext = Ext, ages = ages, years = years, type = "central", series = "unknown", label = "unknown"), class = "StMoMoData")
+    data <- structure(list(Dxt = Dxt, Ext = Ext, ages = ages, years = years, type = "central", 
+                           series = "unknown", label = "unknown"), class = "StMoMoData")
   }
   if (is.null(ages.fit)) ages.fit <- ages
   if (is.null(years.fit)) years.fit <- years
@@ -195,6 +199,8 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
   
   fitDataW <- (reshape2::melt(wxt, value.name = "w", varnames = c("x", "t")))
   fitData <- merge(fitData, fitDataW)
+  fitData$o <- 0
+  
   
   # Data for age-parametric terms
   N <- object$N
@@ -241,7 +247,8 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
 
   # Determine design matrix and index 
 
-  designmatrix <- gnm(formula = as.formula(object$gnmFormula), data = fitData, family = gaussian, method = "model.matrix")
+  designmatrix <- gnm(formula = as.formula(object$gnmFormula), data = fitData, 
+                      family = gaussian, method = "model.matrix")
   if (is.null(index)) {
     index <- attributes(designmatrix)$assign
   }
@@ -251,9 +258,11 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
   if (verbose) cat("StMoMo: Start fitting with grpreg\n")
   
   if (is.null(lambda)) {
-    fit <- grpreg(designmatrix, fitData$response, group = index, penalty = "grMCP", family = "gaussian", nlambda = nlambda)
+    fit <- grpreg::grpreg(designmatrix, fitData$response, group = index, penalty = "grMCP", 
+                          family = "gaussian", nlambda = nlambda)
   } else {
-    fit <- grpreg(designmatrix, fitData$response, group = index, lambda = lambda, penalty = "grMCP", family = "gaussian")
+    fit <- grpreg::grpreg(designmatrix, fitData$response, group = index, lambda = lambda, 
+                          penalty = "grMCP", family = "gaussian")
     if (identical(lambda, fit$lambda)==FALSE) {
       warning(paste("Model fitted with lambda =", fit$lambda, "instead of", lambda, "\n"))
     }
@@ -265,14 +274,17 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
   
   # Estimated coefficients
   
-  lambda = fit$lambda
+  lambda <- fit$lambda
   beta <- vector("list", length(lambda)) 
+  loglik <- rep(NA, length(lambda))
+  deviance <- rep(NA, length(lambda)) 
   
   for (i in 1:length(lambda)) {
     
     # Extract un-adjusted coefficients
     coefGnmModel <- fit$beta[,i]
-    tempfittedCoef <- extractCoefficientsFromGnm(object, fit$beta[,i], ages, years, cohorts, zeroWeigthAges, zeroWeigthYears, zeroWeigthCohorts)
+    tempfittedCoef <- extractCoefficientsFromGnm(object, fit$beta[,i], ages, years, cohorts, zeroWeigthAges, 
+                                                 zeroWeigthYears, zeroWeigthCohorts)
     
     # Extract intercept
     intercept <- fit$beta[1,i]
@@ -280,20 +292,70 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
     # Adjust coefficients for intercept
     fittedCoef <- glRemoveIntercept(object, tempfittedCoef, intercept, ages)
     
+    #Remove level from Kt (i.e set K_1 = 0)
+    if(object$staticAgeFun){
+      levelPar <- constRemoveLevelKt(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt)
+      fittedCoef$ax <- levelPar$ax
+      fittedCoef$bx <- levelPar$bx
+      fittedCoef$kt <- levelPar$kt  
+    }
+    
+    #Apply identifiabiliyt constraints
+    constPar <- applyIdentifiabilyConstraints(object = object, fittedCoef = fittedCoef, 
+                                              oxt = 0,  wxt = wxt, ages = ages, 
+                                              years = years)
+    
+    fittedCoef$ax <- constPar$ax
+    fittedCoef$bx <- constPar$bx
+    fittedCoef$kt <- constPar$kt
+    fittedCoef$b0x <- constPar$b0x
+    fittedCoef$gc <- constPar$gc
+    
     # Update beta
     beta[[i]] <- fittedCoef
+    
+    #Compute log-likelihood and deviance
+    
+    newLinkPred <- predictLink(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt, fittedCoef$b0x, fittedCoef$gc, 
+                               0, ages, years)    
+    loglik[i] <- computeLogLikGaussian(obs = log(Dxt / Ext), fit = newLinkPred, weight = wxt)
+    deviance[i] <- computeDevianceGaussian(obs = log(Dxt / Ext), fit = newLinkPred, weight = wxt)
+    
     
   }
   
   # Log likelihood
   
-  loglik <- logLik(fit)
-
+  
   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, wxt = wxt, 
               ages = ages, years = years, cohorts = cohorts,
-              lambda = lambda, index = index, beta = beta, loglik = loglik) 
-  
+              lambda = lambda, index = index, beta = beta, 
+              fittingModel = fit,
+              loglik = loglik, loglik = loglik, 
+              deviance = deviance,
+              npar = fit$df,
+              nobs = fit$n,
+              call = match.call()) 
   class(out) <- "fitGL"
   return(out)  
-
 }
+
+
+#' @export 
+print.fitGL <- function(x, ...) {
+  cat("Stochastic Mortality Model fit with Group Lasso")
+  cat(paste("\nCall:", deparse(x$call)))
+  cat("\n\n")
+  print(x$model)  
+  
+  cat("\n\nData: ", x$data$label)
+  cat("\nSeries: ", x$data$series)
+  cat(paste("\nYears in fit:", min(x$years), "-", max(x$years)))
+  cat(paste("\nAges in fit:", min(x$ages), "-", max(x$ages), "\n"))
+  
+  cat(paste("\nNumber of lambda values: ", length(x$lambda)))
+  cat(paste("\nRange of lambda: [", round(min(x$lambda),5), "," , 
+            round(max(x$lambda), 5), "]", sep = ""))
+}
+
+

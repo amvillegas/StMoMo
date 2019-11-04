@@ -412,44 +412,20 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                                            zeroWeigthYears, zeroWeigthCohorts)  
   
   ### Apply identifiability constraints
-  oldLinkPred <- predictLink(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt, 
-                             fittedCoef$b0x, fittedCoef$gc, oxt, ages, years)
-  constPar<- object$constFun(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt, 
-                             fittedCoef$b0x, fittedCoef$gc, wxt, ages)
+  constPar <- applyIdentifiabilyConstraints(object = object, fittedCoef = fittedCoef, 
+                                            oxt = oxt,  wxt = wxt, ages = ages, 
+                                            years = years)
   ax <- constPar$ax
   bx <- constPar$bx
   kt <- constPar$kt
   b0x <- constPar$b0x
   gc <- constPar$gc
   
-  # Check if NA where introduced by th indentifiability constraints
-  NAinNewParameters <- (!is.null(fittedCoef$ax) && 
-                          (is.null(ax) || anyNA(ax[!is.na(fittedCoef$ax)]))) || 
-                       (!is.null(fittedCoef$bx) && 
-                          (is.null(bx) || anyNA(bx[!is.na(fittedCoef$bx)]))) ||
-                       (!is.null(fittedCoef$kt) && 
-                          (is.null(kt) || anyNA(kt[!is.na(fittedCoef$kt)]))) ||     
-                       (!is.null(fittedCoef$b0x) && 
-                          (is.null(b0x) || anyNA(b0x[!is.na(fittedCoef$b0x)]))) ||   
-                       (!is.null(fittedCoef$gc) && 
-                          (is.null(gc) || anyNA(gc[!is.na(fittedCoef$gc)])))
-                       
-  if (NAinNewParameters) {
-    stop("The parameter transformation function transformed some parameters into NA or NULL.
-         Check the 'constFun' argument of StMoMo.\n")
-  }
-  
-  # Check if the transformation preserves the link.
+  #### Compute new predicted link
   newLinkPred <- predictLink(ax, bx, kt, b0x, gc, oxt, ages, years)    
-  trasError <- max(abs((newLinkPred[wxt != 0] - oldLinkPred[wxt !=  0]) / oldLinkPred[wxt !=  0]), 
-                   na.rm = TRUE)
-  if (trasError > 1e-10){
-    stop("The parameter transformation function does not preserve the fitted rates.
-          Check the 'constFun' argument of StMoMo.\n")
-  }
   
   
-  ### Preparet the output  
+  ### Prepare the output  
   
   # Compute log-like like-lihood and the deviance  
   if (object$link == "logit") {
@@ -786,6 +762,64 @@ processStartValues <- function(object, coefNames, ax, bx, kt, b0x, gc,
 }
 
 
+#' Apply the identfiability constraints to a model 
+#' 
+#' Applies the identifiability constraints and checks that they preserve the link
+#' 
+#' @param object an object of class \code{"StMoMo"} defining the stochastic
+#' mortality model.
+#' @param fittedCoef a list with current estimas of ax, bx, kt, b0x, gc
+#' @param oxt matrix/vector or scalar of known offset used in fitting
+#' the model. 
+#' @param wxt  matrix of 0-1 weights to be used in the fitting process. 
+#' @param ages ages in the fitting data.
+#' @param years years in the fitting data.
+#' 
+#' @return a list of parameter estimates with th identifiability constraints applied
+#' 
+#' @keywords internal
+applyIdentifiabilyConstraints <- function(object, fittedCoef, oxt, wxt, ages, years){
+  
+  ### Apply identifiability constraints
+  oldLinkPred <- predictLink(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt, 
+                             fittedCoef$b0x, fittedCoef$gc, oxt, ages, years)
+  constPar<- object$constFun(fittedCoef$ax, fittedCoef$bx, fittedCoef$kt, 
+                             fittedCoef$b0x, fittedCoef$gc, wxt, ages)
+  ax <- constPar$ax
+  bx <- constPar$bx
+  kt <- constPar$kt
+  b0x <- constPar$b0x
+  gc <- constPar$gc
+  
+  # Check if NA where introduced by th indentifiability constraints
+  NAinNewParameters <- (!is.null(fittedCoef$ax) && 
+                          (is.null(ax) || anyNA(ax[!is.na(fittedCoef$ax)]))) || 
+    (!is.null(fittedCoef$bx) && 
+       (is.null(bx) || anyNA(bx[!is.na(fittedCoef$bx)]))) ||
+    (!is.null(fittedCoef$kt) && 
+       (is.null(kt) || anyNA(kt[!is.na(fittedCoef$kt)]))) ||     
+    (!is.null(fittedCoef$b0x) && 
+       (is.null(b0x) || anyNA(b0x[!is.na(fittedCoef$b0x)]))) ||   
+    (!is.null(fittedCoef$gc) && 
+       (is.null(gc) || anyNA(gc[!is.na(fittedCoef$gc)])))
+  
+  if (NAinNewParameters) {
+    stop("The parameter transformation function transformed some parameters into NA or NULL.
+         Check the 'constFun' argument of StMoMo.\n")
+  }
+  
+  # Check if the transformation preserves the link.
+  newLinkPred <- predictLink(ax, bx, kt, b0x, gc, oxt, ages, years)    
+  trasError <- max(abs((newLinkPred[wxt != 0] - oldLinkPred[wxt !=  0]) / oldLinkPred[wxt !=  0]), 
+                   na.rm = TRUE)
+  if (trasError > 1e-10){
+    stop("The parameter transformation function does not preserve the fitted rates.
+          Check the 'constFun' argument of StMoMo.\n")
+  }
+  list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+}
+
+
 #' @export 
 print.fitStMoMo <- function(x, ...) {
   cat("Stochastic Mortality Model fit")
@@ -802,4 +836,3 @@ print.fitStMoMo <- function(x, ...) {
   cat(paste("\nDeviance: ", round(x$deviance[1], 2)))
   cat(paste("\nNumber of parameters: ", x$npar))  
 }
-

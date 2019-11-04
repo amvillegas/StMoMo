@@ -97,16 +97,17 @@ A list with class \code{"glStMoMo"} with components:
   \item{lambda}{ vector of lambda values used in the fitting.}
 }
 \description{
-Fit a Group Lasso Stochastic Mortality Model to a given data set. The fitting is done using package \code{grpreg}.
+Fit a Group Lasso Stochastic Mortality Model to a given data set. 
+The fitting is done using package \code{grpreg}.
 }
 \details{
 Fitting is done using function \code{\link[grpreg]{grpreg}} within package 
 \code{grpreg}. This is achieved by minimising the residual sum of squares subject 
-to the minimax concave penalty (MCP). This function is not yet supported for  
-logit-Binomial or log-Poisson models. Ages and years in the data should be of 
-type numeric. Data points with zero exposure are assigned a zero weight 
-and are ignored in the fitting process. Similarly, \code{NA} are assigned a
-zero weight and ignored in the fitting process.
+to the minimax concave penalty (MCP). This function is only supported for 
+log-Gaussian models and is not yet supported for logit-Binomial or log-Poisson 
+models. Ages and years in the data should be of type numeric. Data points with 
+zero exposure are assigned a zero weight and are ignored in the fitting process. 
+Similarly, \code{NA} are assigned a zero weight and ignored in the fitting process.
 }
 \examples{
 glCBD <- glStMoMo(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    

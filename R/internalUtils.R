@@ -229,3 +229,19 @@ arima.string <- function (object, padding = FALSE)
     result <- gsub("[ ]*$", "", result)
   return(result)
 }
+
+
+
+
+#' Remove levels from kt 
+#' @keywords internal
+constRemoveLevelKt <- function(ax, bx, kt){
+  K <- dim(kt)[1]
+  for (i in 1:K){
+    phi <- kt[i, 1] 
+    kt[i, ] <- kt[i, ] - phi[1]
+    ax <- ax + phi[1] * bx[, i]
+  }
+  list(ax = ax, bx = bx, kt = kt)
+}
+
