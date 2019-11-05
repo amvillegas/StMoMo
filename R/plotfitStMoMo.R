@@ -83,12 +83,12 @@ plot.fitStMoMo <- function(x, nCol = 2, parametricbx = TRUE, type = "l", ...) {
       if (parametricbx == TRUE || is.nonparametric(x$model$periodAgeFun[[i]])) {
         plot(x = ages, y = bx[, i], ylab = "", xlab = "age", 
              main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
-                               list(i = i)), type = type, ...)
+                               list(i = colnames(bx)[i])), type = type, ...)
       }
       #kt
       plot(x = years,y = kt[i, ], ylab = "", xlab = "year", 
            main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), 
-                             list(i = i)), type = type, ...) 
+                             list(i = rownames(kt)[i])), type = type, ...) 
     }
   }
   

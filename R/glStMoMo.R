@@ -1,7 +1,7 @@
-#' Fit a Group Lasso Stochastic Mortality Model
+#' Fit a Stochastic Mortality Model with Group Regularised Penalties
 #' 
-#' Fit a Group Lasso Stochastic Mortality Model to a given data set. 
-#' The fitting is done using package \code{grpreg}.
+#' Fit a Stochastic Mortality Model with Group Regularised Penalties
+#' to a given data set. The fitting is done using package \code{grpreg}.
 #' 
 #' Fitting is done using function \code{\link[grpreg]{grpreg}} within package 
 #' \code{grpreg}. This is achieved by minimising the residual sum of squares subject 
@@ -56,7 +56,7 @@
 #' printed as the model is fitted. Set \code{verbose = FALSE} to silent the 
 #' fitting and avoid progress messages.
 #' 
-#' @return A list with class \code{"glStMoMo"} with components:
+#' @return A list with class \code{"grpfitStMoMo"} with components:
 #'   
 #'   \item{model}{ the object of class \code{"StMoMo"} defining the fitted 
 #'   stochastic mortality model.}
@@ -97,10 +97,10 @@
 #'   \item{lambda}{ vector of lambda values used in the fitting.}
 #'     
 #' @examples
-#' glCBD <- glStMoMo(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    
+#' glCBD <- grpfit(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    
 #' 
 #' @export 
-glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
+grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
                      ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, 
                      index = NULL, verbose = TRUE) {
   
@@ -336,13 +336,13 @@ glStMoMo <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NUL
               npar = fit$df,
               nobs = fit$n,
               call = match.call()) 
-  class(out) <- "fitGL"
+  class(out) <- "grpfitStMoMo"
   return(out)  
 }
 
 
 #' @export 
-print.fitGL <- function(x, ...) {
+print.grpfitStMoMo <- function(x, ...) {
   cat("Stochastic Mortality Model fit with Group Lasso")
   cat(paste("\nCall:", deparse(x$call)))
   cat("\n\n")

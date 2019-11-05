@@ -94,7 +94,7 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
         if (parametricbx == TRUE || is.nonparametric(x.h$model$periodAgeFun[[i]])) {
           plot(x = ages, y = bx[, i], ylab = "", xlab = "age", 
                main = substitute(paste(beta[x]^{(i)}, " vs. x", ""), 
-                                 list(i = i)), type = "l", ...)
+                                 list(i = colnames(bx)[i])), type = "l", ...)
         
         }
       }
@@ -105,7 +105,7 @@ plot.forStMoMo <- function(x, nCol = 2, parametricbx = TRUE,
         kt.xlim <- c(years.h[1], tail(years.f, 1))
         plot(x = years.h,y = kt.h[i, ], ylab="", xlab = "year", 
              main = substitute(paste(kappa[t]^{(i)}, " vs. t", ""), 
-                               list(i = i)), type = "l",
+                               list(i = rownames(kt.h)[i])), type = "l",
              xlim = kt.xlim, ylim = kt.ylim, ...)  
         fan.col <- colorRampPalette(c(colour, rgb(1, 1, 1)))
         n.fan <- length(kt.f$level) 
