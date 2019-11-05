@@ -110,6 +110,10 @@ zero exposure are assigned a zero weight and are ignored in the fitting process.
 Similarly, \code{NA} are assigned a zero weight and ignored in the fitting process.
 }
 \examples{
-glCBD <- grpfit(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    
+APCgrpfit <- grpfit(apc(link = "log-Gaussian"), data = EWMaleData, 
+                    ages.fit = 20:89, years.fit = 1965:2010) 
+plot(extractStMoMo(APCgrpfit, 5), parametricbx = FALSE, nCol = 3)
+plot(extractStMoMo(APCgrpfit, 15), parametricbx = FALSE, nCol = 3)
+plot(extractStMoMo(APCgrpfit, 20), parametricbx = FALSE, nCol = 3)                                                                                                
 
 }

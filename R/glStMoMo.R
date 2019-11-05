@@ -97,7 +97,11 @@
 #'   \item{lambda}{ vector of lambda values used in the fitting.}
 #'     
 #' @examples
-#' glCBD <- grpfit(CBD, data = EWMaleData, ages.fit = 20:89, years.fit = 1965:2010)    
+#' APCgrpfit <- grpfit(apc(link = "log-Gaussian"), data = EWMaleData, 
+#'                     ages.fit = 20:89, years.fit = 1965:2010) 
+#' plot(extractStMoMo(APCgrpfit, 5), parametricbx = FALSE, nCol = 3)
+#' plot(extractStMoMo(APCgrpfit, 15), parametricbx = FALSE, nCol = 3)
+#' plot(extractStMoMo(APCgrpfit, 20), parametricbx = FALSE, nCol = 3)                                                                                                
 #' 
 #' @export 
 grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 

@@ -17,6 +17,13 @@
 #' @return An list of class \code{"fitStMoMo"} with a fitted Stochastic Mortality Model.
 #' See \code{\link{fit.StMoMo}} for the details of the elements in the list.
 #' 
+#' @examples
+#' APCgrpfit <- grpfit(apc(link = "log-Gaussian"), data = EWMaleData, 
+#'                     ages.fit = 20:89, years.fit = 1965:2010) 
+#' APCgrp <- extractStMoMo(APCgrpfit, 15)                     
+#' plot(APCgrp, parametricbx = FALSE)
+#' plot(forecast(APCgrp), parametricbx = FALSE)
+#' 
 #' @export
 extractStMoMo <- function(object, k, simplify = TRUE){
   

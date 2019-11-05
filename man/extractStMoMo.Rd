@@ -28,3 +28,11 @@ The output is a \code{"fitStMoMo"} object which can then be used with other
 StMoMo functions such as \code{\link{plot.fitStMoMo}}, 
 \code{\link{forecast.fitStMoMo}} and \code{\link{simulate.fitStMoMo}}
 }
+\examples{
+APCgrpfit <- grpfit(apc(link = "log-Gaussian"), data = EWMaleData, 
+                    ages.fit = 20:89, years.fit = 1965:2010) 
+APCgrp <- extractStMoMo(APCgrpfit, 15)                     
+plot(APCgrp, parametricbx = FALSE)
+plot(forecast(APCgrp), parametricbx = FALSE)
+
+}
