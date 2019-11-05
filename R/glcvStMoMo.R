@@ -1,7 +1,8 @@
-#' Cross validation for Group Lasso Stochastic Mortality Model
+#' Cross validation for Stochastic Mortality Model fitted 
+#' with Group Regularised Penalties
 #' 
 #' Perform cross validation by period for a Stochastic Mortality Model
-#' being fitted using the group lasso.
+#' being fitted using the group regularised penalties.
 #' 
 #' @param object an object of class \code{"StMoMo"} defining the 
 #' stochastic mortality model.
@@ -43,7 +44,7 @@
 #' them to group 0 (or "0"). If this is not provided, the grouping is automatically
 #' determined and all groups are penalised.
 #'  
-#' @param returnY a logical value. If \code{TRUE}, \code{glcvStMoMo}
+#' @param returnY a logical value. If \code{TRUE}, \code{cv.grpStMoMo}
 #' returns a list of length \code{nlambda}, containing matrices of the fitted mortality rates 
 #' for the cross validation folds for each value of \code{lambda}. 
 #' 
@@ -61,7 +62,7 @@
 #' \code{verbose = FALSE} to silent the fitting and avoid 
 #' progress messages.
 #' 
-#' @return A list with class \code{"glcvStMoMo"} with components:
+#' @return A list with class \code{"cv.grpStMoMo"} with components:
 #'   
 #'   \item{model}{ the object of class \code{"StMoMo"} defining 
 #'   the fitted stochastic mortality model.}
@@ -97,14 +98,17 @@
 #' @examples
 #' 
 #' # One-year forecasting horizon based on log-rates using 25 lambda values
-#' glcv <- glcvStMoMo(object, h = 1, data = EWMaleData, ages.train = 55:89, type = "logrates", nlambda = 25)
+#' APCcvgrp <- cv.grpStMoMo(apc(link = "log-Gaussian"), h = 1, data = EWMaleData, ages.train = 55:89, 
+#'                      type = "logrates", nlambda = 25)
 #' 
 #' # Ten-year forecasting using arguments Dxt, Ext, ages, years to pass fitting data, using pre-defined lambda grid
 #' lambda <- c(0.5, 0.4, 0.3, 0.2, 0.1)
-#' glcv <- glcvStMoMo(object, h = 10, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, ages = EWMaleData$ages, years = EWMaleData$years, ages.train = 55:89, type = "logrates", lambda = lambda)
+#' APCcvgrp <- cv.grpStMoMo(apc(link = "log-Gaussian"), h = 10, Dxt = EWMaleData$Dxt, 
+#'                      Ext = EWMaleData$Ext, ages = EWMaleData$ages, years = EWMaleData$years, 
+#'                      ages.train = 55:89, type = "logrates", lambda = lambda)
 #'             
 #' @export 
-glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
+cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
                        ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, index = NULL, 
                        returnY = FALSE, type = c("rates", "logrates"), verbose = TRUE) {
   
@@ -137,26 +141,26 @@ glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NU
   
   # Determine lambda grid
   if (is.null(lambda)) {
-    fitTemp <- glStMoMo(object, nlambda = nlambda, data = data, Dxt = Dxt, Ext = Ext, 
+    fitTemp <- grpfit(object, nlambda = nlambda, data = data, Dxt = Dxt, Ext = Ext, 
                         ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, verbose = FALSE) 
     lambda <- fitTemp$lambda
   } else {
-    fitTemp <- glStMoMo(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
+    fitTemp <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
                         ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, verbose = FALSE) 
     nlambda <- length(lambda)
   }
   
   # Initialise out-of-sample predicted values
-  cv.rates <- replicate(nlambda, genWeightMat(ages = ages.train, years = years.train)*0, simplify=F)
+  cv.rates <- replicate(nlambda, genWeightMat(ages = ages.train, years = years.train)*0, simplify=FALSE)
   cv.mse <- rep(0, nlambda)
   cv.Lmse <- rep(0, nlambda)
   
   # Perform cross validation iterations
   for (i in 2:(length(years.train)-h+1)) {
     
-    #if (verbose) {
-    #  cat("StMoMo: Fitting test set", i-1, "of", folds, "\n")
-    #}
+    if (verbose) {
+     cat("StMoMo: Fitting test set", i-1, "of", folds, "\n")
+    }
     
     # Define training set weight matrix
     wxtT <- genWeightMat(ages = ages.train, years = years.train)
@@ -166,9 +170,10 @@ glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NU
     wxtF <- genWeightMat(ages = ages.train, years = years.train)
     wxtF[,((i+h-1):(i+h-1))] <- 0
     
-    # Fit using glStMoMo
-    fit <- glStMoMo(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
-                    ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, wxt = wxtT, verbose = FALSE) 
+    # Fit using grpfit
+    fit <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
+                    ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, 
+                    wxt = wxtT, verbose = FALSE) 
     
     # Compute test set errors
 
@@ -255,7 +260,8 @@ glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NU
   Lse <- Lsd/sqrt(folds)
   
   # Return output
-  out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, qxt = qxt, Lqxt = Lqxt, lambda = lambda)
+  out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, logrates = Lqxt, 
+              lambda = lambda, call = match.call())
   
   if (returnY == TRUE) {
     out$cv.rates = cv.rates
@@ -275,7 +281,6 @@ glcvStMoMo <- function(object,  h = NULL, lambda = NULL, nlambda = 50, data = NU
     out$se = Lse
   } 
  
-  class(out) <- "glcvStMoMo"
+  class(out) <- "cv.grpStMoMo"
   return(out)
-  
 }

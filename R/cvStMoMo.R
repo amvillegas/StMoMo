@@ -85,7 +85,8 @@
 cv.StMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL, 
                      ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, 
                      returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
-
+  
+  type <- match.arg(type)
   # Determine fitting ages and years are specified
   if(!is.null(data)) {
     if (class(data) != "StMoMoData") {
@@ -192,7 +193,8 @@ cv.StMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
    cv.Lmse <- mean(cv.Lerror[!is.na(cv.Lerror)])
    
    # Return output
-   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, logrates = Lqxt)
+   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, 
+               logrates = Lqxt, call = match.call())
    
    if (returnY == TRUE) {
      out$cv.rates = cv.rates
