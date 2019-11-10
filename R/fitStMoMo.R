@@ -518,7 +518,7 @@ extractCoefficientsFromGnm <- function(object,coefGnmModel, ages, years,
         bx[, i] <- apply(as.array(ages), MARGIN = 1, FUN = f)
         
         #kt
-        pattern1 <- paste("^factor[(]t[)][-]?[[:digit:]]+:B", i, sep = "")
+        pattern1 <- paste("^factor[(]t[)][-]?[[:digit:]]+:B", i, "$", sep = "")
         pattern2 <- paste("^B",i,":factor[(]t[)][-]?[[:digit:]]", sep = "")
         ktTemp <- coefGnmModel[c(grep(pattern = pattern1, names(coefGnmModel)),
                                  grep(pattern = pattern2, names(coefGnmModel)))] 
@@ -688,7 +688,7 @@ processStartValues <- function(object, coefNames, ax, bx, kt, b0x, gc,
       if (is.function(object$periodAgeFun[[i]])) {        
         #kt
         for (t in as.character(years)) {          
-          ind1 <- which(coefNames == paste("factor(t)", t,":B", i, sep = ""))
+          ind1 <- which(coefNames == paste("factor(t)", t,":B", i, "$", sep = ""))
           ind2 <- which(coefNames == paste("B", i,":factor(t)", t, sep = ""))
           ind <- c(ind1, ind2)
           if (length(ind) > 0) startCoef[ind] <- kt[i, t]        
