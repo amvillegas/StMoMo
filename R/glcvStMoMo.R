@@ -189,9 +189,9 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
           if (min(k, na.rm = TRUE) == max(k, na.rm = TRUE)) {
             drift <- 0
           } else {
-            arima.k <- tryCatch( Arima(k, order = c(0,1,0), include.drift = TRUE), error = function( err ) FALSE, warning = function( err ) FALSE )
+            arima.k <- tryCatch( mrwd(k), error = function( err ) FALSE, warning = function( err ) FALSE )
             if(!is.logical(arima.k)) {
-              drift <- arima.k$coef
+              drift <- arima.k$drift
             } else {
               drift <- NA
               warning(paste("Time series model did not converge for test set",  i-1, "of", folds, "for lambda[", n, "]\n", sep = ""))
