@@ -31,7 +31,15 @@ mrwd <- function(x) {
     x <- t(x)
   nYear <- ncol(x)
   N <- nrow(x)
-  d <- t(colMeans(diff(t(x)), na.rm = TRUE))
+  
+  #Estimate drift
+  d <- rep(NA, N)
+  for (i in 1:N){
+    kt <- x[i, ]
+    indNoNA <- which(!is.na(kt))
+    d[i] <- (kt[indNoNA[1]] - kt[tail(indNoNA, n = 1)]) / (indNoNA[1] - tail(indNoNA, n = 1))
+  }
+  
   fits <- cbind(array(NA, c(N, 1)), x[, -nYear] + array(d, c(N, nYear - 1)))
   res <- x - fits
   dimnames(fits) <- dimnames(res) <- dimnames(x)

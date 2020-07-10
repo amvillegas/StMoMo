@@ -1,6 +1,6 @@
 StMoMo v0.4.1.9000
 ----------------------------------------------------------------
-
+* Adjust random walk code to work with missing values correctly
 
 
 StMoMo v0.4.1
