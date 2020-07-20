@@ -71,6 +71,8 @@
 #'   predicted mortality rates and realised mortality rates. If 
 #'   \code{type="logrates"}, mean squared error using predicted log 
 #'   mortality rates and realised log mortality rates.}  
+#'   
+#'   \item{se}{the estimated standard error for \code{cv.mse}.}  
 #'  
 #' @examples
 #' 
@@ -188,9 +190,20 @@ cv.StMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
    # Prepare cv error output
    cv.error <- (cv.rates - qxt)^2
    cv.mse <- mean(cv.error[!is.na(cv.error)])
+   cv <- colMeans(cv.error, na.rm = TRUE)
+   sd <- sd(cv, na.rm = TRUE)
+   se <- sd/sqrt(folds)
    
    cv.Lerror <- (cv.Lrates - Lqxt)^2
    cv.Lmse <- mean(cv.Lerror[!is.na(cv.Lerror)])
+   cv.L <- colMeans(cv.Lerror, na.rm = TRUE)
+   Lsd <- sd(cv.L, na.rm = TRUE)
+   Lse <- Lsd/sqrt(folds)
+   
+   
+   
+   
+   
    
    # Return output
    out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, 
@@ -202,8 +215,10 @@ cv.StMoMo <- function(object,  h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
    
    if (type == "rates") {
      out$cv.mse = cv.mse 
+     out$se <- se
    } else if (type == "logrates") {
      out$cv.mse = cv.Lmse
+     out$se <- Lse
    } 
    
    class(out) <- "cv.StMoMo"

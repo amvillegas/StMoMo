@@ -55,7 +55,7 @@
 #' realised and predicted mortality rates. If \code{"logrates"}, 
 #' \code{cvStMoMo} returns the mean squared error using the 
 #' deviation between realised and predicted log mortality rates. \code{lambda.min}, 
-#' \code{min}, \code{sd}, and \code{se} also depend on \code{type}.
+#' \code{min} and \code{se} also depend on \code{type}.
 #'     
 #' @param verbose a logical value. If \code{TRUE} progress 
 #' indicators are printed as the model is fitted. Set 
@@ -84,16 +84,22 @@
 #'   \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
 #'   mortality rates.} 
 #'   
-#'   \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted mortality rates and realised mortality rates. If \code{type="logrates"}, vector of mean squared errors using predicted log mortality rates and realised log mortality rates.}  
+#'   \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted 
+#'   mortality rates and realised mortality rates. If \code{type="logrates"}, vector of 
+#'   mean squared errors using predicted log mortality rates and realised log mortality 
+#'   rates.}  
 #'   
-#'   \item{sd}{ standard deviation for cross validation.}
+#'   \item{se}{ the estimated standard error for \code{cv.mse}.}
 #'   
-#'   \item{se}{ standard error for cross validation.}
-#'   
-#'   \item{min}{ the index of lambda corresponding to lambda.min.}
+#'   \item{min}{ the index of lambda corresponding to \code{lambda.min}.}
 #'   
 #'   \item{lambda.min}{ the value of lambda with the minimum cross-validation error
 #'   (\code{cv.mse}).}
+#'   
+#'   \item{lambda.1.se}{ the value of lambda such that error is within 1 
+#'   standard error of the minimum.}
+#'   
+#'   \item{min.1se}{ the index of lambda corresponding to \code{lambda.1se}.}
 #'  
 #' @examples
 #' 
@@ -110,7 +116,7 @@
 #' @export 
 cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
                        ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, index = NULL, 
-                       returnY = FALSE, type = c("rates", "logrates"), verbose = TRUE) {
+                       returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
   
   
   type <- match.arg(type)  
@@ -153,7 +159,9 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
   # Initialise out-of-sample predicted values
   cv.rates <- replicate(nlambda, genWeightMat(ages = ages.train, years = years.train)*0, simplify=FALSE)
   cv.mse <- rep(0, nlambda)
+  cv.se <- rep(0, nlambda)
   cv.Lmse <- rep(0, nlambda)
+  cv.Lse <- rep(0, nlambda)
   
   # Perform cross validation iterations
   for (i in 2:(length(years.train)-h+1)) {
@@ -236,28 +244,26 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     # Prepare cv error output
     cv.error <- (cv.rates[[j]] - qxt)^2
     cv.mse[j] <- mean(cv.error[!is.na(cv.error)])
+    cv <- colMeans(cv.error, na.rm = TRUE)
+    cv.se[j] <- sd(cv, na.rm = TRUE)/sqrt(folds)
     
     cv.Lerror <- (cv.Lrates - Lqxt)^2
     cv.Lmse[j] <- mean(cv.Lerror[!is.na(cv.Lerror)])
+    cv.L <- colMeans(cv.Lerror, na.rm = TRUE)
+    cv.Lse[j] <- sd(cv.L, na.rm = TRUE)/sqrt(folds)
   }
 
   # Determine optimal lambda
   min <- which.min(cv.mse)
   lambda.min <- lambda[min]
+  min.1se <- min(which(cv.mse <= cv.mse[min]+cv.se[min]))
+  lambda.1se <- lambda[min.1se]
+  
   
   Lmin <- which.min(cv.Lmse)
   lambda.Lmin <- lambda[Lmin]
-  
-  # Determine standard errors at optimal lambda
-  cv.error.lambda.min <- (cv.rates[[min]] - qxt)^2
-  cv.lambda.min <- colMeans(cv.error.lambda.min, na.rm = TRUE)
-  sd <- sd(cv.lambda.min, na.rm = TRUE)
-  se <- sd/sqrt(folds)
-  
-  cv.Lerror.lambda.Lmin <- (log(cv.rates[[Lmin]]) - Lqxt)^2
-  cv.lambda.Lmin <- colMeans(cv.Lerror.lambda.Lmin, na.rm = TRUE)
-  Lsd <- sd(cv.lambda.Lmin, na.rm = TRUE)
-  Lse <- Lsd/sqrt(folds)
+  min.L1se <- min(which(cv.Lmse <= cv.Lmse[Lmin]+cv.Lse[Lmin]))
+  lambda.L1se <- lambda[min.L1se]
   
   # Return output
   out <- list(model = object, data = data, Dxt = Dxt, Ext = Ext, rates = qxt, logrates = Lqxt, 
@@ -271,16 +277,101 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     out$cv.mse = cv.mse 
     out$min = min
     out$lambda.min = lambda.min
-    out$sd = sd
-    out$se = se
+    out$se = cv.se
+    out$min.1se = min.1se
+    out$lambda.1se = lambda.1se
   } else if (type == "logrates") {
     out$cv.mse = cv.Lmse
     out$min = Lmin
     out$lambda.min = lambda.Lmin
-    out$sd = Lsd
-    out$se = Lse
+    out$se = cv.Lse
+    out$min.1se = min.L1se
+    out$lambda.1se = lambda.L1se
   } 
  
   class(out) <- "cv.grpStMoMo"
   return(out)
 }
+
+
+#' Plot the cross-validation curve produced by cv.grpreg
+#' 
+#' Plots the cross-validation currve, upper and lower stamdard errpr curves,
+#' as a function of the \code{lambda} values used.
+#' 
+#' @usage 
+#' \method{plot}{cv.grpStMoMo}(x, sign.lambda = 1, ...)
+#' 
+#' @param x an object of class \code{"cv.grpStMoMo"} with the cross-validation results
+#' of the group regularised fitting  of a stochastic mortality model.
+#' @param sign.lambda Either plot against \code{log(lambda)} (default) or its
+#' negative if \code{sign.lambda=-1}.
+#' @param ... additional arguments to control graphical appearance.
+#' See \code{\link[graphics]{plot}}.
+#' 
+#' @seealso \code{cv.grpStMoMo}.
+#' 
+#' @examples 
+#' 
+#' 
+#' APCcvgrp <- cv.grpStMoMo(apc(link = "log-Gaussian"), h = 1, data = EWMaleData, 
+#'                          ages.train = 55:89, nlambda = 25)
+#' 
+#' plot(APCcvgrp)
+#' 
+#' 
+#' #Long computing times
+#' \dontrun{
+#' #Create big model
+#' strikes <- seq(25,85,5)
+#' bModel <- StMoMo(link = "log-Gaussian", staticAgeFun = TRUE, 
+#'                  periodAgeFun = c("1", genPoly(2:10), genCall(strikes),
+#'                                                    genPut(strikes)),
+#'                  cohortAgeFun = "1")
+#'                  
+#' #Cross-validation for 20 year ahead forecast                  
+#' EWcv.20 <- cv.grpStMoMo(bModel, h = 20, data = EWMaleData, 
+#'                         ages.train = 20:89)
+#'                         
+#' plot(EWcv.20)
+#' }                       
+#' 
+#' 
+#' @export 
+#' @method plot cv.grpStMoMo
+plot.cv.grpStMoMo <- function(x, sign.lambda = 1, ...) {
+  
+  xlab <- expression(Log(lambda))
+  if(sign.lambda<0)xlab=paste("-",xlab,sep="")
+  ylab <- "Mean-Squared Error"
+  upper <- x$cv.mse+x$se
+  lower <- x$cv.mse-x$se
+  
+  plot(x = sign.lambda*log(x$lambda), y = x$cv.mse, ylim = range(upper, lower),
+       xlab = xlab, ylab = ylab, type = "n", ...)
+  
+  error.bars(sign.lambda*log(x$lambda),upper,lower,width=0.01,
+             col="darkgrey")
+  
+  points(sign.lambda*log(x$lambda),x$cv.mse,pch=20,
+         col="red")
+  abline(v=sign.lambda*log(x$lambda.min),lty=3)
+  abline(v=sign.lambda*log(x$lambda.1se),lty=3)
+  
+  
+  
+}
+
+
+#' Plot error bars 
+#' @keywords internal
+error.bars <-
+  function(x, upper, lower, width = 0.02, ...)
+  {
+    xlim <- range(x)
+    barw <- diff(xlim) * width
+    segments(x, upper, x, lower, ...)
+    segments(x - barw, upper, x + barw, upper, ...)
+    segments(x - barw, lower, x + barw, lower, ...)
+    range(upper, lower)
+  }

@@ -78,7 +78,9 @@ A list with class \code{"cv.StMoMo"} with components:
   \item{cv.mse}{ if \code{type="rates"}, mean squared error using 
   predicted mortality rates and realised mortality rates. If 
   \code{type="logrates"}, mean squared error using predicted log 
-  mortality rates and realised log mortality rates.}
+  mortality rates and realised log mortality rates.}  
+  
+  \item{se}{the estimated standard error for \code{cv.mse}.}
 }
 \description{
 Perform cross validation by period for a Stochastic Mortality Model.

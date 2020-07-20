@@ -8,7 +8,7 @@ with Group Regularised Penalties}
 cv.grpStMoMo(object, h = 1, lambda = NULL, nlambda = 50,
   data = NULL, Dxt = NULL, Ext = NULL, ages.train = NULL,
   years.train = NULL, ages = NULL, years = NULL, index = NULL,
-  returnY = FALSE, type = c("rates", "logrates"), verbose = TRUE)
+  returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the 
@@ -62,7 +62,7 @@ returns the mean squared error using the deviation between
 realised and predicted mortality rates. If \code{"logrates"}, 
 \code{cvStMoMo} returns the mean squared error using the 
 deviation between realised and predicted log mortality rates. \code{lambda.min}, 
-\code{min}, \code{sd}, and \code{se} also depend on \code{type}.}
+\code{min} and \code{se} also depend on \code{type}.}
 
 \item{verbose}{a logical value. If \code{TRUE} progress 
 indicators are printed as the model is fitted. Set 
@@ -92,16 +92,22 @@ A list with class \code{"cv.grpStMoMo"} with components:
   \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
   mortality rates.} 
   
-  \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted mortality rates and realised mortality rates. If \code{type="logrates"}, vector of mean squared errors using predicted log mortality rates and realised log mortality rates.}  
+  \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted 
+  mortality rates and realised mortality rates. If \code{type="logrates"}, vector of 
+  mean squared errors using predicted log mortality rates and realised log mortality 
+  rates.}  
   
-  \item{sd}{ standard deviation for cross validation.}
+  \item{se}{ the estimated standard error for \code{cv.mse}.}
   
-  \item{se}{ standard error for cross validation.}
-  
-  \item{min}{ the index of lambda corresponding to lambda.min.}
+  \item{min}{ the index of lambda corresponding to \code{lambda.min}.}
   
   \item{lambda.min}{ the value of lambda with the minimum cross-validation error
   (\code{cv.mse}).}
+  
+  \item{lambda.1.se}{ the value of lambda such that error is within 1 
+  standard error of the minimum.}
+  
+  \item{min.1se}{ the index of lambda corresponding to \code{lambda.1se}.}
 }
 \description{
 Perform cross validation by period for a Stochastic Mortality Model
