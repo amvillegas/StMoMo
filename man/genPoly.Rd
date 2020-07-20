@@ -17,5 +17,5 @@ Generates a list of polynomial functions given a vector of exponents.
 For each exponent \eqn{j}, the functions are of the form
 \deqn{f(x) = (x-\bar{x})^j} 
 This is useful for constructing a large abstract Stochastic
-Mortality Model to be fitted using the group lasso.
+Mortality Model to be fitted using group regularisation.
 }

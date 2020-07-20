@@ -4,18 +4,20 @@
 \alias{genCall}
 \title{Generate call functions}
 \usage{
-genCall(strikes)
+genCall(strikes, order = 1)
 }
 \arguments{
 \item{strikes}{vector of strikes.}
+
+\item{order}{optional scalar indicating the order \eqn{j} of the call function.}
 }
 \value{
 A list of call functions for the given vector of strikes.
 }
 \description{
-Generates a list of call functions given a vector of strikes.
-For each strike \eqn{k}, the functions are of the form#'
-\deqn{f(x) = \max(x-k,0)} 
+Generates a list of call functions of order \eqn{j} given a vector of strikes.
+For each strike \eqn{k}, the functions are of the form
+\deqn{f(x) = \max(x-k,0)^j} 
 This is useful for constructing a large abstract Stochastic
-Mortality Model to be fitted using the group lasso.
+Mortality Model to be fitted using group regularisation.
 }

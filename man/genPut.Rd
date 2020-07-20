@@ -4,18 +4,20 @@
 \alias{genPut}
 \title{Generate put functions}
 \usage{
-genPut(strikes)
+genPut(strikes, order = 1)
 }
 \arguments{
 \item{strikes}{vector of strikes.}
+
+\item{order}{optional scalar indicating the order \eqn{j} of the call function.}
 }
 \value{
 A list of put functions for the given vector of strikes.
 }
 \description{
-Generates a list of put functions given a vector of strikes.
+Generates a list of put functions of order \eqn{j} given a vector of strikes.
 For each strike \eqn{k}, the functions are of the form
-\deqn{f(x) = \max(k-x,0)}  
+\deqn{f(x) = \max(k-x,0)^j}  
 This is useful for constructing a large abstract Stochastic
-Mortality Model to be fitted using the group lasso.
+Mortality Model to be fitted using group regularisation.
 }
