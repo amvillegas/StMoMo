@@ -105,11 +105,11 @@
 #' 
 #' @export 
 grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
-                     ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, 
-                     index = NULL, verbose = TRUE) {
+                   ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, 
+                   index = NULL, verbose = TRUE) {
   
   # Group lasso not yet supported for Binomial/Poisson models, and parametric models
-
+  
   if (object$link == "logit" || object$link == "log")
     stop("Group lasso not yet supported for logit-Binomial or log-Poisson models.\n")
   if ("NP" %in% object$periodAgeFun || "NP" %in% object$cohortAgeFun)
@@ -154,7 +154,7 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
   }
   rownames(Ext) <- ages
   colnames(Ext) <- years  
-
+  
   # Extract the specific ages and years for fitting 
   
   if (length(ages.fit) != length(which(ages.fit %in% ages))) {
@@ -201,6 +201,13 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
     warning(paste("StMoMo: ", sum(indqxt), " missing values which have been zero weighted\n", sep = ""))
   }
   
+  if (any(Dxt==0) && object$link == "log-Gaussian") { #0 deats with log-gaussian data
+    indDxt <- Dxt == 0
+    wxt[indDxt] <- 0
+    warning(paste("StMoMo: ", sum(indDxt),  " data points have 
+                  non-positive deaths and have been zero weighted\n", sep = ""))
+  }
+  
   fitDataW <- (reshape2::melt(wxt, value.name = "w", varnames = c("x", "t")))
   fitData <- merge(fitData, fitDataW)
   fitData$o <- 0
@@ -225,7 +232,7 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
   } 
   
   # Remove from the data ages, years or cohorts with 0 weight 
-
+  
   wxTemp <- aggregate(data = fitData, w ~ x, FUN = sum)  
   zeroWeigthAges <- as.character(wxTemp$x[which((wxTemp$w <= 0))])
   wtTemp <- aggregate(data = fitData, w ~ t, FUN = sum)  
@@ -248,9 +255,9 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
           zeroWeigthCohorts, "\n")
     }    
   }  
-
+  
   # Determine design matrix and index 
-
+  
   designmatrix <- gnm(formula = as.formula(object$gnmFormula), data = fitData, 
                       family = gaussian, method = "model.matrix")
   if (is.null(index)) {

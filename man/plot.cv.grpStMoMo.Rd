@@ -20,6 +20,33 @@ See \code{\link[graphics]{plot}}.}
 Plots the cross-validation currve, upper and lower stamdard errpr curves,
 as a function of the \code{lambda} values used.
 }
+\examples{
+
+
+APCcvgrp <- cv.grpStMoMo(apc(link = "log-Gaussian"), h = 1, data = EWMaleData, 
+                         ages.train = 55:89, nlambda = 25)
+
+plot(APCcvgrp)
+
+
+#Long computing times
+\dontrun{
+#Create big model
+strikes <- seq(25,85,5)
+bModel <- StMoMo(link = "log-Gaussian", staticAgeFun = TRUE, 
+                 periodAgeFun = c("1", genPoly(2:10), genCall(strikes),
+                                                   genPut(strikes)),
+                 cohortAgeFun = "1")
+                 
+#Cross-validation for 20 year ahead forecast                  
+EWcv.20 <- cv.grpStMoMo(bModel, h = 20, data = EWMaleData, 
+                        ages.train = 20:89)
+                        
+plot(EWcv.20)
+}                       
+
+
+}
 \seealso{
 \code{cv.grpStMoMo}.
 }
