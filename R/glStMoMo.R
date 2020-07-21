@@ -52,6 +52,17 @@
 #' See \code{\link{genWeightMat}} which is a helper function for defining 
 #' weighting matrices.
 #' 
+#' @param penalise.ax optional logical value indicating whether the \eqn{\alpha_x}
+#' should be penalsied in the fitting. Default is \code{FALSE} so \eqn{\alpha_x} is
+#' not penalised.
+#' 
+#' @param penalise.kt optional logical vector of length \eqn{N} indicating whether 
+#' the \eqn{i}-th period term, \eqn{\kappa^{(i)}_t}, should be penalised. By default
+#' all period term are penalised.
+#' 
+#' @param penalise.gc optional logical value indicating whether the cohort effect
+#' \eqn{\gamma_{c}} should be penalised in the fitting. By default it is not penalised.
+#' 
 #' @param verbose a logical value. If \code{TRUE} progress indicators are 
 #' printed as the model is fitted. Set \code{verbose = FALSE} to silent the 
 #' fitting and avoid progress messages.
@@ -59,24 +70,7 @@
 #' @return A list with class \code{"grpfitStMoMo"} with components:
 #'   
 #'   \item{model}{ the object of class \code{"StMoMo"} defining the fitted 
-#'   stochastic mortality model.}
-#'   
-#'   \item{beta}{ list of fitted coefficients for each value of lambda. Each
-#'   entry contains \code{ax}, \code{kt}, and \code{gc}}. 
-#'   
-#'   \item{ax}{ vector with the fitted values of the static age function 
-#'   \eqn{\alpha_x}. If the model does not have a static age function or 
-#'   failed to fit this is set to \code{NULL}.}
-#'   
-#'   \item{kt}{ matrix with the values of the fitted period indexes 
-#'   \eqn{\kappa_t^{(i)}, i=1, ..., N}. \code{kt[i, ]} contains the estimated 
-#'   values of the \eqn{i}-th period index. If the model does not have any 
-#'   age-period terms (i.e. \eqn{N=0}) or failed to fit this is set to 
-#'   \code{NULL}.}
-#'     
-#'   \item{gc}{ vector with the fitted cohort index \eqn{\gamma_{c}}.
-#'   If the model does not have a cohort effect or failed to fit this is set
-#'   to \code{NULL}.}
+#'   stochastic mortality model.}   
 #'   
 #'   \item{data}{ StMoMoData object provided for fitting the model.}
 #'   
@@ -92,9 +86,23 @@
 #'   
 #'   \item{cohorts}{ vector of cohorts used in the fitting.}
 #'   
-#'   \item{loglik}{ vector of log-likelihoods of fitted model.}
-#'   
 #'   \item{lambda}{ vector of lambda values used in the fitting.}
+#'   
+#'   \item{beta}{ list of fitted coefficients for each value of lambda. Each
+#'   entry contains \code{ax}, \code{bx}  \code{kt}, \code{b0x} and \code{gc}.}
+#'   
+#'   \item{fittingModel}{ output from the call to \code{grpreg} used to fit the model.}
+#'   
+#'   \item{loglik}{ vector of log-likelihoods of the fitted model for each value 
+#'   of \code{lambda}.}
+#'   
+#'   \item{deviance}{ vector of deviances of the fitted model for each value 
+#'   of \code{lambda}.}
+#'   
+#'   \item{npar}{ vector of effective number of parameters of the fitted model for each value 
+#'   of \code{lambda}.}
+#'   
+#'   \item{nobs}{ total number of observations used in the fitting.}
 #'     
 #' @examples
 #' APCgrpfit <- grpfit(apc(link = "log-Gaussian"), data = EWMaleData, 
@@ -106,7 +114,8 @@
 #' @export 
 grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
                    ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL, wxt = NULL, 
-                   index = NULL, verbose = TRUE) {
+                   penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N), penalise.gc = TRUE,
+                   verbose = TRUE) {
   
   # Group lasso not yet supported for Binomial/Poisson models, and parametric models
   
@@ -260,8 +269,26 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
   
   designmatrix <- gnm(formula = as.formula(object$gnmFormula), data = fitData, 
                       family = gaussian, method = "model.matrix")
-  if (is.null(index)) {
-    index <- attributes(designmatrix)$assign
+  
+  # Determine design the index for each model term
+  index <- attributes(designmatrix)$assign
+  nGroups <- max(index)
+  
+  g <- 1
+  if (object$staticAgeFun){
+    if(!penalise.ax) index[index == g] <- 0
+    g <- g + 1
+  }
+  
+  if (object$N > 0){
+    for (i in 1:object$N) {
+      if(!penalise.kt[i]) index[index == g] <- 0
+      g <- g + 1
+    }
+  }
+  
+  if (!is.null(object$cohortAgeFun)){
+    if(!penalise.gc) index[index == g] <- 0
   }
   
   # Fit using grpreg
@@ -342,7 +369,7 @@ grpfit <- function(object, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL,
               ages = ages, years = years, cohorts = cohorts,
               lambda = lambda, index = index, beta = beta, 
               fittingModel = fit,
-              loglik = loglik, loglik = loglik, 
+              loglik = loglik,  
               deviance = deviance,
               npar = fit$df,
               nobs = fit$n,

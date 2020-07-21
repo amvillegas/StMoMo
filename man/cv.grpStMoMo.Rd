@@ -7,8 +7,10 @@ with Group Regularised Penalties}
 \usage{
 cv.grpStMoMo(object, h = 1, lambda = NULL, nlambda = 50,
   data = NULL, Dxt = NULL, Ext = NULL, ages.train = NULL,
-  years.train = NULL, ages = NULL, years = NULL, index = NULL,
-  returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE)
+  years.train = NULL, ages = NULL, years = NULL,
+  penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N),
+  penalise.gc = TRUE, returnY = FALSE, type = c("logrates", "rates"),
+  verbose = TRUE)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the 
@@ -46,10 +48,16 @@ training. Must be a subset of \code{years}.}
 \item{years}{optional vector of years corresponding to rows of 
 \code{Dxt} and \code{Ext}.}
 
-\item{index}{optional vector describing the grouping of the coefficients. If
-there are coefficients to be included in the model without being penalised, assign
-them to group 0 (or "0"). If this is not provided, the grouping is automatically
-determined and all groups are penalised.}
+\item{penalise.ax}{optional logical value indicating whether the \eqn{\alpha_x}
+should be penalsied in the fitting. Default is \code{FALSE} so \eqn{\alpha_x} is
+not penalised.}
+
+\item{penalise.kt}{optional logical vector of length \eqn{N} indicating whether 
+the \eqn{i}-th period term, \eqn{\kappa^{(i)}_t}, should be penalised. By default
+all period term are penalised.}
+
+\item{penalise.gc}{optional logical value indicating whether the cohort effect
+\eqn{\gamma_{c}} should be penalised in the fitting. By default it is not penalised.}
 
 \item{returnY}{a logical value. If \code{TRUE}, \code{cv.grpStMoMo}
 returns a list of length \code{nlambda}, containing matrices of the fitted mortality rates 

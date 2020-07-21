@@ -39,10 +39,16 @@
 #' @param years.train optional vector of years to include in the 
 #' training. Must be a subset of \code{years}.
 #' 
-#' @param index optional vector describing the grouping of the coefficients. If
-#' there are coefficients to be included in the model without being penalised, assign
-#' them to group 0 (or "0"). If this is not provided, the grouping is automatically
-#' determined and all groups are penalised.
+#' @param penalise.ax optional logical value indicating whether the \eqn{\alpha_x}
+#' should be penalsied in the fitting. Default is \code{FALSE} so \eqn{\alpha_x} is
+#' not penalised.
+#' 
+#' @param penalise.kt optional logical vector of length \eqn{N} indicating whether 
+#' the \eqn{i}-th period term, \eqn{\kappa^{(i)}_t}, should be penalised. By default
+#' all period term are penalised.
+#' 
+#' @param penalise.gc optional logical value indicating whether the cohort effect
+#' \eqn{\gamma_{c}} should be penalised in the fitting. By default it is not penalised.
 #'  
 #' @param returnY a logical value. If \code{TRUE}, \code{cv.grpStMoMo}
 #' returns a list of length \code{nlambda}, containing matrices of the fitted mortality rates 
@@ -114,9 +120,10 @@
 #'                      ages.train = 55:89, type = "logrates", lambda = lambda)
 #'             
 #' @export 
-cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, Ext = NULL, 
-                       ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, index = NULL, 
-                       returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
+cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, 
+                         Ext = NULL, ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, 
+                         penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N), penalise.gc = TRUE,
+                         returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
   
   
   type <- match.arg(type)  
@@ -148,11 +155,15 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
   # Determine lambda grid
   if (is.null(lambda)) {
     fitTemp <- grpfit(object, nlambda = nlambda, data = data, Dxt = Dxt, Ext = Ext, 
-                        ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, verbose = FALSE) 
+                      ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, 
+                      penalise.ax = penalise.ax, penalise.kt = penalise.kt, penalise.gc = penalise.gc,
+                      verbose = FALSE) 
     lambda <- fitTemp$lambda
   } else {
     fitTemp <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
-                        ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, verbose = FALSE) 
+                      ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, 
+                      penalise.ax = penalise.ax, penalise.kt = penalise.kt, penalise.gc = penalise.gc,
+                      verbose = FALSE) 
     nlambda <- length(lambda)
   }
   
@@ -179,9 +190,10 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     wxtF[,((i+h-1):(i+h-1))] <- 0
     
     # Fit using grpfit
-    fit <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext, 
-                    ages = ages, years = years, ages.fit = ages.train, years.fit = years.train, 
-                    wxt = wxtT, verbose = FALSE) 
+    fit <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext,  ages = ages, 
+                  years = years, ages.fit = ages.train, years.fit = years.train,  wxt = wxtT, 
+                  penalise.ax = penalise.ax, penalise.kt = penalise.kt, penalise.gc = penalise.gc,
+                  verbose = FALSE) 
     
     # Compute test set errors
 

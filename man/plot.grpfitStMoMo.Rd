@@ -4,13 +4,17 @@
 \alias{plot.grpfitStMoMo}
 \title{Plot the regularisation path of a Stochasic Mortality Model}
 \usage{
-\method{plot}{grpfitStMoMo}(x, label = FALSE, ...)
+\method{plot}{grpfitStMoMo}(x, label = FALSE, include.ax = FALSE,  ...)
 }
 \arguments{
 \item{x}{an object of class \code{"grpfitStMoMo"}.}
 
-\item{label}{If TRUE, annotates the plot with text labels in the right margin 
+\item{label}{If \code{TRUE}, annotates the plot with text labels in the right margin 
 describing which age/period or cohort terms the lines belong o}
+
+\item{include.ax}{If \code{FALSE} the the norm of each group of parameters is calculated
+relative to the predictor witout \eqn{\alpha_x} and the line related to \eqn{\alpha_x} is
+not plotted.}
 
 \item{...}{additional arguments to control graphical appearance.
 See \code{\link[graphics]{plot}}.}
