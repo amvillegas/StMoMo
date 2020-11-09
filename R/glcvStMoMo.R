@@ -56,13 +56,18 @@
 #' 
 #' @param type the type of the predicted values that the cross 
 #' validation is performed with respect to. The alternatives are 
-#' \code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cvStMoMo}
+#' \code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cv.grpStMoMo}
 #' returns the mean squared error using the deviation between
 #' realised and predicted mortality rates. If \code{"logrates"}, 
-#' \code{cvStMoMo} returns the mean squared error using the 
+#' \code{cv.grpStMoMo} returns the mean squared error using the 
 #' deviation between realised and predicted log mortality rates. \code{lambda.min}, 
 #' \code{min} and \code{se} also depend on \code{type}.
 #'     
+#' @param all.horizon a logical value. If \code{TRUE}, 
+#'  the evaluation is done pooling all horizons
+#'  ranging from 1 to \code{h}. If \code{FALSE}, it is done only for horizon
+#' \code{h}.
+#'          
 #' @param verbose a logical value. If \code{TRUE} progress 
 #' indicators are printed as the model is fitted. Set 
 #' \code{verbose = FALSE} to silent the fitting and avoid 
@@ -87,13 +92,24 @@
 #'   
 #'   \item{lambda}{ vector of lambda values used in the fitting.}
 #'   
-#'   \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
-#'   mortality rates.} 
+#'   \item{cv.rates}{ if \code{returnY=TRUE}, list with matrices of predicted 
+#'   mortality rates at horizon \code{h} if \code{all.horizon = FALSE}. 
+#'   If \code{all.horizon = TRUE} then it is list of three dimensional arrays
+#'   where the first dimension indicates each horizon from 1 to \code{h}} 
 #'   
-#'   \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted 
-#'   mortality rates and realised mortality rates. If \code{type="logrates"}, vector of 
-#'   mean squared errors using predicted log mortality rates and realised log mortality 
-#'   rates.}  
+#'   \item{cv.mse}{ if \code{type="rates"}, mean squared error using 
+#'   predicted mortality rates and realised mortality rates. If 
+#'   \code{type="logrates"}, mean squared error using predicted log 
+#'   mortality rates and realised log mortality rates. 
+#'   If \code{all.horizon = TRUE} this MSE is pooled across all horizon
+#'   from 1 to \code{h}.}  
+#'   
+#'   \item{cv.mse.h}{ Only present if \code{all.horizon=TRUE}.
+#'   if \code{type="rates"}, vector with mean squared error 
+#'   using     predicted mortality rates and realised mortality rates for each 
+#'   horizon. If \code{type="logrates"}, vector with mean squared error 
+#'   using predicted log mortality rates and realised log mortality rates 
+#'   for each horizon.}
 #'   
 #'   \item{se}{ the estimated standard error for \code{cv.mse}.}
 #'   
@@ -123,7 +139,9 @@
 cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NULL, Dxt = NULL, 
                          Ext = NULL, ages.train = NULL, years.train = NULL, ages = NULL, years = NULL, 
                          penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N), penalise.gc = TRUE,
-                         returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE) {
+                         returnY = FALSE, type = c("logrates", "rates"), 
+                         all.horizon = FALSE,
+                         verbose = TRUE) {
   
   
   type <- match.arg(type)  
@@ -168,11 +186,36 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
   }
   
   # Initialise out-of-sample predicted values
-  cv.rates <- replicate(nlambda, genWeightMat(ages = ages.train, years = years.train)*0, simplify=FALSE)
+  if (all.horizon == FALSE){
+    cv.rates <- replicate(nlambda, genWeightMat(ages = ages.train, years = years.train)*0, simplify=FALSE)
+    
+  } else {
+    cv.rates.j <- genWeightMat(ages = ages.train, years = years.train)*0
+    cv.rates <- array(NA, dim = c(h, nrow(cv.rates.j), ncol(cv.rates.j)), 
+                      dimnames = list(1:h, 
+                                      rownames(cv.rates.j), 
+                                      colnames(cv.rates.j)))
+    for (j in 1:h) {
+      cv.rates[j, , ] <- cv.rates.j
+    }
+    
+    cv.rates_list <- vector("list", nlambda) 
+    for (n in 1:nlambda) {
+      cv.rates_list[[n]] <- cv.rates
+    }  
+    cv.rates <- cv.rates_list
+    
+  }
+  
   cv.mse <- rep(0, nlambda)
   cv.se <- rep(0, nlambda)
   cv.Lmse <- rep(0, nlambda)
   cv.Lse <- rep(0, nlambda)
+  
+  if(all.horizon == TRUE) {
+    cv.mse.h <- replicate(nlambda, rep(NA, h), simplify=FALSE)
+    cv.Lmse.h <- replicate(nlambda, rep(NA, h), simplify=FALSE)
+  }  
   
   # Perform cross validation iterations
   for (i in 2:(length(years.train)-h+1)) {
@@ -186,8 +229,21 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     wxtT[,(i:(i+h-1))] <- 0
     
     # Define test set weight matrix
-    wxtF <- genWeightMat(ages = ages.train, years = years.train)
-    wxtF[,((i+h-1):(i+h-1))] <- 0
+    if(all.horizon == FALSE){
+      wxtF <- genWeightMat(ages = ages.train, years = years.train)
+      wxtF[,((i+h-1):(i+h-1))] <- 0
+    } else{
+      wxtF.j <- genWeightMat(ages = ages.train, years = years.train)
+      wxtF <- array(NA, dim = c(h, nrow(wxtF.j), ncol(wxtF.j)), 
+                    dimnames =  list(1:h, 
+                                     rownames(wxtF.j), 
+                                     colnames(wxtF.j)))
+      for (j in 1:h) {
+        wxtF[j, , ] <- wxtF.j
+        wxtF[j, ,((i+j-1):(i+j-1))] <- 0
+        
+      }
+    }
     
     # Fit using grpfit
     fit <- grpfit(object, lambda = lambda, data = data, Dxt = Dxt, Ext = Ext,  ages = ages, 
@@ -235,7 +291,15 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
       
       # Update rates matrix
       qhat[is.na(qhat)] <- 0
-      cv.rates[[n]] <- cv.rates[[n]] + (qhat * (1 - wxtF))
+      
+      if(all.horizon == FALSE){
+        cv.rates[[n]] <- cv.rates[[n]] + (qhat * (1 - wxtF))
+      } else{
+        for (j in 1:h) {
+          cv.rates[[n]][j, ,] <- cv.rates[[n]][j, ,] + (qhat * (1 - wxtF[j, ,]))
+        }
+      }
+      
       
     }
     
@@ -254,15 +318,46 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     cv.Lrates <- log(cv.rates[[j]])
     
     # Prepare cv error output
-    cv.error <- (cv.rates[[j]] - qxt)^2
-    cv.mse[j] <- mean(cv.error[!is.na(cv.error)])
-    cv <- colMeans(cv.error, na.rm = TRUE)
-    cv.se[j] <- sd(cv, na.rm = TRUE)/sqrt(folds)
+    if (all.horizon == FALSE) {
+      cv.error <- (cv.rates[[j]] - qxt)^2
+      cv.mse[j] <- mean(cv.error[!is.na(cv.error)])
+      cv <- colMeans(cv.error, na.rm = TRUE)   
+      sd <- sd(cv, na.rm = TRUE)
+      cv.se[j] <- sd/sqrt(folds)
+      
+      cv.Lerror <- (cv.Lrates - Lqxt)^2
+      cv.Lmse[j] <- mean(cv.Lerror[!is.na(cv.Lerror)])
+      cv.L <- colMeans(cv.Lerror, na.rm = TRUE)
+      Lsd <- sd(cv.L, na.rm = TRUE)
+      cv.Lse[j] <- Lsd/sqrt(folds)
+    } else {
+      cv.error.h <- cv.Lerror.h <- NA*cv.rates[[j]]
+      for (k in 1:h) {
+        cv.error.h[k, , ] <- (cv.rates[[j]][k, , ] - qxt)^2
+        cv.error <- cv.error.h[k, , ]
+        cv.mse.h[[j]][k] <- mean(cv.error, na.rm = TRUE)
+        cv.Lerror.h[k, , ] <- (cv.Lrates[k, , ] - Lqxt)^2
+        cv.Lerror <- cv.Lerror.h[k, , ]
+        cv.Lmse.h[[j]][k] <- mean(cv.Lerror, na.rm = TRUE)
+      }
+      cv.mse[j] <- mean(cv.mse.h[[j]])
+      cv.Lmse[j] <- mean(cv.Lmse.h[[j]])
+      
+      cv <- cv.L <- rep(0, folds)
+      for (i in 2:(length(years.train)-h+1)) {
+        for (k in 1:h) {
+          cv[i-1] <- cv[i-1] + mean(cv.error.h[k, , k + i - 1], na.rm = TRUE)/h
+          cv.L[i-1] <- cv.L[i-1] + mean(cv.Lerror.h[k, , k + i - 1], na.rm = TRUE)/h 
+        }
+      }
+      sd <- sd(cv, na.rm = TRUE)
+      cv.se[j] <- sd/sqrt(folds)
+      Lsd <- sd(cv.L, na.rm = TRUE)
+      cv.Lse[j] <- Lsd/sqrt(folds)
+      
+    }
     
-    cv.Lerror <- (cv.Lrates - Lqxt)^2
-    cv.Lmse[j] <- mean(cv.Lerror[!is.na(cv.Lerror)])
-    cv.L <- colMeans(cv.Lerror, na.rm = TRUE)
-    cv.Lse[j] <- sd(cv.L, na.rm = TRUE)/sqrt(folds)
+    
   }
 
   # Determine optimal lambda
@@ -292,6 +387,9 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     out$se = cv.se
     out$min.1se = min.1se
     out$lambda.1se = lambda.1se
+    if (all.horizon) {
+      out$cv.mse.h <- cv.mse.h
+    }
   } else if (type == "logrates") {
     out$cv.mse = cv.Lmse
     out$min = Lmin
@@ -299,6 +397,9 @@ cv.grpStMoMo <- function(object,  h = 1, lambda = NULL, nlambda = 50, data = NUL
     out$se = cv.Lse
     out$min.1se = min.L1se
     out$lambda.1se = lambda.L1se
+    if (all.horizon) {
+      out$cv.mse.h <- cv.Lmse.h
+    }
   } 
  
   class(out) <- "cv.grpStMoMo"
