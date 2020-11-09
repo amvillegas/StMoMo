@@ -4,9 +4,21 @@
 \alias{cv.StMoMo}
 \title{Cross validation for Stochastic Mortality Model}
 \usage{
-cv.StMoMo(object, h = NULL, data = NULL, Dxt = NULL, Ext = NULL,
-  ages.train = NULL, years.train = NULL, ages = NULL, years = NULL,
-  returnY = FALSE, type = c("logrates", "rates"), verbose = TRUE)
+cv.StMoMo(
+  object,
+  h = NULL,
+  data = NULL,
+  Dxt = NULL,
+  Ext = NULL,
+  ages.train = NULL,
+  years.train = NULL,
+  ages = NULL,
+  years = NULL,
+  returnY = FALSE,
+  type = c("logrates", "rates"),
+  all.horizon = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the 
@@ -49,6 +61,11 @@ realised and predicted mortality rates. If \code{"logrates"},
 \code{cv.StMoMo} returns the mean squared error using the 
 deviation between realised and predicted log mortality rates.}
 
+\item{all.horizon}{a logical value. If \code{TRUE}, 
+ the evaluation is done pooling all horizons
+ ranging from 1 to \code{h}. If \code{FALSE}, it is done only for horizon
+\code{h}.}
+
 \item{verbose}{a logical value. If \code{TRUE} progress 
 indicators are printed as the model is fitted. Set 
 \code{verbose = FALSE} to silent the fitting and avoid 
@@ -73,12 +90,23 @@ A list with class \code{"cv.StMoMo"} with components:
   used in the training.} 
   
   \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
-  mortality rates.} 
+  mortality rates at horizon \code{h} if \code{all.horizon = FALSE}. 
+  If \code{all.horizon = TRUE} then it is is a three dimensional array
+  where the first dimension indicates each horizon from 1 to \code{h}} 
   
   \item{cv.mse}{ if \code{type="rates"}, mean squared error using 
   predicted mortality rates and realised mortality rates. If 
   \code{type="logrates"}, mean squared error using predicted log 
-  mortality rates and realised log mortality rates.}  
+  mortality rates and realised log mortality rates. 
+  If \code{all.horizon = TRUE} this MSE is pooled across all horizon
+  from 1 to \code{h}.}  
+  
+  \item{cv.mse.h}{ Only present if \code{all.horizon=TRUE}.
+  if \code{type="rates"}, vector with mean squared error 
+  using     predicted mortality rates and realised mortality rates for each 
+  horizon. If \code{type="logrates"}, vector with mean squared error 
+  using predicted log mortality rates and realised log mortality rates 
+  for each horizon.}
   
   \item{se}{the estimated standard error for \code{cv.mse}.}
 }
@@ -93,5 +121,12 @@ LCcv <- cv.StMoMo(lc(), h = 1, data = EWMaleData, ages.train = 55:89, type = "lo
 # APC model using arguments Dxt, Ext, ages, years to pass fitting data, based on rates
 APCcv <- cv.StMoMo(apc(), h = 10, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
 ages = EWMaleData$ages, years = EWMaleData$years, ages.train = 55:89, type = "rates")
+            
+# APC model using arguments Dxt, Ext, ages, years to pass fitting data, based on rates
+# pooled across horizons
+APCcv_all <- cv.StMoMo(apc(), h = 10, Dxt = EWMaleData$Dxt, Ext = EWMaleData$Ext, 
+ages = EWMaleData$ages, years = EWMaleData$years, ages.train = 55:89, type = "rates", 
+all.horizon = TRUE)
+            
             
 }

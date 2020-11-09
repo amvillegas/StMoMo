@@ -5,11 +5,22 @@
 \title{Simulate future sample paths from a Bootstrapped Stochastic 
 Mortality Model}
 \usage{
-\method{simulate}{bootStMoMo}(object, nsim = 1, seed = NULL, h = 50,
-  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), kt.method = c("mrwd", "iarima"),
-  kt.order = NULL, kt.include.constant = TRUE, kt.lookback = NULL,
-  gc.lookback = NULL, ...)
+\method{simulate}{bootStMoMo}(
+  object,
+  nsim = 1,
+  seed = NULL,
+  h = 50,
+  oxt = NULL,
+  gc.order = c(1, 1, 0),
+  gc.include.constant = TRUE,
+  jumpchoice = c("fit", "actual"),
+  kt.method = c("mrwd", "iarima"),
+  kt.order = NULL,
+  kt.include.constant = TRUE,
+  kt.lookback = NULL,
+  gc.lookback = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"bootStMoMo"} with the bootstrapped 

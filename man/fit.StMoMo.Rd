@@ -4,11 +4,25 @@
 \alias{fit.StMoMo}
 \title{Fit a Stochastic Mortality Model}
 \usage{
-\method{fit}{StMoMo}(object, data = NULL, Dxt = NULL, Ext = NULL,
-  ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL,
-  oxt = NULL, wxt = NULL, start.ax = NULL, start.bx = NULL,
-  start.kt = NULL, start.b0x = NULL, start.gc = NULL,
-  verbose = TRUE, ...)
+\method{fit}{StMoMo}(
+  object,
+  data = NULL,
+  Dxt = NULL,
+  Ext = NULL,
+  ages = NULL,
+  years = NULL,
+  ages.fit = NULL,
+  years.fit = NULL,
+  oxt = NULL,
+  wxt = NULL,
+  start.ax = NULL,
+  start.bx = NULL,
+  start.kt = NULL,
+  start.b0x = NULL,
+  start.gc = NULL,
+  verbose = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the stochastic

@@ -4,8 +4,18 @@
 \alias{processStartValues}
 \title{Process the initial parameter supplied by the user}
 \usage{
-processStartValues(object, coefNames, ax, bx, kt, b0x, gc, ages, years,
-  cohorts)
+processStartValues(
+  object,
+  coefNames,
+  ax,
+  bx,
+  kt,
+  b0x,
+  gc,
+  ages,
+  years,
+  cohorts
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the stochastic

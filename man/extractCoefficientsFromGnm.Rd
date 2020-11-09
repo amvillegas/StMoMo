@@ -4,8 +4,16 @@
 \alias{extractCoefficientsFromGnm}
 \title{Extract the model coefficient}
 \usage{
-extractCoefficientsFromGnm(object, coefGnmModel, ages, years, cohorts,
-  zeroWeigthAges, zeroWeigthYears, zeroWeigthCohorts)
+extractCoefficientsFromGnm(
+  object,
+  coefGnmModel,
+  ages,
+  years,
+  cohorts,
+  zeroWeigthAges,
+  zeroWeigthYears,
+  zeroWeigthCohorts
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the stochastic

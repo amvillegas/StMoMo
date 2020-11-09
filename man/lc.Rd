@@ -4,8 +4,7 @@
 \alias{lc}
 \title{Create a Lee-Carter model}
 \usage{
-lc(link = c("log", "logit", "log-Gaussian"), const = c("sum", "last",
-  "first"))
+lc(link = c("log", "logit", "log-Gaussian"), const = c("sum", "last", "first"))
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 

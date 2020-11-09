@@ -4,11 +4,21 @@
 \alias{forecast.fitStMoMo}
 \title{Forecast mortality rates using a Stochastic Mortality Model}
 \usage{
-\method{forecast}{fitStMoMo}(object, h = 50, level = c(80, 95),
-  oxt = NULL, gc.order = c(1, 1, 0), gc.include.constant = TRUE,
-  jumpchoice = c("fit", "actual"), kt.method = c("mrwd", "iarima"),
-  kt.order = NULL, kt.include.constant = TRUE, kt.lookback = NULL,
-  gc.lookback = NULL, ...)
+\method{forecast}{fitStMoMo}(
+  object,
+  h = 50,
+  level = c(80, 95),
+  oxt = NULL,
+  gc.order = c(1, 1, 0),
+  gc.include.constant = TRUE,
+  jumpchoice = c("fit", "actual"),
+  kt.method = c("mrwd", "iarima"),
+  kt.order = NULL,
+  kt.include.constant = TRUE,
+  kt.lookback = NULL,
+  gc.lookback = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 

@@ -4,8 +4,12 @@
 \alias{extractCohort}
 \title{Extract cohort from an age-period array}
 \usage{
-extractCohort(A, age = as.numeric(dimnames(A)[[1]][1]),
-  period = as.numeric(dimnames(A)[[2]][1]), cohort = period - age)
+extractCohort(
+  A,
+  age = as.numeric(dimnames(A)[[1]][1]),
+  period = as.numeric(dimnames(A)[[2]][1]),
+  cohort = period - age
+)
 }
 \arguments{
 \item{A}{an age-period array with a demographic quantity. This array 

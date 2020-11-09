@@ -3,13 +3,16 @@
 \docType{package}
 \name{StMoMo}
 \alias{StMoMo}
-\alias{StMoMo-package}
 \title{Create a new Stochastic Mortality Model}
 \usage{
-StMoMo(link = c("log", "logit", "log-Gaussian"), staticAgeFun = TRUE,
-  periodAgeFun = "NP", cohortAgeFun = NULL, constFun = function(ax,
-  bx, kt, b0x, gc, wxt, ages) list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc
-  = gc))
+StMoMo(
+  link = c("log", "logit", "log-Gaussian"),
+  staticAgeFun = TRUE,
+  periodAgeFun = "NP",
+  cohortAgeFun = NULL,
+  constFun = function(ax, bx, kt, b0x, gc, wxt, ages) list(ax = ax, bx = bx, kt = kt,
+    b0x = b0x, gc = gc)
+)
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 

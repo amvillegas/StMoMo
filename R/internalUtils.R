@@ -7,7 +7,7 @@ predictLink <- function(ax, bx, kt, b0x, gc, oxt, ages, years) {
   nYears <- length(years)
   cohorts <- (years[1] - ages[nAges]):(years[nYears] - ages[1])
   nCohorts <- length(cohorts)
-    
+  
   #offset
   if (is.null(oxt)) oxt <- array(0, dim = c(nAges, nYears)) 
   
@@ -21,7 +21,7 @@ predictLink <- function(ax, bx, kt, b0x, gc, oxt, ages, years) {
     N <- dim(bx)[2]  
     for (i in 1:N) {
       link <- link + array(bx[, i], dim = c(nAges, nYears)) * 
-              t(array(kt[i, ], dim = c(nYears, nAges)))
+        t(array(kt[i, ], dim = c(nYears, nAges)))
     }
   }
   
@@ -30,7 +30,7 @@ predictLink <- function(ax, bx, kt, b0x, gc, oxt, ages, years) {
     ft <- gl(nYears, nAges) 
     ftx <- factor(as.numeric(ft) + seq(nAges - 1, 0))
     link <- link + array(b0x, dim = c(nAges, nYears)) * 
-                  array(gc[ftx], dim = c(nAges, nYears))
+      array(gc[ftx], dim = c(nAges, nYears))
   }  
   dimnames(link)<- list(ages, years)  
   link  
@@ -47,7 +47,7 @@ computeLogLikPoisson <- function(obs, fit, weight) {
   ind <- (weight > 0)
   res <- array(NA, dim = dim(weight))
   res[ind] <- weight[ind] * (obs[ind] * log(fit[ind]) - 
-                          fit[ind] - lfactorial(obs[ind]))
+                               fit[ind] - lfactorial(obs[ind]))
   sum(res, na.rm=TRUE)
 }
 
@@ -62,8 +62,8 @@ computeLogLikBinomial <- function(obs, fit, exposure, weight) {
   ind <- (weight > 0)
   res <- array(NA, dim = dim(weight))
   res[ind] <- weight[ind] * (exposure[ind] * (obs[ind] * log(fit[ind]) 
-              + (1 - obs[ind]) * log(1 - fit[ind])) +
-                   lchoose(round(exposure[ind]), round(obs[ind] * exposure[ind])))
+                                              + (1 - obs[ind]) * log(1 - fit[ind])) +
+                               lchoose(round(exposure[ind]), round(obs[ind] * exposure[ind])))
   sum(res, na.rm = TRUE)
 }
 
@@ -110,8 +110,8 @@ computeDevianceBinomial <- function(obs, fit, exposure, weight) {
   dev <- array(NA, dim = dim(weight))
   
   dev[ind] <- 2 * weight[ind] * exposure[ind] * 
-             (obs[ind] * log(obs[ind] / fit[ind]) + 
-        (1 - obs[ind]) * log((1 - obs[ind]) / (1 - fit[ind])))
+    (obs[ind] * log(obs[ind] / fit[ind]) + 
+       (1 - obs[ind]) * log((1 - obs[ind]) / (1 - fit[ind])))
   sum(dev, na.rm = TRUE)
 }
 

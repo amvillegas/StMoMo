@@ -5,12 +5,26 @@
 \title{Cross validation for Stochastic Mortality Model fitted 
 with Group Regularised Penalties}
 \usage{
-cv.grpStMoMo(object, h = 1, lambda = NULL, nlambda = 50,
-  data = NULL, Dxt = NULL, Ext = NULL, ages.train = NULL,
-  years.train = NULL, ages = NULL, years = NULL,
-  penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N),
-  penalise.gc = TRUE, returnY = FALSE, type = c("logrates", "rates"),
-  verbose = TRUE)
+cv.grpStMoMo(
+  object,
+  h = 1,
+  lambda = NULL,
+  nlambda = 50,
+  data = NULL,
+  Dxt = NULL,
+  Ext = NULL,
+  ages.train = NULL,
+  years.train = NULL,
+  ages = NULL,
+  years = NULL,
+  penalise.ax = FALSE,
+  penalise.kt = rep(TRUE, object$N),
+  penalise.gc = TRUE,
+  returnY = FALSE,
+  type = c("logrates", "rates"),
+  all.horizon = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the 
@@ -65,12 +79,17 @@ for the cross validation folds for each value of \code{lambda}.}
 
 \item{type}{the type of the predicted values that the cross 
 validation is performed with respect to. The alternatives are 
-\code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cvStMoMo}
+\code{"rates"} and \code{"logrates"}. If \code{"rates"}, \code{cv.grpStMoMo}
 returns the mean squared error using the deviation between
 realised and predicted mortality rates. If \code{"logrates"}, 
-\code{cvStMoMo} returns the mean squared error using the 
+\code{cv.grpStMoMo} returns the mean squared error using the 
 deviation between realised and predicted log mortality rates. \code{lambda.min}, 
 \code{min} and \code{se} also depend on \code{type}.}
+
+\item{all.horizon}{a logical value. If \code{TRUE}, 
+ the evaluation is done pooling all horizons
+ ranging from 1 to \code{h}. If \code{FALSE}, it is done only for horizon
+\code{h}.}
 
 \item{verbose}{a logical value. If \code{TRUE} progress 
 indicators are printed as the model is fitted. Set 
@@ -97,13 +116,24 @@ A list with class \code{"cv.grpStMoMo"} with components:
   
   \item{lambda}{ vector of lambda values used in the fitting.}
   
-  \item{cv.rates}{ if \code{returnY=TRUE}, matrix of predicted 
-  mortality rates.} 
+  \item{cv.rates}{ if \code{returnY=TRUE}, list with matrices of predicted 
+  mortality rates at horizon \code{h} if \code{all.horizon = FALSE}. 
+  If \code{all.horizon = TRUE} then it is list of three dimensional arrays
+  where the first dimension indicates each horizon from 1 to \code{h}} 
   
-  \item{cv.mse}{ if \code{type="rates"}, vector mean squared errors using predicted 
-  mortality rates and realised mortality rates. If \code{type="logrates"}, vector of 
-  mean squared errors using predicted log mortality rates and realised log mortality 
-  rates.}  
+  \item{cv.mse}{ if \code{type="rates"}, mean squared error using 
+  predicted mortality rates and realised mortality rates. If 
+  \code{type="logrates"}, mean squared error using predicted log 
+  mortality rates and realised log mortality rates. 
+  If \code{all.horizon = TRUE} this MSE is pooled across all horizon
+  from 1 to \code{h}.}  
+  
+  \item{cv.mse.h}{ Only present if \code{all.horizon=TRUE}.
+  if \code{type="rates"}, vector with mean squared error 
+  using     predicted mortality rates and realised mortality rates for each 
+  horizon. If \code{type="logrates"}, vector with mean squared error 
+  using predicted log mortality rates and realised log mortality rates 
+  for each horizon.}
   
   \item{se}{ the estimated standard error for \code{cv.mse}.}
   

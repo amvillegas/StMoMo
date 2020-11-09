@@ -4,8 +4,7 @@
 \alias{forecast.iarima}
 \title{Forecast independent arima series}
 \usage{
-\method{forecast}{iarima}(object, h = 10, level = c(80, 95),
-  fan = FALSE, ...)
+\method{forecast}{iarima}(object, h = 10, level = c(80, 95), fan = FALSE, ...)
 }
 \arguments{
 \item{object}{an object of class \code{"iarima"}.}

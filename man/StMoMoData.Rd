@@ -4,8 +4,7 @@
 \alias{StMoMoData}
 \title{Create StMoMoData object from demogdata object}
 \usage{
-StMoMoData(data, series = names(data$rate)[1], type = c("central",
-  "initial"))
+StMoMoData(data, series = names(data$rate)[1], type = c("central", "initial"))
 }
 \arguments{
 \item{data}{demogdata object of type "mortality". It is either the

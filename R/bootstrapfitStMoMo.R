@@ -109,11 +109,11 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
         devRes = residuals(object, scale = FALSE), 
         dhat = fitted(object, type = "deaths"), nBoot)
     } else if (type == "semiparametric") {     
-        if (deathType == "observed") {
-          D <- object$Dxt
-        } else { 
-          D <- fitted(object, type = "deaths")
-        }
+      if (deathType == "observed") {
+        D <- object$Dxt
+      } else { 
+        D <- fitted(object, type = "deaths")
+      }
       bootSamples <- genPoissonSemiparametricBootSamples(D = D, nBoot)
       
     }
@@ -135,7 +135,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
   } else if (link == "log-Gaussian") {
     stop("Bootstrap not yet implemented for the log-Gaussian family")
   }
-
+  
   #Fit the model to each of 
   refit <- function(Dxt) {
     getMinimalFitStMoMo(fit(object = object$model, Dxt = Dxt, Ext = object$Ext, 
@@ -152,7 +152,7 @@ bootstrap.fitStMoMo <- function(object, nBoot = 1,
 }
 
 #' @export 
- print.bootStMoMo <- function(x,...) {
+print.bootStMoMo <- function(x,...) {
   cat("Bootstrapped Stochastic Mortality Model")
   cat(paste("\nCall:", deparse(x$call)))
   cat("\n\n")  

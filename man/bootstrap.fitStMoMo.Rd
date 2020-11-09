@@ -4,9 +4,13 @@
 \alias{bootstrap.fitStMoMo}
 \title{Bootstrap a fitted Stochastic Mortality Model}
 \usage{
-\method{bootstrap}{fitStMoMo}(object, nBoot = 1,
-  type = c("semiparametric", "residual"), deathType = c("observed",
-  "fitted"), ...)
+\method{bootstrap}{fitStMoMo}(
+  object,
+  nBoot = 1,
+  type = c("semiparametric", "residual"),
+  deathType = c("observed", "fitted"),
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 

@@ -4,8 +4,15 @@
 \alias{predict.fitStMoMo}
 \title{Predict method for Stochastic Mortality Models fits}
 \usage{
-\method{predict}{fitStMoMo}(object, years, kt = NULL, gc = NULL,
-  oxt = NULL, type = c("link", "rates"), ...)
+\method{predict}{fitStMoMo}(
+  object,
+  years,
+  kt = NULL,
+  gc = NULL,
+  oxt = NULL,
+  type = c("link", "rates"),
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"fitStMoMo"} with the fitted 
@@ -53,7 +60,7 @@ In producing a prediction the static age function, \eqn{\alpha_x}, and the
 age-modulating parameters, \eqn{\beta_x^{(i)}, i=0, ..., N}, are taken from
 the fitted model in \code{object} while the period indexes, 
 \eqn{\kappa_t^{(i)}, i=1,..., N}, and cohort index, \eqn{\gamma_{t-x}}, 
-are taken from the function arguments.
+are taken from the function arguments.  
 
 This function can be useful, for instance, in producing forecasts of 
 mortality rates using time series models different to those available 

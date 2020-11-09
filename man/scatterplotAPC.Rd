@@ -4,8 +4,16 @@
 \alias{scatterplotAPC}
 \title{Do a scatter plot of a matrix according to age-period-cohorts}
 \usage{
-scatterplotAPC(mat, ages, years, plotAge = TRUE, plotYear = TRUE,
-  plotCohort = TRUE, zeroLine = TRUE, ...)
+scatterplotAPC(
+  mat,
+  ages,
+  years,
+  plotAge = TRUE,
+  plotYear = TRUE,
+  plotCohort = TRUE,
+  zeroLine = TRUE,
+  ...
+)
 }
 \arguments{
 \item{mat}{matrix with the data to plot.}

@@ -4,11 +4,27 @@
 \alias{fit.rh}
 \title{Fit a Renshaw and Haberman (Lee-Carter with cohorts) mortality model}
 \usage{
-\method{fit}{rh}(object, data = NULL, Dxt = NULL, Ext = NULL,
-  ages = NULL, years = NULL, ages.fit = NULL, years.fit = NULL,
-  oxt = NULL, wxt = NULL, start.ax = NULL, start.bx = NULL,
-  start.kt = NULL, start.b0x = NULL, start.gc = NULL,
-  verbose = TRUE, tolerance = 1e-04, iterMax = 10000, ...)
+\method{fit}{rh}(
+  object,
+  data = NULL,
+  Dxt = NULL,
+  Ext = NULL,
+  ages = NULL,
+  years = NULL,
+  ages.fit = NULL,
+  years.fit = NULL,
+  oxt = NULL,
+  wxt = NULL,
+  start.ax = NULL,
+  start.bx = NULL,
+  start.kt = NULL,
+  start.b0x = NULL,
+  start.gc = NULL,
+  verbose = TRUE,
+  tolerance = 1e-04,
+  iterMax = 10000,
+  ...
+)
 }
 \arguments{
 \item{object}{an object of class \code{"rh"} created with function 

@@ -4,8 +4,11 @@
 \alias{rh}
 \title{Create a Renshaw and Haberman (Lee-Carter with cohorts) mortality model}
 \usage{
-rh(link = c("log", "logit", "log-Gaussian"), cohortAgeFun = c("1",
-  "NP"), approxConst = FALSE)
+rh(
+  link = c("log", "logit", "log-Gaussian"),
+  cohortAgeFun = c("1", "NP"),
+  approxConst = FALSE
+)
 }
 \arguments{
 \item{link}{defines the link function and random component associated with 

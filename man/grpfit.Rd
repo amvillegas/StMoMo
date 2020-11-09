@@ -4,11 +4,23 @@
 \alias{grpfit}
 \title{Fit a Stochastic Mortality Model with Group Regularised Penalties}
 \usage{
-grpfit(object, lambda = NULL, nlambda = 50, data = NULL,
-  Dxt = NULL, Ext = NULL, ages = NULL, years = NULL,
-  ages.fit = NULL, years.fit = NULL, wxt = NULL,
-  penalise.ax = FALSE, penalise.kt = rep(TRUE, object$N),
-  penalise.gc = TRUE, verbose = TRUE)
+grpfit(
+  object,
+  lambda = NULL,
+  nlambda = 50,
+  data = NULL,
+  Dxt = NULL,
+  Ext = NULL,
+  ages = NULL,
+  years = NULL,
+  ages.fit = NULL,
+  years.fit = NULL,
+  wxt = NULL,
+  penalise.ax = FALSE,
+  penalise.kt = rep(TRUE, object$N),
+  penalise.gc = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{object}{an object of class \code{"StMoMo"} defining the stochastic
