@@ -293,6 +293,14 @@ fit.StMoMo <- function(object, data = NULL, Dxt = NULL, Ext = NULL,
                   " missing values which have been zero weighted\n", sep = ""))
   }
   
+  if (any(Dxt==0) && object$link == "log-Gaussian") { #0 deats with log-gaussian data
+    indDxt <- Dxt == 0
+    wxt[indDxt] <- 0
+    warning(paste("StMoMo: ", sum(indDxt),  " data points have 
+                  non-positive deaths and have been zero weighted\n", sep = ""))
+  }
+  
+  
   fitDataW <- (reshape2::melt(wxt, value.name = "w", varnames = c("x", "t")))
   fitData <- merge(fitData, fitDataW)
   
