@@ -372,3 +372,108 @@ m8 <- function(link = c("logit", "log", "log-Gaussian"), xc) {
          cohortAgeFun = f3, constFun = constM8)
   
 }
+
+
+
+#' Create a Plat type mortality model
+#' 
+#' Utility function to initialise a \code{StMoMo} object representing the 
+#' mortality model proposed by Plat (2009).
+#' 
+#' The created model is either a logit-Binomial, a log-Poisson or log-Gaussian
+#' version of the Plat model which has predictor structure 
+#' \deqn{\eta_{xt} = \alpha_x+ \kappa_t^{(1)} + (\bar{x}-x)\kappa_t^{(2)} + (\bar{x}-x)^+\kappa_t^{(3)} + \gamma_{t-x}}
+#' where \eqn{\bar{x}} is the average age in the data and 
+#' \eqn{(\bar{x}-x)^+=\max(\bar{x}-x, 0)}. 
+#' 
+#' Identifiability of the model is accomplished by applying parameters 
+#' constraints \eqn{\sum_t\kappa__t^{(1)} = \sum_t\kappa__t^{(2)} = \sum_t\kappa__t^{(2)} = 0} 
+#' and \deqn{\sum_c\gamma_c = 0, \sum_c c\gamma_c = 0, 
+#' \sum_c c^2\gamma_c = 0} which ensure that the cohort effect fluctuates 
+#' around zero and has no linear or quadratic trend
+#' 
+#' @inheritParams StMoMo
+#' @param simplified logical value indicating whether the \eqn{\kappa_t^{(3)}}
+#' should be included in the model. Default is \code{TRUE} so this term is included. 
+#' If \code{TRUE} this term is excluded and we obtaind the so-called simplified Plat model
+#' which is useful when only older age are of interst.
+#' @return An object of class \code{"StMoMo"}.
+#' 
+#' @seealso \code{\link{StMoMo}}
+#' 
+#' @references
+#' 
+#' Plat, R. (2009). On Stochastic Mortality Modelling. 
+#' Insurance: Mathematics and Economics, 43(3), 393-404.
+#' 
+#' @examples
+#' 
+#' PLAT <- plat()
+#' wxt <- genWeightMat(ages = 0:89, years = EWMaleData$years, clip = 3)
+#' PLATfit <- fit(PLAT, data = EWMaleData, ages.fit = 0:89, wxt = wxt)
+#' plot(PLATfit, parametricbx = FALSE)
+#' 
+#' sPLAT <- plat(simplified = TRUE)
+#' wxt <- genWeightMat(ages = 55:89, years = EWMaleData$years, clip = 3)
+#' sPLATfit <- fit(sPLAT, data = EWMaleData, ages.fit = 55:89, wxt = wxt)
+#' plot(sPLATfit, parametricbx = FALSE)
+#' 
+#' 
+#' @export
+plat <- function(link = c("log", "logit", "log-Gaussian"), simplified = FALSE) {
+  link <- match.arg(link)
+  f2 <- function(x, ages) mean(ages) - x
+  f3 <- function(x, ages) pmax(mean(ages)-x,0)
+  if(!simplified) {
+    constPlat <- function(ax, bx, kt, b0x, gc, wxt, ages){
+      nYears <- dim(wxt)[2]
+      x <- ages
+      t <- 1:nYears
+      c <- (1 - tail(ages, 1)):(nYears - ages[1])
+      xbar <- mean(x)
+      #\sum g(c)=0, \sum cg(c)=0, \sum c^2g(c)=0
+      phiReg <- lm(gc ~ 1 + c + I(c^2), na.action = na.omit)
+      phi <- coef(phiReg)
+      gc <- gc - phi[1] - phi[2] * c - phi[3] * c^2
+      kt[2, ] <- kt[2, ] + 2 * phi[3] * t
+      kt[1, ] <- kt[1, ] + phi[2] * t + phi[3] * (t^2 - 2 * xbar * t)
+      ax <- ax + phi[1] - phi[2] * x + phi[3] * x^2
+      #\sum kt[i, ] = 0
+      ci <- rowMeans(kt, na.rm = TRUE)
+      ax <- ax + ci[1] + ci[2] * (xbar - x) + ci[3] * pmax(xbar - x, 0)
+      kt[1, ] <- kt[1, ] - ci[1]
+      kt[2, ] <- kt[2, ] - ci[2]
+      kt[3, ] <- kt[3, ] - ci[3]
+      list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+    }
+    PLAT <- StMoMo(link = link, staticAgeFun = TRUE,
+                   periodAgeFun = c("1", f2, f3), cohortAgeFun = "1",
+                   constFun = constPlat)
+  } else {
+    constPlat <- function(ax, bx, kt, b0x, gc, wxt, ages){
+      nYears <- dim(wxt)[2]
+      x <- ages
+      t <- 1:nYears
+      c <- (1 - tail(ages, 1)):(nYears - ages[1])
+      xbar <- mean(x)
+      #\sum g(c)=0, \sum cg(c)=0, \sum c^2g(c)=0
+      phiReg <- lm(gc ~ 1 + c + I(c^2), na.action = na.omit)
+      phi <- coef(phiReg)
+      gc <- gc - phi[1] - phi[2] * c - phi[3] * c^2
+      kt[2, ] <- kt[2, ] + 2 * phi[3] * t
+      kt[1, ] <- kt[1, ] + phi[2] * t + phi[3] * (t^2 - 2 * xbar * t)
+      ax <- ax + phi[1] - phi[2] * x + phi[3] * x^2
+      #\sum kt[i, ] = 0
+      ci <- rowMeans(kt, na.rm = TRUE)
+      ax <- ax + ci[1] + ci[2] * (xbar - x) 
+      kt[1, ] <- kt[1, ] - ci[1]
+      kt[2, ] <- kt[2, ] - ci[2]
+      list(ax = ax, bx = bx, kt = kt, b0x = b0x, gc = gc)
+    }
+    PLAT <- StMoMo(link = link, staticAgeFun = TRUE,
+                   periodAgeFun = c("1", f2), cohortAgeFun = "1",
+                   constFun = constPlat)
+    
+  }
+  PLAT
+}
